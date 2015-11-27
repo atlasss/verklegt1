@@ -18,9 +18,9 @@ public:
 
 
     std::string getName()const;
-    int getBirthy();
-    int getDeathy();
-    int getGender();
+    int getBirthy()const;
+    int getDeathy()const;
+    int getGender()const;
 
     void setName(string lname);
     friend istream& operator>> (istream& in, person& rhs);
