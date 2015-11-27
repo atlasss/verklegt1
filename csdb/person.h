@@ -21,11 +21,13 @@ public:
     int getBirthy();
     int getDeathy();
     int getGender();
+
+    void setName(string lname);
+    friend istream& operator>> (istream& in, person& rhs);
+    friend ostream& operator<< (ostream& out, const person& rhs);
 };
 
-ostream& operator<< (ostream& out, const person& rhs);
 
-//istream& operator>> (istream& in, const person& rhs);
 
 #endif // PERSON
 

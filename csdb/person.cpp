@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
+
 using namespace std;
 
 person::person()
@@ -37,10 +39,19 @@ int person::getGender(){
 };
 
 
+void person::setName(string lname){
+    name = lname;
+};
 
 ostream& operator<< (ostream& out, const person& rhs){
     out << "Name: " << rhs.getName() << endl;
     return out;
 }
 
-//istream& operator>> (istream& in, const person& rhs);
+istream& operator>> (istream& in, person& rhs){
+
+    cout << "Enter name: " << endl;
+    in >> rhs.name;
+    return in;
+}
+
