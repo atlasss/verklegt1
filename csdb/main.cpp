@@ -11,10 +11,6 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    vector <person> personList;
-    int n = 0;
-    cin >> n;
-
     cout << "test" << endl;
 
     return a.exec();
