@@ -17,9 +17,18 @@ personlist::~personlist(){
 void personlist::addPerson(){
     person newPerson;
     cin >> newPerson;
+    newPerson.setId(NOInList);
     pList.push_back(newPerson);
     NOInList++;
 }
+
+void personlist::addPerson(person newPerson){
+    newPerson.setId(NOInList);
+    pList.push_back(newPerson);
+    NOInList++;
+}
+
+
 //birta allan listann, radad eftir id
 void personlist::displayList(){
     for(int i = 0; i < pList.size(); i++){

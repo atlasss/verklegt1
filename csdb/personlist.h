@@ -18,6 +18,8 @@ public:
     ~personlist();
     //baeta person vid listann
     void addPerson();
+    //baeta person vid listann
+    void addPerson(person newPerson);
     //birta allan listann, radad eftir id
     void displayList();
     //birta allan listann radad i stafrofsrod

@@ -1,11 +1,14 @@
 #include <QCoreApplication>
 #include <iostream>
+#include <fstream>
 #include <stdio.h>
 #include <vector>
 #include <algorithm>
+#include <string>
+
 #include "person.h"
 #include "personlist.h"
-#include <string>
+
 
 using namespace std;
 
@@ -56,14 +59,39 @@ void readCommand(string command){
             break;
         default:
             cout << "Not a valid command." << endl;
-            //statement;
+            break;
 
     }
 
 }
 
+void printWelcome(){
+
+    cout << "\nYb        dP 888888 88      dP\"\"b8  dP\"Yb  8b    d8 888888" << endl;
+    cout << " Yb  db  dP  88__   88     dP   `\" dP   Yb 88b  d88 88__  "   <<endl;
+    cout << "  YbdPYbdP   88\"\"   88  .o Yb      Yb   dP 88YbdP88 88\"\"  "<<endl;
+    cout << "   YP  YP    888888 88ood8  YboodP  YbodP  88 YY 88 888888\n"    <<endl;
+
+}
+
 int main()
 {
+    string tname;
+    int tbirth, tdeath, tgender;
+
+    ifstream data( "data.txt", ios::in);
+
+    if (data.is_open()){
+        while (data >> tname >> tgender >> tbirth >> tdeath)
+        {
+            List.addPerson(person(tname, tgender, tbirth, tdeath));
+        }
+        data.close();
+    }
+    else{
+        cout << strerror(errno) << endl;
+    }
+    printWelcome();
     loop = true;
     string c;//c fyrir command
     while(loop){

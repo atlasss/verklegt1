@@ -1,5 +1,4 @@
 #include "person.h"
-
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -42,18 +41,22 @@ string person::getName()const{
 }
 int person::getBirthy()const{
     return birthy;
-};
+}
 int person::getDeathy()const{
     return deathy;
-};
+}
 int person::getGender()const{
     return gender;
-};
+}
+
+void person::setId(int ID){
+    id = ID;
+}
 
 
 void person::setName(string lname){
     name = lname;
-};
+}
 
 ostream& operator<< (ostream& out, const person& rhs){
     out << "Name: " << rhs.getName()

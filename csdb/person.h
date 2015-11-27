@@ -23,6 +23,7 @@ public:
     int getGender()const;
 
     void setName(string lname);
+    void setId(int id);
     friend istream& operator>> (istream& in, person& rhs);
     friend ostream& operator<< (ostream& out, const person& rhs);
 };

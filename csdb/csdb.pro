@@ -15,3 +15,6 @@ HEADERS += \
     person.h \
     personlist.h
 
+DISTFILES += \
+    data.txt
+
