@@ -21,6 +21,16 @@ person::person(string lname, int lbirthy, int ldeathy, int lgender){
     deathy = ldeathy;
     gender = lgender;
 }
+
+
+person::person(int lid, string lname, int lbirthy, int ldeathy, int lgender){
+    id = lid;
+    name = lname;
+    birthy = lbirthy;
+    deathy = ldeathy;
+    gender = lgender;
+}
+
 person::~person(){
 
 }
@@ -47,7 +57,9 @@ void person::setName(string lname){
 ostream& operator<< (ostream& out, const person& rhs){
     out << "Name: " << rhs.getName()
         << "\nDetails: "
+        << "\n\tGender: " << rhs.getGender()
         << "\n\tBirth: " << rhs.getBirthy()
+        << "\n\tDeath: " << rhs.getDeathy()
         << endl;
     return out;
 }
