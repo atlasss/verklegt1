@@ -6,8 +6,7 @@
 
 personlist::personlist()
 {
-    int NOInList = 0;
-
+    NOInList = 0;
 }
 
 personlist::~personlist(){
@@ -15,8 +14,10 @@ personlist::~personlist(){
 }
 
 //baeta person vid listann
-void personlist::addPerson(string lname, int lbirthy, int ldeathy, int lgender){
-    pList.push_back(new person(NOInList, lname, lbirthy, ldeathy, lgender));
+void personlist::addPerson(){
+    person newPerson;
+    cin >> newPerson;
+    pList.push_back(newPerson);
     NOInList++;
 }
 //birta allan listann, radad eftir id
@@ -44,16 +45,26 @@ void personlist::displayListAlpha(){
 }
 //birta listann ut fra nafni
 void personlist::displayListByName(string n){
+    bool personFound = false;
     for(int i = 0; i < NOInList; i++){
-        if(pList[i].getName == n)
+        if(pList[i].getName() == n){
             cout << pList[i];
+            personFound = true;
+        }
     }
+    if(!personFound)
+        cout << "Person not found. " << endl;
 }
 
 //birta listan ut fra kyni
 void personlist::displayListByGender(int g){
+    bool personFound = false;
     for(int i = 0; i < NOInList; i++){
-        if(pList[i].getName == n)
+        if(pList[i].getGender() == g){
             cout << pList[i];
+            personFound = true;
+        }
     }
+    if(!personFound)
+        cout << "Person not found. " << endl;
 }

@@ -8,6 +8,7 @@ using namespace std;
 
 person::person()
 {
+
     name = "missing";
     birthy = 0;
     deathy = 0;
