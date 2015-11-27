@@ -15,7 +15,7 @@ public:
     person();
     ~person();
     person(std::string lname, int lbirthy, int ldeathy, int lgender);
-
+    person(int lid, std::string lname, int lbirthy, int ldeathy, int lgender);
 
     std::string getName()const;
     int getBirthy()const;
