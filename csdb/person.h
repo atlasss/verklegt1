@@ -14,13 +14,15 @@ private:
 public:
     person();
     ~person();
-    person(std::string lname, int lbirthy, int ldeathy, int lgender);
-    person(int lid, std::string lname, int lbirthy, int ldeathy, int lgender);
+    person(std::string lname, int lgender, int lbirthy, int ldeathy);
+    person(int lid, std::string lname, int lgender, int lbirthy, int ldeathy);
 
     std::string getName()const;
     int getBirthy()const;
     int getDeathy()const;
     int getGender()const;
+    int getId()const;
+    string getData();
 
     void setName(string lname);
     void setId(int id);

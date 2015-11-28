@@ -11,7 +11,7 @@
 
 
 using namespace std;
-
+string fileName = "data.txt";
 string commands[] = {"find","add","sort","display","quit","help"};
 personlist List;
 bool loop;
@@ -40,6 +40,7 @@ void readCommand(string command){
         //add
         case 1:
             List.addPerson();
+            List.writeToFile(fileName);
             break;
         //sort
         case 2:
@@ -58,7 +59,7 @@ void readCommand(string command){
             printHelp();
             break;
         default:
-            cout << "Not a valid command." << endl;
+            cout << "'"<< command << "'" << " is not a valid command." << endl;
             break;
 
     }
@@ -77,14 +78,14 @@ void printWelcome(){
 int main()
 {
     string tname;
-    int tbirth, tdeath, tgender;
+    int tbirth, tdeath, tgender, tid;
 
-    ifstream data( "data.txt", ios::in);
+    ifstream data(fileName, ios::in);
 
     if (data.is_open()){
-        while (data >> tname >> tgender >> tbirth >> tdeath)
+        while (data >> tid >> tname >> tgender >> tbirth >> tdeath)
         {
-            List.addPerson(person(tname, tgender, tbirth, tdeath));
+            List.addPerson(person(tid, tname, tgender, tbirth, tdeath));
         }
         data.close();
     }
