@@ -31,10 +31,11 @@ void personlist::addPerson(person newPerson){
     else
         saved++;
     pList.push_back(newPerson);
-    if(newPerson.getId() > NOInList)
+    if(newPerson.getId() > NOInList){
         NOInList = newPerson.getId();
-    else
-        NOInList++;
+        printf("erg");
+    }
+    NOInList++;
 }
 
 void personlist::deletePerson(int index){
@@ -48,8 +49,12 @@ void personlist::deletePerson(int index){
 }
 
 void personlist::editPerson(int i){
-    if(i >= 0 && i < NOInList)
-        cin >> pList[i];
+    if(i >= 0 && i < NOInList){
+        for(int k = 0; k < NOInList; k++){
+            if(pList[k].getId() == i)
+                cin >> pList[k];
+        }
+    }
     else
         printf("Person with id %d was not found",i);
 }
@@ -60,14 +65,17 @@ int personlist::getListSize(){
 
 void personlist::displayById(int i){
     if(i >= 0 && i < NOInList)
-        cout << pList[i]  << endl;
+        for(int k = 0; k < NOInList; k++){
+            if(pList[k].getId() == i)
+                cout << pList[k]  << endl;
+        }
     else
         printf("Person with id %d was not found",i);
 }
 
 //birta allan listann, radad eftir id
 void personlist::displayList(){
-    for(unsigned int i = 0; i < pList.size(); i++){
+    for(int i = 0; i < pList.size(); i++){
           cout << pList[i];
     }
 }
@@ -121,7 +129,6 @@ void personlist::overwriteFile(string fileName){
     ofstream data (fileName);
     saved = 0;
     for(int i = saved; i < NOInList; i++){
-        data << pList[i].getData() << endl;
         saved++;
     }
     data.close();
@@ -130,7 +137,6 @@ void personlist::overwriteFile(string fileName){
 void personlist::writeToFile(string fileName){
     ofstream data (fileName,ios::app);
     for(int i = saved; i < NOInList; i++){
-        data << pList[i].getData() << endl;
         saved++;
     }
     data.close();
