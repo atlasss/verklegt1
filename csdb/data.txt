@@ -1,1 +1,2 @@
-0	Lusifer	1	01/01/1666	missing
+0	Lusifer	Female	01/01/1666	missing
+1	Atli	Male	01/04/2001	05/12/2012
