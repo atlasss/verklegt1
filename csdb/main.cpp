@@ -98,16 +98,18 @@ void printWelcome(){
 
 int main()
 {
-    string tname;
-    int tbirth, tdeath, tgender, tid;
+    string tname, tbirth, tdeath;
+    int tgender, tid;
 
     ifstream data(fileName, ios::in);
 
     if (data.is_open()){
-        while (data >> tid >> tname >> tgender >> tbirth >> tdeath)
-        {
+
+        while(data >> tid >> tname >> tgender >> tbirth >> tdeath ){
             List.addPerson(person(tid, tname, tgender, tbirth, tdeath));
         }
+
+
         data.close();
     }
     else{
@@ -115,7 +117,7 @@ int main()
     }
     printWelcome();
     loop = true;
-    string c;//c fyrir command
+    string c;
     while(loop){
         cout << "Enter a command ('help' for list of commands): ";
         cin >> c;
