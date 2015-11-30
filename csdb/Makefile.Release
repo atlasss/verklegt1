@@ -9,16 +9,16 @@ MAKEFILE      = Makefile.Release
 
 ####### Compiler, tools and options
 
-CC            = cl
-CXX           = cl
-DEFINES       = -DUNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DQT_CORE_LIB -DNDEBUG
-CFLAGS        = -nologo -Zc:wchar_t -FS -O2 -MD -Zc:strictStrings -W3 $(DEFINES)
-CXXFLAGS      = -nologo -Zc:wchar_t -FS -O2 -MD -Zc:strictStrings -GR -W3 -w34100 -w34189 -w44996 -EHsc $(DEFINES)
-INCPATH       = -I. -IC:\Qt\5.5\msvc2013_64\include -IC:\Qt\5.5\msvc2013_64\include\QtCore -Irelease -IC:\Qt\5.5\msvc2013_64\mkspecs\win32-msvc2013 
-LINKER        = link
-LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /INCREMENTAL:NO /SUBSYSTEM:CONSOLE "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
-LIBS          = /LIBPATH:C:\Qt\5.5\msvc2013_64\lib C:\Qt\5.5\msvc2013_64\lib\Qt5Core.lib 
-QMAKE         = C:\Qt\5.5\msvc2013_64\bin\qmake.exe
+CC            = gcc
+CXX           = g++
+DEFINES       = -DUNICODE -DQT_NO_DEBUG -DQT_CORE_LIB
+CFLAGS        = -pipe -fno-keep-inline-dllexport -O2 -Wall -Wextra $(DEFINES)
+CXXFLAGS      = -pipe -fno-keep-inline-dllexport -std=c++0x -O2 -frtti -Wall -Wextra -fexceptions -mthreads $(DEFINES)
+INCPATH       = -I. -IC:\Qt\5.5\mingw492_32\include -IC:\Qt\5.5\mingw492_32\include\QtCore -Irelease -IC:\Qt\5.5\mingw492_32\mkspecs\win32-g++ 
+LINKER      =        g++
+LFLAGS        =        -Wl,-s -Wl,-subsystem,console -mthreads
+LIBS        =        -LC:/Qt/5.5/mingw492_32/lib -lQt5Core 
+QMAKE         = C:\Qt\5.5\mingw492_32\bin\qmake.exe
 IDC           = idc
 IDL           = midl
 ZIP           = zip -r -9
@@ -46,11 +46,11 @@ OBJECTS_DIR   = release
 SOURCES       = main.cpp \
 		person.cpp \
 		personlist.cpp 
-OBJECTS       = release\main.obj \
-		release\person.obj \
-		release\personlist.obj
+OBJECTS       = release/main.o \
+		release/person.o \
+		release/personlist.o
 
-DIST          =  person.h \
+DIST          = data.txt person.h \
 		personlist.h main.cpp \
 		person.cpp \
 		personlist.cpp
@@ -61,27 +61,19 @@ DESTDIR_TARGET = release\csdb.exe
 
 ####### Implicit rules
 
-.SUFFIXES: .c .cpp .cc .cxx
+.SUFFIXES: .cpp .cc .cxx .c
 
-{.}.cpp{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
+.cpp.o:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $@ $<
 
-{.}.cc{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
+.cc.o:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $@ $<
 
-{.}.cxx{release\}.obj::
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
+.cxx.o:
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o $@ $<
 
-{.}.c{release\}.obj::
-	$(CC) -c $(CFLAGS) $(INCPATH) -Forelease\ @<<
-	$<
-<<
+.c.o:
+	$(CC) -c $(CFLAGS) $(INCPATH) -o $@ $<
 
 ####### Build rules
 
@@ -89,24 +81,20 @@ first: all
 all: Makefile.Release  $(DESTDIR_TARGET)
 
 $(DESTDIR_TARGET):  $(OBJECTS) 
-	$(LINKER) $(LFLAGS) /MANIFEST:embed /OUT:$(DESTDIR_TARGET) @<<
-$(OBJECTS) $(LIBS)
-<<
+	$(LINKER) $(LFLAGS) -o $(DESTDIR_TARGET) $(OBJECTS)  $(LIBS)
 
 qmake: FORCE
-	@$(QMAKE) -spec win32-msvc2013 "CONFIG+=debug" -o Makefile.Release csdb.pro
+	@$(QMAKE) -spec win32-g++ "CONFIG+=debug" -o Makefile.Release csdb.pro
 
 qmake_all: FORCE
 
 dist:
-	$(ZIP) csdb.zip $(SOURCES) $(DIST) csdb.pro C:\Qt\5.5\msvc2013_64\mkspecs\features\spec_pre.prf C:\Qt\5.5\msvc2013_64\mkspecs\common\msvc-desktop.conf C:\Qt\5.5\msvc2013_64\mkspecs\qconfig.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dcollision.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dcollision_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dquickrenderer.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3dquickrenderer_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3drenderer.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_3drenderer_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_core.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_declarative.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_enginio.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_help.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_location.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_network.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_script.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webengine.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webengine_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webenginecore.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webenginecore_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webenginewidgets.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webenginewidgets_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webkit.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.5\msvc2013_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.5\msvc2013_64\mkspecs\features\qt_functions.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\qt_config.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\win32\qt_config.prf C:\Qt\5.5\msvc2013_64\mkspecs\win32-msvc2013\qmake.conf C:\Qt\5.5\msvc2013_64\mkspecs\features\spec_post.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\exclusive_builds.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\default_pre.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\win32\default_pre.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\resolve_config.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\default_post.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\build_pass.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\win32\console.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\win32\rtti.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\c++11.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\precompile_header.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\warn_on.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\qt.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\resources.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\moc.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\testcase_targets.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\exceptions.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\yacc.prf C:\Qt\5.5\msvc2013_64\mkspecs\features\lex.prf csdb.pro C:/Qt/5.5/msvc2013_64/lib/Qt5Core.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES YACCSOURCES YACCSOURCES LEXSOURCES 
+	$(ZIP) csdb.zip $(SOURCES) $(DIST) csdb.pro C:\Qt\5.5\mingw492_32\mkspecs\features\spec_pre.prf C:\Qt\5.5\mingw492_32\mkspecs\qdevice.pri C:\Qt\5.5\mingw492_32\mkspecs\features\device_config.prf C:\Qt\5.5\mingw492_32\mkspecs\qconfig.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcollision.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcollision_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquickrenderer.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3dquickrenderer_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3drenderer.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_3drenderer_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_axbase.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_axserver.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_core.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_core_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_dbus.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_declarative.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_declarative_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_designer.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_enginio.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_enginio_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_gui.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_help.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_help_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_location.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_location_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_network.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_network_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_nfc.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_opengl.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_platformsupport_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_positioning.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_qml.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_quick.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_script.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_script_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_scripttools.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_scripttools_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_sensors.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_serialport.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_sql.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_svg.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_testlib.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_uitools.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_webkit.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_webkit_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_webkitwidgets.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_webkitwidgets_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_websockets.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_widgets.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_winextras.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_xml.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\5.5\mingw492_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\5.5\mingw492_32\mkspecs\features\qt_functions.prf C:\Qt\5.5\mingw492_32\mkspecs\features\qt_config.prf C:\Qt\5.5\mingw492_32\mkspecs\features\win32\qt_config.prf C:\Qt\5.5\mingw492_32\mkspecs\win32-g++\qmake.conf C:\Qt\5.5\mingw492_32\mkspecs\features\spec_post.prf C:\Qt\5.5\mingw492_32\mkspecs\features\exclusive_builds.prf C:\Qt\5.5\mingw492_32\mkspecs\features\default_pre.prf C:\Qt\5.5\mingw492_32\mkspecs\features\win32\default_pre.prf C:\Qt\5.5\mingw492_32\mkspecs\features\resolve_config.prf C:\Qt\5.5\mingw492_32\mkspecs\features\exclusive_builds_post.prf C:\Qt\5.5\mingw492_32\mkspecs\features\default_post.prf C:\Qt\5.5\mingw492_32\mkspecs\features\build_pass.prf C:\Qt\5.5\mingw492_32\mkspecs\features\win32\console.prf C:\Qt\5.5\mingw492_32\mkspecs\features\win32\rtti.prf C:\Qt\5.5\mingw492_32\mkspecs\features\precompile_header.prf C:\Qt\5.5\mingw492_32\mkspecs\features\warn_on.prf C:\Qt\5.5\mingw492_32\mkspecs\features\qt.prf C:\Qt\5.5\mingw492_32\mkspecs\features\resources.prf C:\Qt\5.5\mingw492_32\mkspecs\features\moc.prf C:\Qt\5.5\mingw492_32\mkspecs\features\testcase_targets.prf C:\Qt\5.5\mingw492_32\mkspecs\features\exceptions.prf C:\Qt\5.5\mingw492_32\mkspecs\features\yacc.prf C:\Qt\5.5\mingw492_32\mkspecs\features\lex.prf csdb.pro C:/Qt/5.5/mingw492_32/lib/Qt5Core.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) release\main.obj release\person.obj release\personlist.obj
-	-$(DEL_FILE) release\csdb.exp
+	-$(DEL_FILE) release\main.o release\person.o release\personlist.o
 
 distclean: clean 
-	-$(DEL_FILE) release\csdb.lib
 	-$(DEL_FILE) $(DESTDIR_TARGET)
 	-$(DEL_FILE) Makefile.Release
 
@@ -136,68 +124,71 @@ compiler_clean:
 
 ####### Compile
 
-release\main.obj: main.cpp C:\Qt\5.5\msvc2013_64\include\QtCore\QCoreApplication \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qcoreapplication.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qglobal.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qconfig.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qfeatures.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qsystemdetection.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qprocessordetection.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qcompilerdetection.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qtypeinfo.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qtypetraits.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qsysinfo.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qlogging.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qflags.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qbasicatomic.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_bootstrap.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qgenericatomic.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_cxx11.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_gcc.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_msvc.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_armv7.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_armv6.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_armv5.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_ia64.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_mips.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_x86.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_unix.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qglobalstatic.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qmutex.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qnumeric.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qstring.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qchar.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qbytearray.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qrefcount.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qnamespace.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qarraydata.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qstringbuilder.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qobject.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qobjectdefs.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qobjectdefs_impl.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qlist.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qalgorithms.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qiterator.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qbytearraylist.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qstringlist.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qregexp.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qstringmatcher.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qcoreevent.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qscopedpointer.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qmetatype.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qvarlengtharray.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qcontainerfwd.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qisenum.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qobject_impl.h \
-		C:\Qt\5.5\msvc2013_64\include\QtCore\qeventloop.h \
+release/main.o: main.cpp C:/Qt/5.5/mingw492_32/include/QtCore/QCoreApplication \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qcoreapplication.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qglobal.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qconfig.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qfeatures.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qsystemdetection.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qprocessordetection.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qcompilerdetection.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qtypeinfo.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qtypetraits.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qsysinfo.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qlogging.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qflags.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qbasicatomic.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_bootstrap.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qgenericatomic.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_cxx11.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_gcc.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_msvc.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_armv7.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_armv6.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_armv5.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_ia64.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_mips.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_x86.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qatomic_unix.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qglobalstatic.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qmutex.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qnumeric.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qstring.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qchar.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qbytearray.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qrefcount.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qnamespace.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qarraydata.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qstringbuilder.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qobject.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qobjectdefs.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qobjectdefs_impl.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qlist.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qalgorithms.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qiterator.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qbytearraylist.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qstringlist.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qregexp.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qstringmatcher.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qcoreevent.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qscopedpointer.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qmetatype.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qvarlengtharray.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qcontainerfwd.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qisenum.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qobject_impl.h \
+		C:/Qt/5.5/mingw492_32/include/QtCore/qeventloop.h \
 		person.h \
 		personlist.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\main.o main.cpp
 
-release\person.obj: person.cpp person.h
+release/person.o: person.cpp person.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\person.o person.cpp
 
-release\personlist.obj: personlist.cpp personlist.h \
+release/personlist.o: personlist.cpp personlist.h \
 		person.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\personlist.o personlist.cpp
 
 ####### Install
 

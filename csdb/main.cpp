@@ -12,14 +12,15 @@
 
 using namespace std;
 string fileName = "data.txt";
-string commands[] = {"find","add","sort","display","quit","help","edit", "gender","delete"};
+string commands[] = {"search","add","sort","display","quit","help","edit", "gender","delete"};
+string commandHelp[] = {"Search\t(I.E. \"Search Bob Kendrick\")","Add\t(Type 'Add' to add a new person)","Sort\t(Sorts in ascending order)","Display\t(Displays full list)","Quit\t(Quits program)","Help\t(List of commands)","Edit\t(Edit information by entering 'Id' I.E. \"Edit 1\")","Gender\t(Sorts by gender I.E. \"Gender Female\")","Delete\t(Delete a person by entering 'Id' I.E. \"Delete 1\")"};
 personlist List;
 bool loop;
 
 //prints list of commands
 void printHelp(){
-    for(int i = 0; i < (sizeof(commands)/sizeof(*commands)); i++){
-        cout << '-' << commands[i] << endl;
+    for(unsigned int i = 0; i < (sizeof(commandHelp)/sizeof(*commandHelp)); i++){
+        cout << commandHelp[i] << endl;
     }
 }
 //takes in string command and executes appropriate command
