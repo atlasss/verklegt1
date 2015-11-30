@@ -76,7 +76,7 @@ void personlist::displayById(int i){
 //birta allan listann, radad eftir id
 void personlist::displayList(){
     for(int i = 0; i < pList.size(); i++){
-          cout << pList[i];
+          cout << pList[i] << endl;
     }
 }
 //birta allan listann radad i stafrofsrod
