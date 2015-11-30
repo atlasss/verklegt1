@@ -17,26 +17,29 @@ private:
 public:
     personlist();
     ~personlist();
-    //baeta person vid listann
+    //adds a new person to pList
     void addPerson();
-    //baeta person vid listann
+    //adds a new person to pList
     void addPerson(person newPerson);
-    //breytir personu
+    //edits a person already in the list
     void editPerson(int i);
-    //skilar fjolda staka i listanum
+    //removes a person from the list
+    void deletePerson(int index);
+    //returns the number of persons in the list
     int getListSize();
-    //Birta person sem passar vid id
+    //prints out a person that matches id
     void displayById(int i);
-    //birta allan listann, radad eftir id
+    //prints out the entire list, ordered by id
     void displayList();
-    //birta allan listann radad i stafrofsrod
+    //prints the list in alphabetical ascending order
     void displayListAlpha();
-    //birta listann ut fra nafni
+    //prints the person that match string n
     void displayListByName(string n);
-    //birta listan ut fra kyni
+    //prints persons based on gender
     void displayListByGender(string g);
-    //vistar breytingar
+    //appends string with details of a person  in pList to txt file
     void writeToFile(string fileName);
+    //overwrites  txt file with all details in pList
     void overwriteFile(string fileName);
 };
 

@@ -21,7 +21,7 @@ void personlist::addPerson(){
     cin >> newPerson;
     newPerson.setId(NOInList);
     pList.push_back(newPerson); 
-    newPerson.getData();
+    //newPerson.getData();
     NOInList++;
 }
 
@@ -31,7 +31,20 @@ void personlist::addPerson(person newPerson){
     else
         saved++;
     pList.push_back(newPerson);
-    NOInList++;
+    if(newPerson.getId() > NOInList)
+        NOInList = newPerson.getId();
+    else
+        NOInList++;
+}
+
+void personlist::deletePerson(int index){
+    vector<person> newList;
+    for(int i = 0; i < NOInList; i++){
+        if(pList[i].getId() != index)
+            newList.push_back(pList[i]);
+    }
+    NOInList--;
+    pList.swap(newList);
 }
 
 void personlist::editPerson(int i){

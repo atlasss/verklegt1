@@ -12,31 +12,31 @@
 
 using namespace std;
 string fileName = "data.txt";
-string commands[] = {"find","add","sort","display","quit","help","edit"};
+string commands[] = {"find","add","sort","display","quit","help","edit", "gender","delete"};
 personlist List;
 bool loop;
 
-//prentar ut upplysingar yfir commands
+//prints list of commands
 void printHelp(){
     for(int i = 0; i < (sizeof(commands)/sizeof(*commands)); i++){
         cout << '-' << commands[i] << endl;
     }
 }
-//les skipun fra notenda og skilar nr yfir hvada skipun eigi ad framkvaema
+//takes in string command and executes appropriate command
 void readCommand(string command){
     int cnumber = -1;
     for(unsigned int i = 0; i < (sizeof(commands)/sizeof(*commands)); i++){
         if(commands[i] == command)
             cnumber = i;
     };
-    string nameToFind;
+    string temp;
     int tid;
     switch(cnumber)
     {
         //find
         case 0:
-            cin >> nameToFind;
-            List.displayListByName(nameToFind);
+            cin >> temp;
+            List.displayListByName(temp);
             break;
         //add
         case 1:
@@ -65,6 +65,17 @@ void readCommand(string command){
             List.editPerson(tid);
             List.overwriteFile(fileName);
             break;
+        //gender
+        case 7:
+            cin >> temp;
+            List.displayListByGender(temp);
+            break;
+        //delete
+        case 8:
+            cin >> tid;
+            List.deletePerson(tid);
+            List.overwriteFile(fileName);
+        break;
         default:
             cout << "'"<< command << "'" << " is not a valid command." << endl;
             break;
@@ -105,10 +116,11 @@ void printWelcome(){
 
 int main()
 {
+    //temporary variables
     string tname, tgender, tbirth, tdeath;
     int tid;
 
-    ifstream data(fileName, ios::in);
+    ifstream data(fileName.c_str(), ios::in);
 
     if (data.is_open()){
 
