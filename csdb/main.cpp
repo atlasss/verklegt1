@@ -12,7 +12,7 @@
 
 using namespace std;
 string fileName = "data.txt";
-string commands[] = {"find","add","sort","display","quit","help"};
+string commands[] = {"find","add","sort","display","quit","help","edit"};
 personlist List;
 bool loop;
 
@@ -30,6 +30,7 @@ void readCommand(string command){
             cnumber = i;
     };
     string nameToFind;
+    int tid;
     switch(cnumber)
     {
         //find
@@ -57,6 +58,12 @@ void readCommand(string command){
         //help
         case 5:
             printHelp();
+            break;
+        //edit
+        case 6:
+            cin >> tid;
+            List.editPerson(tid);
+            List.overwriteFile(fileName);
             break;
         default:
             cout << "'"<< command << "'" << " is not a valid command." << endl;
@@ -98,8 +105,8 @@ void printWelcome(){
 
 int main()
 {
-    string tname, tbirth, tdeath;
-    int tgender, tid;
+    string tname, tgender, tbirth, tdeath;
+    int tid;
 
     ifstream data(fileName, ios::in);
 

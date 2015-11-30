@@ -34,12 +34,22 @@ void personlist::addPerson(person newPerson){
     NOInList++;
 }
 
-void personlist::editPerson(int id){
-    
+void personlist::editPerson(int i){
+    if(i >= 0 && i < NOInList)
+        cin >> pList[i];
+    else
+        printf("Person with id %d was not found",i);
 }
 
 int personlist::getListSize(){
     return NOInList;
+}
+
+void personlist::displayById(int i){
+    if(i >= 0 && i < NOInList)
+        cout << pList[i]  << endl;
+    else
+        printf("Person with id %d was not found",i);
 }
 
 //birta allan listann, radad eftir id
@@ -82,7 +92,7 @@ void personlist::displayListByName(string n){
 }
 
 //birta listan ut fra kyni
-void personlist::displayListByGender(int g){
+void personlist::displayListByGender(string g){
     bool personFound = false;
     for(int i = 0; i < NOInList; i++){
         if(pList[i].getGender() == g){
@@ -92,6 +102,16 @@ void personlist::displayListByGender(int g){
     }
     if(!personFound)
         cout << "Person not found. " << endl;
+}
+
+void personlist::overwriteFile(string fileName){
+    ofstream data (fileName);
+    saved = 0;
+    for(int i = saved; i < NOInList; i++){
+        data << pList[i].getData() << endl;
+        saved++;
+    }
+    data.close();
 }
 
 void personlist::writeToFile(string fileName){

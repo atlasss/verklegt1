@@ -6,21 +6,21 @@ using namespace std;
 
 class person{
 private:
-    std::string name;
     int id;
+    string name;
     string dateBirth;
     string dateDeath;
-    int gender;
+    string gender;
 public:
     person();
     ~person();
-    person(std::string lname, int lgender, string lbirth, string ldeath);
-    person(int lid, std::string lname, int lgender, string lbirth, string ldeath);
+    person(string lname, string lgender, string lbirth, string ldeath);
+    person(int lid, string lname, string lgender, string lbirth, string ldeath);
 
     std::string getName()const;
     string getDateBirth()const;
     string getDateDeath()const;
-    int getGender()const;
+    string getGender()const;
     int getId()const;
     string getData();
 
@@ -28,7 +28,7 @@ public:
     void setId(int id);
 
     bool isDateValid(string date);
-
+    bool isGenderValid();
     friend istream& operator>> (istream& in, person& rhs);
     friend ostream& operator<< (ostream& out, const person& rhs);
 };

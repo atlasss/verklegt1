@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,11 +12,11 @@ person::person()
     name = "missing";
     dateBirth = "missing";
     dateDeath = "missing";
-    gender = -1;
+    gender = "missing";
     id = -1;
 }
 
-person::person(string lname, int lgender, string lbirth, string ldeath){
+person::person(string lname, string lgender, string lbirth, string ldeath){
     name = lname;
     dateBirth = lbirth;
     dateDeath = ldeath;
@@ -24,7 +25,7 @@ person::person(string lname, int lgender, string lbirth, string ldeath){
 }
 
 
-person::person(int lid, string lname, int lgender, string lbirth, string ldeath){
+person::person(int lid, string lname, string lgender, string lbirth, string ldeath){
     id = lid;
     name = lname;
     dateBirth = lbirth;
@@ -46,7 +47,7 @@ string person::getDateBirth()const{
 string person::getDateDeath()const{
     return dateDeath;
 }
-int person::getGender()const{
+string person::getGender()const{
     return gender;
 }
 
@@ -57,7 +58,7 @@ int person::getId()const{
 string person::getData(){
     string s = to_string(id);
     s.append("\t" + name);
-    s.append("\t" + to_string(gender));
+    s.append("\t" + gender);
     s.append("\t" + dateBirth);
     s.append("\t" + dateDeath);
     cout << s << endl;
@@ -71,6 +72,15 @@ void person::setId(int ID){
 
 void person::setName(string lname){
     name = lname;
+}
+
+bool person::isGenderValid(){
+    string temp = gender;
+    if(temp == "Male" || temp == "Female"){
+        return true;
+    }
+    else
+        return false;
 }
 
 bool person::isDateValid(string date){
@@ -111,27 +121,39 @@ ostream& operator<< (ostream& out, const person& rhs){
 }
 
 istream& operator>> (istream& in, person& rhs){
-    string temp;
     bool valid = false;
     cout << "Enter name: "<< endl;
     in >> rhs.name;
-    cout << "Enter gender: (0/1)" << endl;
-    in >> rhs.gender;
-    cout << "Enter year of birth (format dd/mm/yyyy): " << endl;
-    while(!valid){
+    cout << "Enter gender(Male/Female): " << endl;
+    do{
+        in >> rhs.gender;
+
+        transform(rhs.gender.begin(), rhs.gender.end(), rhs.gender.begin(), ::tolower);
+
+        if(rhs.gender[0] == 'f')
+            rhs.gender[0] = 'F';
+        else if(rhs.gender[0] == 'm')
+            rhs.gender[0] = 'M';
+
+        valid = rhs.isGenderValid();
+        if(!valid)
+            cout << "The gender you have entered is not valid. " << endl;
+    }while(!valid);
+    cout << "Enter date of birth(dd/mm/yyyy): " << endl;
+    do{
         in >> rhs.dateBirth;
         valid = rhs.isDateValid(rhs.dateBirth);
         if(!valid)
             cout << "The date you have entered is not valid." << endl;
-    }
+    }while(!valid);
 
-    cout << "Enter year of death (format dd/mm/yyyy):" << endl;
-    while(!valid){
+    cout << "Enter date of death (dd/mm/yyyy):" << endl;
+    do{
         in >> rhs.dateDeath;
         valid = rhs.isDateValid(rhs.dateDeath);
         if(!valid)
             cout << "The date you have entered is not valid." << endl;
-    }
+    }while(!valid);
     return in;
 }
 

@@ -22,9 +22,11 @@ public:
     //baeta person vid listann
     void addPerson(person newPerson);
     //breytir personu
-    void editPerson(int id);
+    void editPerson(int i);
     //skilar fjolda staka i listanum
     int getListSize();
+    //Birta person sem passar vid id
+    void displayById(int i);
     //birta allan listann, radad eftir id
     void displayList();
     //birta allan listann radad i stafrofsrod
@@ -32,9 +34,10 @@ public:
     //birta listann ut fra nafni
     void displayListByName(string n);
     //birta listan ut fra kyni
-    void displayListByGender(int g);
+    void displayListByGender(string g);
     //vistar breytingar
     void writeToFile(string fileName);
+    void overwriteFile(string fileName);
 };
 
 #endif // PERSONLIST_H
