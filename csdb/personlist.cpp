@@ -33,7 +33,6 @@ void personlist::addPerson(person newPerson){
     pList.push_back(newPerson);
     if(newPerson.getId() > NOInList){
         NOInList = newPerson.getId();
-        printf("erg");
     }
     NOInList++;
 }

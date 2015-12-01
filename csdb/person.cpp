@@ -94,7 +94,7 @@ bool person::isDateValid(string date){
         return false;
     if(date[3] == 49 && (date[4] < 48 || date[4]  > 50))//xx/xx/yyyy
         return false;
-    else if(date[4] < 49 || date[4] > 57)//xx/xx/yyyy
+    else if(date[4] < 48 || date[4] > 57)//xx/xx/yyyy
         return false;
     if(date[5] != 47)
         return false;
