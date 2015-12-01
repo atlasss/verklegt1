@@ -13,14 +13,14 @@ private:
     vector<person> pList;
     int NOInList;
     int saved;
-
+    person fillForm();
 public:
     personlist();
     ~personlist();
     //adds a new person to pList
     void addPerson();
     //adds a new person to pList
-    void addPerson(person newPerson);
+    void addPerson(person newPerson); 
     //prints one person from the list
     void printSingle(int index);
     //edits a person already in the list

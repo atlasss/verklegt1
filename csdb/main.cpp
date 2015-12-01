@@ -5,7 +5,6 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-#include <windows.h>
 #include "person.h"
 #include "personlist.h"
 
@@ -24,6 +23,41 @@ void printHelp(){
     }
 }
 //takes in string command and executes appropriate command
+void readCommand(string command);
+
+int main()
+{
+    //temporary variables
+    string tname, tgender, tbirth, tdeath, tknown;
+    int tid;
+
+    ifstream data(fileName.c_str(), ios::in);
+
+    if (data.is_open()){
+
+        while(data >> tid >> tname >> tgender >> tbirth >> tdeath >> tknown){
+            List.addPerson(person(tid, tname, tgender, tbirth, tdeath, tknown));
+        }
+
+
+        data.close();
+    }
+    else{
+        cout << strerror(errno) << endl;
+    }
+    List.printWelcome();
+    loop = true;
+    string c;
+    while(loop){
+        cout << "Enter a command ('help' for list of commands): ";
+        cin >> c;
+        transform(c.begin(), c.end(), c.begin(), ::tolower);
+        readCommand(c);
+    }
+
+    return 0;
+}
+
 void readCommand(string command){
     int cnumber = -1;
     for(unsigned int i = 0; i < (sizeof(commands)/sizeof(*commands)); i++){
@@ -69,6 +103,7 @@ void readCommand(string command){
         //gender
         case 7:
             cin >> temp;
+            transform(temp.begin(), temp.end(), temp.begin(), ::tolower);
             List.displayListByGender(temp);
             break;
         //delete
@@ -84,37 +119,3 @@ void readCommand(string command){
     }
 
 }
-
-int main()
-{
-    //temporary variables
-    string tname, tgender, tbirth, tdeath;
-    int tid;
-
-    ifstream data(fileName.c_str(), ios::in);
-
-    if (data.is_open()){
-
-        while(data >> tid >> tname >> tgender >> tbirth >> tdeath ){
-            List.addPerson(person(tid, tname, tgender, tbirth, tdeath));
-        }
-
-
-        data.close();
-    }
-    else{
-        cout << strerror(errno) << endl;
-    }
-    List.printWelcome();
-    loop = true;
-    string c;
-    while(loop){
-        cout << "Enter a command ('help' for list of commands): ";
-        cin >> c;
-        transform(c.begin(), c.end(), c.begin(), ::tolower);
-        readCommand(c);
-    }
-
-    return 0;
-}
-

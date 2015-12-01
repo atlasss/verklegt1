@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <algorithm>
+#include <cctype>
 
 using namespace std;
 
@@ -13,24 +14,27 @@ person::person()
     dateBirth = "missing";
     dateDeath = "missing";
     gender = "missing";
+    knownFor = "missing";
     id = -1;
 }
 
-person::person(string lname, string lgender, string lbirth, string ldeath){
+person::person(string lname, string lgender, string lbirth, string ldeath, string lknown){
     name = lname;
     dateBirth = lbirth;
     dateDeath = ldeath;
     gender = lgender;
+    knownFor = lknown;
     id = -1;
 }
 
 
-person::person(int lid, string lname, string lgender, string lbirth, string ldeath){
+person::person(int lid, string lname, string lgender, string lbirth, string ldeath, string lknown){
     id = lid;
     name = lname;
     dateBirth = lbirth;
     dateDeath = ldeath;
     gender = lgender;
+    knownFor = lknown;
 }
 
 person::~person(){
@@ -39,7 +43,9 @@ person::~person(){
 
 
 string person::getName()const{
-    return name;
+    string tname = name;
+    replace(tname.begin(), tname.end(), ',', ' ');
+    return tname;
 }
 string person::getDateBirth()const{
     return dateBirth;
@@ -49,6 +55,12 @@ string person::getDateDeath()const{
 }
 string person::getGender()const{
     return gender;
+}
+
+string person::getKnownFor()const{
+    string tknown = knownFor;
+    replace(tknown.begin(), tknown.end(), ',', ' ');
+    return tknown;
 }
 
 int person::getId()const{
@@ -61,7 +73,7 @@ string person::getData(){
     s.append("\t" + gender);
     s.append("\t" + dateBirth);
     s.append("\t" + dateDeath);
-    cout << s << endl;
+    s.append("\t" + knownFor);
     return s;
 }
 
@@ -72,6 +84,20 @@ void person::setId(int ID){
 
 void person::setName(string lname){
     name = lname;
+}
+
+void person::setDateBirth(string lbirth){
+    dateBirth = lbirth;
+}
+void person::setDateDeath(string ldeath){
+    dateDeath = ldeath;
+}
+void person::setGender(string lgender){
+    gender = lgender;
+}
+
+void person::setKnownFor(string lknown){
+    knownFor = lknown;
 }
 
 bool person::isGenderValid(){
@@ -148,6 +174,7 @@ ostream& operator<< (ostream& out, const person& rhs){
         << "\n\tGender: " << rhs.getGender()
         << "\n\tBirth: " << rhs.getDateBirth()
         << "\n\tDeath: " << rhs.getDateDeath()
+        << "\n\tKnown for: " << rhs.getKnownFor()
         << endl;
     return out;
 }
@@ -179,13 +206,14 @@ istream& operator>> (istream& in, person& rhs){
             cout << "The date you have entered is not valid." << endl;
     }while(!valid);
 
-    cout << "Enter date of death (dd/mm/yyyy -1 if person is still alive):" << endl;
+    cout << "Enter date of death (dd/mm/yyyy) or -1 if the person is still alive:" << endl;
     do{
         in >> rhs.dateDeath;
         valid = rhs.isDateDeathValid();
         if(!valid)
             cout << "The date you have entered is not valid." << endl;
     }while(!valid);
+
     return in;
 }
 
