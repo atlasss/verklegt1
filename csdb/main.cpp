@@ -5,7 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
-
+#include <windows.h>
 #include "person.h"
 #include "personlist.h"
 
@@ -85,36 +85,6 @@ void readCommand(string command){
 
 }
 
-void printWelcome(){
-    cout << "                  ...::              ." << endl;
-    cout << "               .:::   :             .:::." << endl;
-    cout << "            .:':      ::::::::::::  :::::::." << endl;
-    cout << "          .:''        '  ::::::::  ::::::::::." << endl;
-    cout << "        .::'  .:.     ::::::::::: .::::::::::::." << endl;
-    cout << "      .:   .::::.     :::::::::  :::::::::::::::" << endl;
-    cout << "      :'   ::::::::    :::::::::.:::::::::::::::::" << endl;
-    cout << "     :''  ::::::::::.  ::::::::::::::::::::::::'''" << endl;
-    cout << "    .:   :::::::::::::  :::::::::::::::::::::::." << endl;
-    cout << "    :'' :::::::::   '::. '''''''::::::::::::::::" << endl;
-    cout << "   ''''.::::::::     .:'         ::::::::::::::::" << endl;
-    cout << "       ''':'''':::...:            ::''' :::::::::" << endl;
-    cout << "          :..........'            :.    :::::::::" << endl;
-    cout << "                 ....:            :     :::::::::" << endl;
-    cout << "         ....::::::::::.         ::..  .'''::::::" << endl;
-    cout << "    ....::::::::::::::::: .....:::::::.::::..'''" << endl;
-    cout << "    '::::::::::::::::::: . :::::::::::::::::::::..." << endl;
-    cout << "     :::::::::::::::'::  '.::::::::::::::::::::::::" << endl;
-    cout << "      ::::::::''::'    .: ::::::::::::::::::::::::" << endl;
-    cout << "       '::::'   ''     :'  ::::::::::::  ':::::::" << endl;
-    cout << "        ':'           :'   :::::::::::::.  ':::'" << endl;
-    cout << "                     ::   :::::::::::::'     '" << endl;
-    cout << "                    .'    ::::::::'''." << endl;
-    cout << "                   .'                :." << endl;
-    cout << "                   ''::..::::::..::'''" << endl;
-    cout << "                               " << endl;
-
-}
-
 int main()
 {
     //temporary variables
@@ -135,7 +105,7 @@ int main()
     else{
         cout << strerror(errno) << endl;
     }
-    printWelcome();
+    List.printWelcome();
     loop = true;
     string c;
     while(loop){

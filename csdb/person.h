@@ -22,12 +22,16 @@ public:
     string getDateDeath()const;
     string getGender()const;
     int getId()const;
+    //returns string with data which is saved to file
     string getData();
 
     void setName(string lname);
     void setId(int id);
-
-    bool isDateValid(string date);
+    //validates date string
+    bool isDateBirthValid();
+    //validates date string
+    bool isDateDeathValid();
+    //validates gender string
     bool isGenderValid();
     friend istream& operator>> (istream& in, person& rhs);
     friend ostream& operator<< (ostream& out, const person& rhs);

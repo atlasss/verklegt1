@@ -83,29 +83,61 @@ bool person::isGenderValid(){
         return false;
 }
 
-bool person::isDateValid(string date){
-    if(date[0] < 48 || date[0] > 51)//xd/mm/yyyy
+
+bool person::isDateBirthValid(){
+    if(dateBirth[0] < 48 || dateBirth[0] > 51)//xd/mm/yyyy
         return false;
-    if(date[1] < 48 || date[1] > 57)//xx/mm/yyyy
+    if(dateBirth[1] < 48 || dateBirth[1] > 57)//xx/mm/yyyy
         return false;
-    if(date[2] != 47)
+    if(dateBirth[2] != 47)
         return false;
-    if(date[3] < 48 || date[3] > 49)//xx/xm/yyyy
+    if(dateBirth[3] < 48 || dateBirth[3] > 49)//xx/xm/yyyy
         return false;
-    if(date[3] == 49 && (date[4] < 48 || date[4]  > 50))//xx/xx/yyyy
+    if(dateBirth[3] == 49 && (dateBirth[4] < 48 || dateBirth[4]  > 50))//xx/xx/yyyy
         return false;
-    else if(date[4] < 48 || date[4] > 57)//xx/xx/yyyy
+    else if(dateBirth[4] < 48 || dateBirth[4] > 57)//xx/xx/yyyy
         return false;
-    if(date[5] != 47)
+    if(dateBirth[5] != 47)
         return false;
-    if(date[6] < 49 || date[6] > 50)//xx/xx/xyyy
+    if(dateBirth[6] < 49 || dateBirth[6] > 50)//xx/xx/xyyy
         return false;
-     if(date[7] < 48 || date[7] > 57)//xx/xx/xxyy
-         return false;
-     if(date[8] < 48 || date[8] > 57)//xx/xx/xxxy
-         return false;
-     if(date[9] < 48 || date[9] > 57)//xx/xx/xxyy
-         return false;
+    if(dateBirth[7] < 48 || dateBirth[7] > 57)//xx/xx/xxyy
+        return false;
+    if(dateBirth[8] < 48 || dateBirth[8] > 57)//xx/xx/xxxy
+        return false;
+    if(dateBirth[9] < 48 || dateBirth[9] > 57)//xx/xx/xxxx
+        return false;
+
+    return true;
+}
+
+bool person::isDateDeathValid(){
+    if (dateDeath == "-1"){
+        dateDeath = "Alive";
+        return true;
+    }
+    if(dateDeath[0] < 48 || dateDeath[0] > 51)//xd/mm/yyyy
+        return false;
+    if(dateDeath[1] < 48 || dateDeath[1] > 57)//xx/mm/yyyy
+        return false;
+    if(dateDeath[2] != 47)
+        return false;
+    if(dateDeath[3] < 48 || dateDeath[3] > 49)//xx/xm/yyyy
+        return false;
+    if(dateDeath[3] == 49 && (dateDeath[4] < 48 || dateDeath[4]  > 50))//xx/xx/yyyy
+        return false;
+    else if(dateDeath[4] < 48 || dateDeath[4] > 57)//xx/xx/yyyy
+        return false;
+    if(dateDeath[5] != 47)
+        return false;
+    if(dateDeath[6] < 49 || dateDeath[6] > 50)//xx/xx/xyyy
+        return false;
+    if(dateDeath[7] < 48 || dateDeath[7] > 57)//xx/xx/xxyy
+        return false;
+    if(dateDeath[8] < 48 || dateDeath[8] > 57)//xx/xx/xxxy
+        return false;
+    if(dateDeath[9] < 48 || dateDeath[9] > 57)//xx/xx/xxxx
+        return false;
 
     return true;
 }
@@ -142,15 +174,15 @@ istream& operator>> (istream& in, person& rhs){
     cout << "Enter date of birth(dd/mm/yyyy): " << endl;
     do{
         in >> rhs.dateBirth;
-        valid = rhs.isDateValid(rhs.dateBirth);
+        valid = rhs.isDateBirthValid();
         if(!valid)
             cout << "The date you have entered is not valid." << endl;
     }while(!valid);
 
-    cout << "Enter date of death (dd/mm/yyyy):" << endl;
+    cout << "Enter date of death (dd/mm/yyyy -1 if person is still alive):" << endl;
     do{
         in >> rhs.dateDeath;
-        valid = rhs.isDateValid(rhs.dateDeath);
+        valid = rhs.isDateDeathValid();
         if(!valid)
             cout << "The date you have entered is not valid." << endl;
     }while(!valid);

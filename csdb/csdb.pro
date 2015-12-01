@@ -4,7 +4,7 @@ QT -= gui
 TARGET = csdb
 CONFIG += console
 CONFIG -= app_bundle
-QMAKE_CXXFLAGS += -std=c++0x
+
 TEMPLATE = app
 
 SOURCES += main.cpp \

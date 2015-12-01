@@ -21,6 +21,8 @@ public:
     void addPerson();
     //adds a new person to pList
     void addPerson(person newPerson);
+    //prints one person from the list
+    void printSingle(int index);
     //edits a person already in the list
     void editPerson(int i);
     //removes a person from the list
@@ -37,6 +39,7 @@ public:
     void displayListByName(string n);
     //prints persons based on gender
     void displayListByGender(string g);
+    void printWelcome();
     //appends string with details of a person  in pList to txt file
     void writeToFile(string fileName);
     //overwrites  txt file with all details in pList

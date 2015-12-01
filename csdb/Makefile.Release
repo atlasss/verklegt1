@@ -13,7 +13,7 @@ CC            = cl
 CXX           = cl
 DEFINES       = -DUNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DQT_CORE_LIB -DNDEBUG
 CFLAGS        = -nologo -Zc:wchar_t -FS -O2 -MD -Zc:strictStrings -W3 $(DEFINES)
-CXXFLAGS      = -nologo -Zc:wchar_t -FS -std=c++0x -O2 -MD -Zc:strictStrings -GR -W3 -w34100 -w34189 -w44996 -EHsc $(DEFINES)
+CXXFLAGS      = -nologo -Zc:wchar_t -FS -O2 -MD -Zc:strictStrings -GR -W3 -w34100 -w34189 -w44996 -EHsc $(DEFINES)
 INCPATH       = -I. -IC:\Qt\5.5\msvc2013_64\include -IC:\Qt\5.5\msvc2013_64\include\QtCore -Irelease -IC:\Qt\5.5\msvc2013_64\mkspecs\win32-msvc2013 
 LINKER        = link
 LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /INCREMENTAL:NO /SUBSYSTEM:CONSOLE "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
@@ -94,7 +94,7 @@ $(OBJECTS) $(LIBS)
 <<
 
 qmake: FORCE
-	@$(QMAKE) -spec win32-msvc2013 "CONFIG+=debug" -o Makefile.Release csdb.pro
+	@$(QMAKE) -spec win32-msvc2013 -o Makefile.Release csdb.pro
 
 qmake_all: FORCE
 
