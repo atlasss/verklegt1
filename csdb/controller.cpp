@@ -71,7 +71,14 @@ void controller::readCommand(string command){
                 //id
                 case 4:
                     cin >> tid;
-                    listDisplay.displayById(tid, list.getFullList());
+                    if(cin.fail()) {
+                            cout << "Requested id needs to be an integer." << endl;
+                            cin.clear();
+                            cin.ignore(256,'\n');
+
+                        }
+                    else
+                        listDisplay.displayById(tid, list.getFullList());
                     break;
                 default:
                     cout << "'"<< command << ' ' << temp << "'" << " is not a valid command." << endl;
@@ -90,15 +97,39 @@ void controller::readCommand(string command){
         //edit
         case 5:
             cin >> tid;
-            tempPerson = listDisplay.fillForm();
-            list.editPerson(tid, tempPerson);
-            list.overwriteFile(fileName);
+            if(cin.fail()) {
+                    cout << "Requested id needs to be an integer." << endl;
+                    cin.clear();
+                    cin.ignore(256,'\n');
+
+                }
+            else{
+                if(list.idExists(tid)){
+                    tempPerson = listDisplay.fillForm();
+                    list.editPerson(tid, tempPerson);
+                    list.overwriteFile(fileName);
+                }
+                else
+                    printf("No person with id '%d'.\n",tid);
+            }
             break;
         //delete
         case 6:
             cin >> tid;
-            list.deletePerson(tid);
-            list.overwriteFile(fileName);
+            if(cin.fail()) {
+                    cout << "Requested id needs to be an integer." << endl;
+                    cin.clear();
+                    cin.ignore(256,'\n');
+
+                }
+            else{
+                if(list.idExists(tid)){
+                    list.deletePerson(tid);
+                    list.overwriteFile(fileName);
+                }
+                else
+                    printf("No person with id '%d'.\n",tid);
+            }
         break;
         default:
             cout << "'"<< command << "'" << " is not a valid command." << endl;

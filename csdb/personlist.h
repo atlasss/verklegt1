@@ -27,6 +27,8 @@ public:
     vector<person> getFullList()const;
     //returns the number of persons in the list
     int getListSize()const;
+    //returns true if id is found in data
+    bool idExists(int i);
     //adds persons from txt file to pList
     void readFile(string fileName);
     //appends string with details of a person  in pList to txt file

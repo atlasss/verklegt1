@@ -12,12 +12,12 @@ private:
     bool end;
     display listDisplay;
     personlist list;
-    //decides
+    //reads user command and determines which action should be executed
     void readCommand(string command);
 public:
     controller();
     ~controller();
-    //reads and executes a command from the user
+    //reads user command and passes it to readCommand
     void read();
     string getFileName()const;
 };

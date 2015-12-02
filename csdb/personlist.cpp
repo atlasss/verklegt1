@@ -62,6 +62,14 @@ int personlist::getListSize()const{
     return NOInList;
 }
 
+bool personlist::idExists(int i){
+    for(int k = 0; k < NOInList; k++){
+        if(pList[k].getId() == i)
+            return true;
+    }
+    return false;
+}
+
 void personlist::readFile(string fileName){
     //temporary variables
     string tname, tgender, tbirth, tdeath, tknown;

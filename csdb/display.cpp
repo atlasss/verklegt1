@@ -298,16 +298,20 @@ void display::displayListByGender(string g, vector<person> pList){
     else if(g[0] == 'm')
         g[0] = 'M';
 
-
-    bool personFound = false;
-    for(int i = 0; i < pList.size(); i++){
-        if(pList[i].getGender() == g){
-            printSingle(pList[i]);
-            personFound = true;
+    if(g == "Male" || g == "Female"){
+        bool personFound = false;
+        for(int i = 0; i < pList.size(); i++){
+            if(pList[i].getGender() == g){
+                printSingle(pList[i]);
+                personFound = true;
+            }
         }
+        if(!personFound)
+            cout << "Person not found. " << endl;
     }
-    if(!personFound)
-        cout << "Person not found. " << endl;
+    else{
+        cout << "Requested gender needs to be either \"Male\" or \"Female\"" << endl;
+    }
 }
 
 void display::printWelcome(){
