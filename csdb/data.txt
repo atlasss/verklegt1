@@ -1,5 +1,11 @@
-0	Reynir          Male	01/12/1991	Alive       Cool,stuff
-1	Audur           Female	05/06/2007	01/01/2001  Cool,stuff
-2	Bob,Kendrick	Male	01/01/2001	01/02/2010  Cool,guy
-3	Bobby           Male	01/02/1972	01/02/1975  Cool,stuff
-4	Magnus          Male	01/02/1950	01/02/1955  Cool,stuff
+0   Ken,Thompson                Male	04/02/1943	Alive		Unix.,B,programming,language.,UTF-8.
+1   Dennis,Ritchie		Male	09/09/1941	12/10/2011	C,programming,language.,Unix.
+2   Ada,Lovelace		Female	10/12/1815	27/09/1852	The,first,algorithm,intended,to,be,carried,out,by,a,machine.
+3   George,Boole		Male	02/09/1815	08/12/1864	Boolean,algebra.
+4   Charles,Babbage		Male	26/12/1791	18/10/1971	Originating,the,concept,of,a,programmable,computer
+5   Richard,Stallman            Male	16/03/1953	Alive		GNU.,Free,software,movement.,Emacs,and,GCC.
+6   Linus,Torvalds              Male    28/12/1969      Alive           Creator,of,the,Linux,kernel.
+7   Alan,Turing                 Male    23/06/1912      07/06/1954      Designed,the,bombe,a,cryptanalytic,machine.,The,Turing,machine.
+8   Guido,van,Rossum            Male    31/01/1956      Alive           Creating,the,Python,programming,language.
+9   Bjarne,Stroustrup           Male    30/12/1950      Alive           Created,the,programming,language,C++.
+10  James,Gosling               Male    19/05/1955      Alive           Father,of,the,Java,programming,language.

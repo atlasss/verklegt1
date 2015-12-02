@@ -7,8 +7,7 @@
 
 using namespace std;
 
-person::person()
-{
+person::person(){
 
     name = "missing";
     dateBirth = "missing";
@@ -111,6 +110,7 @@ bool person::isGenderValid(){
 
 
 bool person::isDateBirthValid(){
+    //checks each character in the date string to confirm wether they are the correct ascii values
     if(dateBirth[0] < 48 || dateBirth[0] > 51)//xd/mm/yyyy
         return false;
     if(dateBirth[1] < 48 || dateBirth[1] > 57)//xx/mm/yyyy

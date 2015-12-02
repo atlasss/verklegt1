@@ -24,7 +24,7 @@ public:
     string getGender()const;
     string getKnownFor()const;
     int getId()const;
-    //returns string with data which is stored in file
+    //returns string with all necessary data which is stored in the txt file
     string getData();
 
     void setName(string lname);
@@ -33,11 +33,11 @@ public:
     void setGender(string lgender);
     void setKnownFor(string lknown);
     void setId(int id);
-    //validates date string
+    //validates date string when filling out the form
     bool isDateBirthValid();
-    //validates date string
+    //validates date string when filling out the form
     bool isDateDeathValid();
-    //validates gender string
+    //validates gender string when filling out the form
     bool isGenderValid();
     friend istream& operator>> (istream& in, person& rhs);
     friend ostream& operator<< (ostream& out, const person& rhs);
