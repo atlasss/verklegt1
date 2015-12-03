@@ -211,6 +211,7 @@ Makefile: csdb.pro C:\Qt\5.5\msvc2013_64\mkspecs\win32-msvc2013\qmake.conf C:\Qt
 		C:\Qt\5.5\msvc2013_64\mkspecs\features\yacc.prf \
 		C:\Qt\5.5\msvc2013_64\mkspecs\features\lex.prf \
 		csdb.pro \
+		C:/Qt/5.5/msvc2013_64/lib/Qt5Sql.prl \
 		C:/Qt/5.5/msvc2013_64/lib/Qt5Core.prl
 	$(QMAKE) -spec win32-msvc2013 -o Makefile csdb.pro
 C:\Qt\5.5\msvc2013_64\mkspecs\features\spec_pre.prf:
@@ -351,6 +352,7 @@ C:\Qt\5.5\msvc2013_64\mkspecs\features\exceptions.prf:
 C:\Qt\5.5\msvc2013_64\mkspecs\features\yacc.prf:
 C:\Qt\5.5\msvc2013_64\mkspecs\features\lex.prf:
 csdb.pro:
+C:/Qt/5.5/msvc2013_64/lib/Qt5Sql.prl:
 C:/Qt/5.5/msvc2013_64/lib/Qt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -spec win32-msvc2013 -o Makefile csdb.pro

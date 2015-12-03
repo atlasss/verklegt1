@@ -8,7 +8,7 @@
 
 string commands[] = {"search","add","display","quit","help","edit","delete"};
 string subCommands[] = {"-e","-a","-d","-g","-i"};
-string fileName = "data.txt";
+QString fileName = "Persons.sqlite";
 controller::controller(){
     end = false;
 }
@@ -39,8 +39,7 @@ void controller::readCommand(string command){
         //add
         case 1:
             tempPerson = listDisplay.fillForm();
-            list.addPerson(tempPerson);
-            list.writeToFile(fileName);
+            list.addPerson(fileName, tempPerson);
             break;
         //display
         case 2:
@@ -152,6 +151,6 @@ void controller::read(){
         readCommand(c);
     }
 }
-string controller::getFileName()const{
+QString controller::getFileName()const{
     return fileName;
 }

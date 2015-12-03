@@ -1,6 +1,6 @@
 #ifndef PERSONLIST_H
 #define PERSONLIST_H
-
+#include <QSqlDatabase>
 #include<iostream>
 #include<vector>
 #include "person.h"
@@ -10,7 +10,8 @@ using namespace std;
 class personlist
 {
 private:
-    vector<person> pList;
+    QSqlDatabase persondb;
+    vector<person> pList;    
     int NOInList;
     int saved;
 
@@ -18,7 +19,7 @@ public:
     personlist();
     ~personlist();
     //adds a new person to pList
-    void addPerson(person newPerson); 
+    void addPerson(QString dbName, person newPerson);
     //edits a person already in the list
     void editPerson(int i, person editPerson);
     //removes a person from the list
@@ -30,11 +31,11 @@ public:
     //returns true if id is found in data
     bool idExists(int i);
     //adds persons from txt file to pList
-    void readFile(string fileName);
+    void readFile(QString dbName);
     //appends string with details of a person  in pList to txt file
-    void writeToFile(string fileName);
+    void writeToFile(QString dbName, person newPerson);
     //overwrites  txt file with all details in pList
-    void overwriteFile(string fileName);
+    void overwriteFile(QString dbName);
 };
 
 #endif // PERSONLIST_H

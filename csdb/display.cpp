@@ -315,7 +315,7 @@ void display::displayListByGender(string g, vector<person> pList){
 }
 
 void display::printWelcome(){
-    SetColor(DARKRED);
+    SetColor(RED);
     cout << "                  ...::              ." << endl;
     cout << "               .:::   :             .:::." << endl;
     cout << "            .:':      ::::::::::::  :::::::." << endl;

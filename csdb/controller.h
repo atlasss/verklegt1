@@ -19,7 +19,7 @@ public:
     ~controller();
     //reads user command and passes it to readCommand
     void read();
-    string getFileName()const;
+    QString getFileName()const;
 };
 
 #endif // CONTROLLER_H

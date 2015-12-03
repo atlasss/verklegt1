@@ -12,6 +12,7 @@ private:
     string dateDeath;
     string gender;
     string knownFor;
+    int age;
 public:
     person();
     ~person();
