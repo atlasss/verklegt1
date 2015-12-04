@@ -8,7 +8,7 @@
 
 string commands[] = {"search","add","display","quit","help","edit","delete"};
 string subCommands[] = {"-e","-a","-d","-g","-i"};
-QString fileName = "Persons.sqlite";
+QString dbName = "Persons.sqlite";
 controller::controller(){
     end = false;
 }
@@ -31,15 +31,15 @@ void controller::readCommand(string command){
     person tempPerson;
     switch(cnumber)
     {
-        //find
+        //search
         case 0:
             cin >> temp;
-            listDisplay.displayListByName(temp, list.getFullList());
+            listDisplay.displayListByName(temp, listPerson.getFullList());
             break;
         //add
         case 1:
             tempPerson = listDisplay.fillForm();
-            list.addPerson(fileName, tempPerson);
+            listPerson.addPerson(dbName, tempPerson);
             break;
         //display
         case 2:
@@ -52,20 +52,20 @@ void controller::readCommand(string command){
             switch(subnumber){
                 //full list in order of id
                 case 0:
-                    listDisplay.displayList(list.getFullList());
+                    listDisplay.displayList(listPerson.getFullList());
                     break;
                 //ascending
                 case 1:
-                    listDisplay.displayListAlpha(list.getFullList());
+                    listDisplay.displayListAlpha(listPerson.getFullList());
                     break;
                 //descending
                 case 2:
-                    listDisplay.displayListAlphaDesc(list.getFullList());
+                    listDisplay.displayListAlphaDesc(listPerson.getFullList());
                     break;
                 //gender
                 case 3:
                     cin >> temp;
-                    listDisplay.displayListByGender(temp, list.getFullList());
+                    listDisplay.displayListByGender(temp, listPerson.getFullList());
                     break;
                 //id
                 case 4:
@@ -77,7 +77,7 @@ void controller::readCommand(string command){
 
                         }
                     else
-                        listDisplay.displayById(tid, list.getFullList());
+                        listDisplay.displayById(tid, listPerson.getFullList());
                     break;
                 default:
                     cout << "'"<< command << ' ' << temp << "'" << " is not a valid command." << endl;
@@ -103,16 +103,17 @@ void controller::readCommand(string command){
 
                 }
             else{
-                if(list.idExists(tid)){
+                if(listPerson.idExists(tid)){
                     tempPerson = listDisplay.fillForm();
-                    list.editPerson(tid, tempPerson);
-                    list.overwriteFile(fileName);
+                    listPerson.editPerson(tid, tempPerson, dbName);
+                    listPerson.overwriteFile(dbName);
                 }
                 else
                     printf("No person with id '%d'.\n",tid);
             }
             break;
         //delete
+
         case 6:
             cin >> tid;
             if(cin.fail()) {
@@ -122,9 +123,9 @@ void controller::readCommand(string command){
 
                 }
             else{
-                if(list.idExists(tid)){
-                    list.deletePerson(tid);
-                    list.overwriteFile(fileName);
+                if(listPerson.idExists(tid)){
+                    listPerson.deletePerson(tid, dbName);
+                    listPerson.overwriteFile(dbName);
                 }
                 else
                     printf("No person with id '%d'.\n",tid);
@@ -141,9 +142,10 @@ void controller::readCommand(string command){
 void controller::read(){
     end = false;
     string c;
-    list.readFile(fileName);
+    listPerson.readFile(dbName);
     listDisplay.printWelcome();
 
+    //listPerson.overwriteFile(dbName);
     while(!end){
         cout << "Enter a command ('help' for list of commands): ";
         cin >> c;
@@ -151,6 +153,6 @@ void controller::read(){
         readCommand(c);
     }
 }
-QString controller::getFileName()const{
-    return fileName;
+QString controller::getdbName()const{
+    return dbName;
 }

@@ -25,8 +25,11 @@ void personlist::addPerson(QString dbName, person newPerson){
         newPerson.setId(NOInList);
         writeToFile(dbName, newPerson);
     }
-    else
+    else{
         saved++;
+        newPerson.isDateBirthValid();
+        newPerson.isDateDeathValid();
+    }
     pList.push_back(newPerson);
     if(newPerson.getId() > NOInList){
         NOInList = newPerson.getId();
@@ -34,21 +37,34 @@ void personlist::addPerson(QString dbName, person newPerson){
     NOInList++;
 }
 
-void personlist::deletePerson(int index){
+void personlist::deletePerson(int index, QString dbName){
+    persondb.setDatabaseName(dbName);
+
+    persondb.open();
+
+    QSqlQuery query(persondb);
+
+    query.prepare("DELETE from PersonData"
+               "WHERE id = :id");
+    query.bindValue(":id", index);
+    query.exec();
+
+    persondb.close();
+
     vector<person> newList;
     for(int i = 0; i < NOInList; i++){
         if(pList[i].getId() != index)
             newList.push_back(pList[i]);
     }
-    NOInList--;
     pList.swap(newList);
+    NOInList--;
 }
 
 vector<person> personlist::getFullList()const{
     return pList;
 }
-//laga thetta
-void personlist::editPerson(int i, person editPerson){
+
+void personlist::editPerson(int i, person editPerson, QString dbName){
     if(i >= 0 && i < NOInList){
         for(int k = 0; k < NOInList; k++){
             if(pList[k].getId() == i){
@@ -57,13 +73,36 @@ void personlist::editPerson(int i, person editPerson){
                 pList[k].setDateDeath(editPerson.getDateDeath());
                 pList[k].setGender(editPerson.getGender());
                 pList[k].setKnownFor(editPerson.getKnownFor());
+
+
+                persondb.setDatabaseName(dbName);
+                persondb.open();
+                QSqlQuery query(persondb);
+
+                query.prepare("Update PersonData"
+                           "SET name = :name, gender = :gender, "
+                           "dateBirth = :dateBirth, dateDeath = :dateDeath, knownFor = :knownFor, age = :age "
+                           "WHERE id = :id");
+
+                query.bindValue(":id", i);
+                query.bindValue(":name",  QString::fromStdString(editPerson.getName()));
+                query.bindValue(":gender", QString::fromStdString(editPerson.getGender()));
+                query.bindValue(":dateBirth", QString::fromStdString(editPerson.getDateBirth()));
+                query.bindValue(":dateDeath", QString::fromStdString(editPerson.getDateDeath()));
+                query.bindValue(":knownFor", QString::fromStdString(editPerson.getKnownFor()));
+                query.bindValue(":age", editPerson.getAge());
+                if(query.exec())
+                    cout << "Person updated. " << endl;
+                persondb.close();
+
                 break;
             }
 
         }
     }
-    else
+    else{
         printf("Person with id %d was not found\n",i);
+    }
 }
 
 int personlist::getListSize()const{
@@ -79,6 +118,7 @@ bool personlist::idExists(int i){
 }
 
 void personlist::readFile(QString dbName){
+    pList.clear();
     //temporary variables
     string tname, tgender, tbirth, tdeath, tknown;
     int tid;
@@ -125,6 +165,19 @@ void personlist::readFile(QString dbName){
 }
 
 void personlist::overwriteFile(QString dbName){
+    persondb.setDatabaseName(dbName);
+
+    persondb.open();
+
+    QSqlQuery query(persondb);
+    query.exec("DELETE * FROM PersonData");
+
+    for(int i = 0; i < NOInList; i++){
+        pList[i].isDateBirthValid();
+        pList[i].isDateDeathValid();
+        writeToFile(dbName, pList[i]);
+    }
+
     /*
     ofstream data (fileName);
     saved = 0;
@@ -144,26 +197,21 @@ void personlist::writeToFile(QString dbName, person newPerson){
     persondb.open();
 
     QSqlQuery query(persondb);
-    QString qname = QString::fromStdString(newPerson.getName());
-    QString qgender = QString::fromStdString(newPerson.getGender());
-    QString qbirth = QString::fromStdString(newPerson.getDateBirth());
-    QString qdeath = QString::fromStdString(newPerson.getDateDeath());
-    QString qknown= QString::fromStdString(newPerson.getKnownFor());
 
     query.prepare("INSERT INTO PersonData (id, name, gender, dateBirth, dateDeath, knownFor, age) "
                       "VALUES (:id, :name, :gender, :dateBirth, :dateDeath, :knownFor, :age)");
     query.bindValue(":id", newPerson.getId());
-    query.bindValue(":name", qname);
-    query.bindValue(":gender", qgender);
-    query.bindValue(":dateBirth", qbirth);
-    query.bindValue(":dateDeath", qdeath);
-    query.bindValue(":knownFor", qknown);
-    query.bindValue(":age", 0);
-    query.exec();
+    query.bindValue(":name", QString::fromStdString(newPerson.getName()));
+    query.bindValue(":gender",  QString::fromStdString(newPerson.getGender()));
+    query.bindValue(":dateBirth", QString::fromStdString(newPerson.getDateBirth()));
+    query.bindValue(":dateDeath", QString::fromStdString(newPerson.getDateDeath()));
+    query.bindValue(":knownFor", QString::fromStdString(newPerson.getKnownFor()));
+    query.bindValue(":age", newPerson.getAge());
+    if(query.exec()){
+        cout << newPerson.getName()<< " has been added to db" << endl;
 
-    cout << newPerson.getName()<< " inserted to db" << endl;
+    }
+
 
     persondb.close();
-
-
 }

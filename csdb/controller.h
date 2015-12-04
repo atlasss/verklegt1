@@ -11,7 +11,7 @@ class controller
 private:
     bool end;
     display listDisplay;
-    personlist list;
+    personlist listPerson;
     //reads user command and determines which action should be executed
     void readCommand(string command);
 public:
@@ -19,7 +19,7 @@ public:
     ~controller();
     //reads user command and passes it to readCommand
     void read();
-    QString getFileName()const;
+    QString getdbName()const;
 };
 
 #endif // CONTROLLER_H

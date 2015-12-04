@@ -40,7 +40,7 @@ void display::printSingle(person personToPrint){
 
     string fields[] = {"Name","Gender","Born","Died", "Known for"};
     SetColor(c4);
-    printf("id:%d\n", personToPrint.getId());
+    printf("id:%d \tage:%d\n", personToPrint.getId(),int(personToPrint.getAge()/365.25));
     for(int i = 0; i < sizeof(fields)/sizeof(*fields); i++){
         SetColor(c2);
         cout << '+';
@@ -55,7 +55,7 @@ void display::printSingle(person personToPrint){
         SetColor(c3);
         cout << fields[i];
         SetColor(c2);
-        for(int k = fields[i].size(); k < l1; k++){
+        for(auto k = fields[i].size(); k < l1; k++){
             cout << ' ';
         }
         cout << '|';
@@ -66,7 +66,7 @@ void display::printSingle(person personToPrint){
                 SetColor(c1);
                 cout << personToPrint.getName();
                 SetColor(c2);
-                for(int k = personToPrint.getName().size(); k < l2; k++){
+                for(auto k = personToPrint.getName().size(); k < l2; k++){
                     cout << ' ';
                 }
                 cout << "|\n";
@@ -76,7 +76,7 @@ void display::printSingle(person personToPrint){
                 SetColor(c1);
                 cout << personToPrint.getGender();
                 SetColor(c2);
-                for(int k = personToPrint.getGender().size(); k < l2; k++){
+                for(auto k = personToPrint.getGender().size(); k < l2; k++){
                     cout << ' ';
                 }
                 cout << "|\n";
@@ -86,7 +86,7 @@ void display::printSingle(person personToPrint){
                 SetColor(c1);
                 cout << personToPrint.getDateBirth();
                 SetColor(c2);
-                for(int k = personToPrint.getDateBirth().size(); k < l2; k++){
+                for(auto k = personToPrint.getDateBirth().size(); k < l2; k++){
                     cout << ' ';
                 }
                 cout << "|\n";
@@ -96,7 +96,7 @@ void display::printSingle(person personToPrint){
                 SetColor(c1);
                 cout << personToPrint.getDateDeath();
                 SetColor(c2);
-                for(int k = personToPrint.getDateDeath().size(); k < l2; k++){
+                for(auto k = personToPrint.getDateDeath().size(); k < l2; k++){
                     cout << ' ';
                 }
                 cout << "|\n";
@@ -106,7 +106,7 @@ void display::printSingle(person personToPrint){
                 SetColor(c1);
                 cout << personToPrint.getKnownFor();
                 SetColor(c2);
-                for(int k = personToPrint.getKnownFor().size(); k < l2; k++){
+                for(auto k = personToPrint.getKnownFor().size(); k < l2; k++){
                    cout << ' ';
                 }
                 cout << "|\n";\
@@ -143,7 +143,7 @@ person display::fillForm(){
         cin.get(pos);
         //translates spaces in user input to ',' so it can be read as a single string from the data.txt file
         if (isspace(pos) && !lastspace && tname.size() > 0){
-            tname += ',';
+            tname += ' ';
             lastspace = true;
         }
         //'-' to end user input
@@ -205,7 +205,7 @@ person display::fillForm(){
     do {
         cin.get(pos);
         if (isspace(pos) && !lastspace && tknown.size() > 0){
-            tknown += ',';
+            tknown += ' ';
             lastspace = true;
         }
         else if(pos == '-'){
@@ -268,7 +268,7 @@ void display::displayListAlphaDesc(vector<person> pList){
 
     sort(names.begin(), names.end());
 
-    for(int i = pList.size()-1; i >= 0; i--){
+    for(auto i = pList.size()-1; i >= 0; i--){
         auto it = find(oNames.begin(), oNames.end(),names[i]);
         auto pos = distance(oNames.begin(), it);
         printSingle(pList[pos]);
@@ -300,7 +300,7 @@ void display::displayListByGender(string g, vector<person> pList){
 
     if(g == "Male" || g == "Female"){
         bool personFound = false;
-        for(int i = 0; i < pList.size(); i++){
+        for(auto i = 0; i < pList.size(); i++){
             if(pList[i].getGender() == g){
                 printSingle(pList[i]);
                 personFound = true;

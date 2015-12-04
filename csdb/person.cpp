@@ -15,6 +15,7 @@ person::person(){
     gender = "missing";
     knownFor = "missing";
     id = -1;
+    age = -1;
 }
 
 person::person(string lname, string lgender, string lbirth, string ldeath, string lknown){
@@ -42,9 +43,7 @@ person::~person(){
 
 
 string person::getName()const{
-    string tname = name;
-    replace(tname.begin(), tname.end(), ',', ' ');
-    return tname;
+    return name;
 }
 string person::getDateBirth()const{
     return dateBirth;
@@ -57,13 +56,15 @@ string person::getGender()const{
 }
 
 string person::getKnownFor()const{
-    string tknown = knownFor;
-    replace(tknown.begin(), tknown.end(), ',', ' ');
-    return tknown;
+    return knownFor;
 }
 
 int person::getId()const{
     return id;
+}
+
+double person::getAge()const{
+    return age;
 }
 
 string person::getData(){
@@ -79,7 +80,6 @@ string person::getData(){
 void person::setId(int ID){
     id = ID;
 }
-
 
 void person::setName(string lname){
     name = lname;
@@ -134,10 +134,15 @@ bool person::isDateBirthValid(){
     if(dateBirth[9] < 48 || dateBirth[9] > 57)//xx/xx/xxxx
         return false;
 
+    bval  = ((dateBirth[6] - 48)* 1000 + (dateBirth[7]- 48) * 100 + (dateBirth[8]- 48) * 10 + (dateBirth[9]- 48)) * 365.25;
+    bval += ((dateBirth[3] - 48) * 10 + (dateBirth[4] - 48)) * 30.4375;
+    bval += ((dateBirth[0] - 48) * 10 + (dateBirth[1] - 48));
     return true;
 }
 
-bool person::isDateDeathValid(){
+bool person::isDateDeathValid(){    
+    double maxAge = 2015 * 365.25 + 12 * 30.4375 + 4;
+    age = maxAge - bval;
     if (dateDeath == "-1"){
         dateDeath = "Alive";
         return true;
@@ -165,6 +170,14 @@ bool person::isDateDeathValid(){
     if(dateDeath[9] < 48 || dateDeath[9] > 57)//xx/xx/xxxx
         return false;
 
+    dval  = ((dateDeath[6]- 48) * 1000 + (dateDeath[7]- 48) * 100 + (dateDeath[8]- 48) * 10 + (dateDeath[9]- 48)) * 365.25;
+    dval += (dateDeath[3]- 48) * 10 + (dateDeath[4] - 48)*30.4375;
+    dval += (dateDeath[0]- 48) * 10 + (dateDeath[1] - 48);
+
+    if(bval > dval)
+        return false;
+
+    age = dval - bval;
     return true;
 }
 

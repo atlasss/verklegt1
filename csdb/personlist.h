@@ -21,17 +21,22 @@ public:
     //adds a new person to pList
     void addPerson(QString dbName, person newPerson);
     //edits a person already in the list
-    void editPerson(int i, person editPerson);
+    void editPerson(int i, person editPerson, QString dbName);
     //removes a person from the list
-    void deletePerson(int index);
+    void deletePerson(int index, QString dbName);
     //returns the vector pList
     vector<person> getFullList()const;
     //returns the number of persons in the list
     int getListSize()const;
     //returns true if id is found in data
     bool idExists(int i);
-    //adds persons from txt file to pList
+    //adds persons from database file to pList
     void readFile(QString dbName);
+    //adds persons from database alphabetically file to pList
+    void readFileAlpha(QString dbName);
+    void readFileAlphaDesc(QString dbName);
+    void readFileAge(QString dbName);
+    void readFileDesc(QString dbName);
     //appends string with details of a person  in pList to txt file
     void writeToFile(QString dbName, person newPerson);
     //overwrites  txt file with all details in pList

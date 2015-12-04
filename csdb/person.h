@@ -12,7 +12,9 @@ private:
     string dateDeath;
     string gender;
     string knownFor;
-    int age;
+    double age;
+    double bval;
+    double dval;
 public:
     person();
     ~person();
@@ -25,6 +27,7 @@ public:
     string getGender()const;
     string getKnownFor()const;
     int getId()const;
+    double getAge()const;
     //returns string with all necessary data which is stored in the txt file
     string getData();
 
@@ -33,6 +36,7 @@ public:
     void setDateDeath(string ldeath);
     void setGender(string lgender);
     void setKnownFor(string lknown);
+
     void setId(int id);
     //validates date string when filling out the form
     bool isDateBirthValid();
@@ -40,6 +44,8 @@ public:
     bool isDateDeathValid();
     //validates gender string when filling out the form
     bool isGenderValid();
+
+
     friend istream& operator>> (istream& in, person& rhs);
     friend ostream& operator<< (ostream& out, const person& rhs);
 };

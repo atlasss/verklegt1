@@ -13,13 +13,16 @@ SOURCES += main.cpp \
     person.cpp \
     personlist.cpp \
     display.cpp \
-    controller.cpp
+    controller.cpp \
+    computer.cpp \
+    computerlist.cpp
 
 HEADERS += \
     person.h \
     personlist.h \
     display.h \
-    controller.h
+    controller.h \
+    computer.h \
+    computerlist.h
 
-DISTFILES += \
-    data.txt
+DISTFILES +=
