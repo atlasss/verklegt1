@@ -11,17 +11,17 @@ class computerlist
 private:
     QSqlDatabase computerdb;
     vector<computer> cList;
+    int NOInList;
 public:
     computerlist();
     ~computerlist();
-    void addComputer();
-    void editComputer();
+    void addComputer(QString dbName, computer newComputer);
+    void editComputer(QString dbName, computer newComputer);
     void deleteComputer();
     void readFile(QString dbName);
-    //appends string with details of a person  in pList to txt file
+    void readFileAlpha(QString dbName);
+    void readFileAlphaDec(QString dbName);
     void writeToFile(QString dbName, computer newComputer);
-    //overwrites  txt file with all details in pList
-    void overwriteFile(QString dbName);
 };
 
 #endif // COMPUTERLIST_H

@@ -28,13 +28,14 @@ person::person(string lname, string lgender, string lbirth, string ldeath, strin
 }
 
 
-person::person(int lid, string lname, string lgender, string lbirth, string ldeath, string lknown){
+person::person(int lid, string lname, string lgender, string lbirth, string ldeath, string lknown, int lage){
     id = lid;
     name = lname;
     dateBirth = lbirth;
     dateDeath = ldeath;
     gender = lgender;
     knownFor = lknown;
+    age = lage;
 }
 
 person::~person(){
@@ -173,7 +174,7 @@ bool person::isDateDeathValid(){
     dval  = ((dateDeath[6]- 48) * 1000 + (dateDeath[7]- 48) * 100 + (dateDeath[8]- 48) * 10 + (dateDeath[9]- 48)) * 365.25;
     dval += (dateDeath[3]- 48) * 10 + (dateDeath[4] - 48)*30.4375;
     dval += (dateDeath[0]- 48) * 10 + (dateDeath[1] - 48);
-
+    //printf("bval: %f, dval: %f", bval, dval);
     if(bval > dval)
         return false;
 

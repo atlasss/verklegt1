@@ -1,6 +1,7 @@
 #include "computer.h"
 
 computer::computer(){
+    id = -1;
     name = "missing";
     yearBuilt = -1;
     type = "missing";
@@ -8,6 +9,15 @@ computer::computer(){
 }
 
 computer::computer(string lname, int lyearBuilt, string ltype, bool lbuilt){
+    id = -1;
+    name = lname;
+    yearBuilt = lyearBuilt;
+    type = ltype;
+    built = lbuilt;
+}
+
+computer::computer(int lid, string lname, int lyearBuilt, string ltype, bool lbuilt){
+    id = lid;
     name = lname;
     yearBuilt = lyearBuilt;
     type = ltype;
@@ -17,17 +27,25 @@ computer::~computer(){
 
 }
 
-string computer::getName(){
+int computer::getId()const{
+    return id;
+}
+
+string computer::getName()const{
     return name;
 }
-int computer::getYearBuilt(){
+int computer::getYearBuilt()const{
     return yearBuilt;
 }
-string computer::getType(){
+string computer::getType()const{
     return type;
 }
-bool computer::wasBuilt(){
+bool computer::wasBuilt()const{
     return built;
+}
+
+void computer::setId(int i){
+    id = i;
 }
 
 bool computer::isYearBuiltValid(){
@@ -41,7 +59,10 @@ bool computer::isYearBuiltValid(){
     }
 }
 
-bool computer::isTypeValid(){
-    return false;
+bool computer::isTypeValid(int t){
+    if(t > 0 && t <= 4)
+        return true;
+    else
+        return false;
 }
 

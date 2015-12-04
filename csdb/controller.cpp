@@ -8,9 +8,11 @@
 
 string commands[] = {"search","add","display","quit","help","edit","delete"};
 string subCommands[] = {"-e","-a","-d","-g","-i"};
+string subAddCommands[] = {"-p","-c"};
 QString dbName = "Persons.sqlite";
 controller::controller(){
     end = false;
+    dbMain = QSqlDatabase::addDatabase("QSQLITE");
 }
 
 controller::~controller(){
@@ -29,6 +31,7 @@ void controller::readCommand(string command){
     string temp;
     int tid;
     person tempPerson;
+    computer tempComputer;
     switch(cnumber)
     {
         //search
@@ -38,8 +41,25 @@ void controller::readCommand(string command){
             break;
         //add
         case 1:
-            tempPerson = listDisplay.fillForm();
-            listPerson.addPerson(dbName, tempPerson);
+            cin >> temp;
+            for(unsigned int i = 0; i < (sizeof(subAddCommands)/sizeof(*subAddCommands)); i++){
+                    if(subAddCommands[i] == temp){
+                        subnumber = i;
+                    }
+            }
+            switch(subnumber){
+                case 0:
+                    tempPerson = listDisplay.fillForm();
+                    listPerson.addPerson(dbMain, tempPerson);
+                break;
+                case 1:
+                    //listComp.addComputer(dbMain, computer(-1,"blank",1991,"goog",true));
+                break;
+                default:
+                    cout << "'" <<command << ' ' << temp <<"'" << endl;
+                break;
+            }
+
             break;
         //display
         case 2:
@@ -105,8 +125,8 @@ void controller::readCommand(string command){
             else{
                 if(listPerson.idExists(tid)){
                     tempPerson = listDisplay.fillForm();
-                    listPerson.editPerson(tid, tempPerson, dbName);
-                    listPerson.overwriteFile(dbName);
+                    listPerson.editPerson(tid, tempPerson, dbMain);
+                    listPerson.overwriteFile(dbMain);
                 }
                 else
                     printf("No person with id '%d'.\n",tid);
@@ -124,8 +144,8 @@ void controller::readCommand(string command){
                 }
             else{
                 if(listPerson.idExists(tid)){
-                    listPerson.deletePerson(tid, dbName);
-                    listPerson.overwriteFile(dbName);
+                    listPerson.deletePerson(tid, dbMain);
+                    listPerson.overwriteFile(dbMain);
                 }
                 else
                     printf("No person with id '%d'.\n",tid);
@@ -142,7 +162,8 @@ void controller::readCommand(string command){
 void controller::read(){
     end = false;
     string c;
-    listPerson.readFile(dbName);
+    dbMain.setDatabaseName(dbName);
+    listPerson.readFile(dbMain);
     listDisplay.printWelcome();
 
     //listPerson.overwriteFile(dbName);

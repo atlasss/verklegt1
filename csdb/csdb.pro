@@ -23,6 +23,7 @@ HEADERS += \
     display.h \
     controller.h \
     computer.h \
-    computerlist.h
+    computerlist.h \
+    person.h
 
 DISTFILES +=
