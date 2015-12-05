@@ -21,7 +21,10 @@ public:
     void readFile(QSqlDatabase& dbMain);
     void readFileAlpha(QSqlDatabase& dbMain);
     void readFileAlphaDec(QSqlDatabase& dbMain);
+
+    void readFileName(string n, QSqlDatabase& dbMain);
     void readFileId(int i, QSqlDatabase& dbMain);
+
     void writeToFile(QSqlDatabase& dbMain, computer newComputer);
 };
 

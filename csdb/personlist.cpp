@@ -62,7 +62,7 @@ vector<person> personlist::getFullList()const{
 void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
     bool found = false;
     if(i >= 0 && i < NOInList){
-        for(int k = 0; k < NOInList-1; k++){
+        for(int k = 0; k < NOInList; k++){
             if(pList[k].getId() == i){
                 pList[k].setName(editPerson.getName());
                 pList[k].setDateBirth(editPerson.getDateBirth());
@@ -110,6 +110,7 @@ bool personlist::idExists(int i){
 
 void personlist::readFile(QSqlDatabase& dbMain){
     pList.clear();
+    NOInList = 0;
     //temporary variables
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;

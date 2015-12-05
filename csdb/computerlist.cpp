@@ -40,6 +40,7 @@ vector<computer>computerlist::getFullList(){
 
 void computerlist::readFile(QSqlDatabase& dbMain){
     cList.clear();
+    NOInList = 0;
     //temporary variables
     string tname, ttype;
     bool tbuilt;
@@ -67,6 +68,7 @@ void computerlist::readFile(QSqlDatabase& dbMain){
 
 void computerlist::readFileAlpha(QSqlDatabase& dbMain){
     cList.clear();
+    NOInList = 0;
     //temporary variables
     string tname, ttype;
     bool tbuilt;
@@ -94,6 +96,7 @@ void computerlist::readFileAlpha(QSqlDatabase& dbMain){
 }
 void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
     cList.clear();
+    NOInList = 0;
     //temporary variables
     string tname, ttype;
     bool tbuilt;
@@ -120,8 +123,39 @@ void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
     dbMain.close();
 }
 
+
+void computerlist::readFileName(string n, QSqlDatabase& dbMain){
+    cList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, ttype;
+    bool tbuilt;
+    int tid, tyearBuilt;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("SELECT * from computerData WHERE name LIKE '%'||:name||'%'");
+    query.bindValue(":name",QString::fromStdString(n));
+    query.exec();
+    while(query.next()){
+
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tyearBuilt = query.value("yearBuilt").toString().toUInt();
+        ttype = query.value("type").toString().toStdString();
+        tbuilt = query.value("type").toString().toUInt();
+
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+    }
+
+    dbMain.close();
+}
+
 void computerlist::readFileId(int i, QSqlDatabase& dbMain){
     cList.clear();
+    NOInList = 0;
     //temporary variables
     string tname, ttype;
     bool tbuilt;
@@ -132,7 +166,7 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
     QSqlQuery query(dbMain);
 
     query.prepare("SELECT * from computerData"
-               "WHERE id = :id DESC");
+               "WHERE id = :id");
     query.bindValue(":id", i);
     if(query.next()){
         tid = query.value("id").toUInt();
