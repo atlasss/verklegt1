@@ -86,47 +86,105 @@ void controller::readCommand(string command){
         //display
         case 2:
             cin >> temp;
-            for(unsigned int i = 0; i < (sizeof(subCommands)/sizeof(*subCommands)); i++){
-                if(subCommands[i] == temp)
-                    subnumber = i;
-            };
-
-            switch(subnumber){
-                //full list in order of id
-                case 0:
-                    listDisplay.displayList(listPerson.getFullList());
-                    break;
-                //ascending
-                case 1:
-                    listDisplay.displayListAlpha(listPerson.getFullList());
-                    break;
-                //descending
-                case 2:
-                    listDisplay.displayListAlphaDesc(listPerson.getFullList());
-                    break;
-                //gender
-                case 3:
-                    cin >> temp;
-                    listDisplay.displayListByGender(temp, listPerson.getFullList());
-                    break;
-                //id
-                case 4:
-                    cin >> tid;
-                    if(cin.fail()) {
-                            cout << "Requested id needs to be an integer." << endl;
-                            cin.clear();
-                            cin.ignore(256,'\n');
-
-                        }
-                    else
-                        listDisplay.displayById(tid, listPerson.getFullList());
-                    break;
-                default:
-                    printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
-                    break;
+            for(unsigned int i = 0; i < (sizeof(subTypeCommands)/sizeof(*subTypeCommands)); i++){
+                    if(subTypeCommands[i] == temp){
+                        subnumber = i;
+                    }
             }
 
-            break;
+
+            switch(subnumber){
+            case 0:
+                cin >> temp2;
+                for(unsigned int i = 0; i < (sizeof(subCommands)/sizeof(*subCommands)); i++){
+                    if(subCommands[i] == temp2)
+                        subnumber = i;
+                };
+                switch(subnumber){
+                    //full list in order of id
+                    case 0:
+                        listDisplay.displayList(listPerson.getFullList());
+                        break;
+                    //ascending
+                    case 1:
+                        listDisplay.displayListAlpha(listPerson.getFullList());
+                        break;
+                    //descending
+                    case 2:
+                        listDisplay.displayListAlphaDesc(listPerson.getFullList());
+                        break;
+                    //gender
+                    case 3:
+                        cin >> temp;
+                        listDisplay.displayListByGender(temp, listPerson.getFullList());
+                        break;
+                    //id
+                    case 4:
+                        cin >> tid;
+                        if(cin.fail()) {
+                                cout << "Requested id needs to be an integer." << endl;
+                                cin.clear();
+                                cin.ignore(256,'\n');
+
+                            }
+                        else
+                            listDisplay.displayById(tid, listPerson.getFullList());
+                        break;
+                    default:
+                        printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
+                        break;
+                    }
+            case 1:
+                cin >> temp2;
+                for(unsigned int i = 0; i < (sizeof(subCommands)/sizeof(*subCommands)); i++){
+                    if(subCommands[i] == temp2)
+                        subnumber = i;
+                };
+                switch(subnumber){
+                    //full list in order of id
+                    case 0:
+                        listComp.readFile(dbMain);
+                        listDisplay.displayListComputer(listComp.getFullList());
+                        break;
+                    //ascending
+                    case 1:
+                        listComp.readFileAlpha(dbMain);
+                        listDisplay.displayListComputer(listComp.getFullList());
+                        break;
+                    //descending
+                    case 2:
+                        listComp.readFileAlphaDec(dbMain);
+                        listDisplay.displayListComputer(listComp.getFullList());
+                        break;
+                    //gender
+                    case 3:
+                        printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
+                        break;
+                    //id
+                    case 4:
+                        cin >> tid;
+                        if(cin.fail()) {
+                                cout << "Requested id needs to be an integer." << endl;
+                                cin.clear();
+                                cin.ignore(256,'\n');
+
+                            }
+                        else{
+                                listComp.readFileId(tid, dbMain);
+                                listDisplay.displayListComputer(listComp.getFullList());
+                            }
+                            break;
+                    default:
+                        printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
+                        break;
+                    }
+                break;
+
+            default:
+                printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
+                break;
+        }
+        break;
         //quit
         case 3:
             end = true;

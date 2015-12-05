@@ -55,7 +55,7 @@ void computer::setYearBuilt(int y){
     yearBuilt = y;
 }
 void computer::setType(int t){
-    string types[] = {"transistor","electromechanical","electronic","electric"};
+    string types[] = {"transistor","electromechanical","electronic","mechanical"};
     type = types[t];
 }
 void computer::setBuilt(bool b){

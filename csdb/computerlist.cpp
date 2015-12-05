@@ -78,8 +78,7 @@ void computerlist::readFileAlpha(QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.exec("SELECT * from computerData"
-               "ORDER BY name");
+    query.exec("SELECT * from computerData ORDER BY name");
 
     while(query.next()){
 
@@ -106,8 +105,7 @@ void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.exec("SELECT * from computerData"
-               "ORDER BY name DESC");
+    query.exec("SELECT * from computerData ORDER BY name DESC");
 
     while(query.next()){
 
@@ -165,9 +163,9 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.prepare("SELECT * from computerData"
-               "WHERE id = :id");
+    query.prepare("SELECT * from computerData WHERE id = :id");
     query.bindValue(":id", i);
+    query.exec();
     if(query.next()){
         tid = query.value("id").toUInt();
         tname = query.value("name").toString().toStdString();
@@ -178,7 +176,7 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
     }
     else{
-        cout << "No person with this id found. " << endl;
+        cout << "No computer with this id found. " << endl;
     }
 
     dbMain.close();
