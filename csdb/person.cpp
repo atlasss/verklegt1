@@ -172,7 +172,7 @@ bool person::isDateDeathValid(){
         return false;
 
     dval  = ((dateDeath[6]- 48) * 1000 + (dateDeath[7]- 48) * 100 + (dateDeath[8]- 48) * 10 + (dateDeath[9]- 48)) * 365.25;
-    dval += (dateDeath[3]- 48) * 10 + (dateDeath[4] - 48)*30.4375;
+    dval += ((dateDeath[3]- 48) * 10 + (dateDeath[4] - 48))*30.4375;
     dval += (dateDeath[0]- 48) * 10 + (dateDeath[1] - 48);
     //printf("bval: %f, dval: %f", bval, dval);
     if(bval > dval)

@@ -12,19 +12,14 @@ using namespace std;
 
 computerlist::computerlist(){
     NOInList = 0;
-    //computerdb = QSqlDatabase::addDatabase("QSQLITE");
 }
 computerlist::~computerlist(){
 
 }
-void computerlist::addComputer(QString dbName, computer newComputer){
+void computerlist::addComputer(QSqlDatabase& dbMain, computer newComputer){
     if(newComputer.getId() == -1){
         newComputer.setId(NOInList);
-        writeToFile(dbName, newComputer);
-    }
-    else{
-        //newPerson.isDateBirthValid();
-        //newPerson.isDateDeathValid();
+        writeToFile(dbMain, newComputer);
     }
     cList.push_back(newComputer);
     if(newComputer.getId() > NOInList){
@@ -32,26 +27,29 @@ void computerlist::addComputer(QString dbName, computer newComputer){
     }
     NOInList++;
 }
-void computerlist::editComputer(QString dbName, computer newComputer){
+void computerlist::editComputer(QSqlDatabase& dbMain, computer newComputer){
 
 }
 void computerlist::deleteComputer(){
 
 }
-void computerlist::readFile(QString dbName){
+
+vector<computer>computerlist::getFullList(){
+    return cList;
+}
+
+void computerlist::readFile(QSqlDatabase& dbMain){
     cList.clear();
     //temporary variables
     string tname, ttype;
     bool tbuilt;
     int tid, tyearBuilt;
 
-    computerdb.setDatabaseName(dbName);
+    dbMain.open();
 
-    computerdb.open();
+    QSqlQuery query(dbMain);
 
-    QSqlQuery query(computerdb);
-
-    query.exec("SELECT * from ComputerData");
+    query.exec("SELECT * from computerData");
 
     while(query.next()){
 
@@ -61,27 +59,102 @@ void computerlist::readFile(QString dbName){
         ttype = query.value("type").toString().toStdString();
         tbuilt = query.value("type").toString().toUInt();
 
-        addComputer(dbName, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
     }
 
-    computerdb.close();
+    dbMain.close();
 }
 
-void computerlist::readFileAlpha(QString dbName){
+void computerlist::readFileAlpha(QSqlDatabase& dbMain){
+    cList.clear();
+    //temporary variables
+    string tname, ttype;
+    bool tbuilt;
+    int tid, tyearBuilt;
 
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.exec("SELECT * from computerData"
+               "ORDER BY name");
+
+    while(query.next()){
+
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tyearBuilt = query.value("yearBuilt").toString().toUInt();
+        ttype = query.value("type").toString().toStdString();
+        tbuilt = query.value("type").toString().toUInt();
+
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+    }
+
+    dbMain.close();
 }
-void computerlist::readFileAlphaDec(QString dbName){
+void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
+    cList.clear();
+    //temporary variables
+    string tname, ttype;
+    bool tbuilt;
+    int tid, tyearBuilt;
 
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.exec("SELECT * from computerData"
+               "ORDER BY name DESC");
+
+    while(query.next()){
+
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tyearBuilt = query.value("yearBuilt").toString().toUInt();
+        ttype = query.value("type").toString().toStdString();
+        tbuilt = query.value("type").toString().toUInt();
+
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+    }
+
+    dbMain.close();
+}
+
+void computerlist::readFileId(int i, QSqlDatabase& dbMain){
+    cList.clear();
+    //temporary variables
+    string tname, ttype;
+    bool tbuilt;
+    int tid, tyearBuilt;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("SELECT * from computerData"
+               "WHERE id = :id DESC");
+    query.bindValue(":id", i);
+    if(query.next()){
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tyearBuilt = query.value("yearBuilt").toString().toUInt();
+        ttype = query.value("type").toString().toStdString();
+        tbuilt = query.value("type").toString().toUInt();
+
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+    }
+    else{
+        cout << "No person with this id found. " << endl;
+    }
+
+    dbMain.close();
 }
 
 
-void computerlist::writeToFile(QString dbName, computer newComputer){
+void computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
+    dbMain.open();
 
-    computerdb.setDatabaseName(dbName);
-
-    computerdb.open();
-
-    QSqlQuery query(computerdb);
+    QSqlQuery query(dbMain);
 
     query.prepare("INSERT INTO computerData (id, name, yearBuilt, type, built) "
                       "VALUES (:id, :name, :yearBuilt, :type, :built)");
@@ -100,5 +173,5 @@ void computerlist::writeToFile(QString dbName, computer newComputer){
     }
 
 
-    computerdb.close();
+    dbMain.close();
 }

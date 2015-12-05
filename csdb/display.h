@@ -4,7 +4,7 @@
 #include<iostream>
 #include<vector>
 #include "person.h"
-
+#include "computer.h"
 using namespace std;
 
 
@@ -14,15 +14,22 @@ public:
     display();
     ~display();
     //requires user fills out a form to create one person that can be added to the list
-    person fillForm();
+    person fillFormPerson();
+    //requires user fills out a form to create one computer that can be added to the list
+    computer fillFormComputer();
+
     //prints out details of person p
     void printSingle(person personToPrint);
+
+    void printSingleComputer(computer computerToPrint);
 
     //prints out a person that matches id
     void displayById(int i, vector<person> pList);
 
     //prints out the entire list, ordered by id
     void displayList(vector<person> pList);
+
+    void displayListComputer(vector<computer> cList);
 
     //prints the list in an alphabetical ascending order
     void displayListAlpha(vector<person> pList);

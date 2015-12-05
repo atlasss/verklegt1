@@ -9,19 +9,20 @@ using namespace std;
 class computerlist
 {
 private:
-    QSqlDatabase computerdb;
     vector<computer> cList;
     int NOInList;
 public:
     computerlist();
     ~computerlist();
-    void addComputer(QString dbName, computer newComputer);
-    void editComputer(QString dbName, computer newComputer);
+    void addComputer(QSqlDatabase& dbMain, computer newComputer);
+    void editComputer(QSqlDatabase& dbMain, computer newComputer);
     void deleteComputer();
-    void readFile(QString dbName);
-    void readFileAlpha(QString dbName);
-    void readFileAlphaDec(QString dbName);
-    void writeToFile(QString dbName, computer newComputer);
+    vector<computer> getFullList();
+    void readFile(QSqlDatabase& dbMain);
+    void readFileAlpha(QSqlDatabase& dbMain);
+    void readFileAlphaDec(QSqlDatabase& dbMain);
+    void readFileId(int i, QSqlDatabase& dbMain);
+    void writeToFile(QSqlDatabase& dbMain, computer newComputer);
 };
 
 #endif // COMPUTERLIST_H

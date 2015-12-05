@@ -9,7 +9,7 @@
 string commands[] = {"search","add","display","quit","help","edit","delete"};
 string subCommands[] = {"-e","-a","-d","-g","-i"};
 string subAddCommands[] = {"-p","-c"};
-QString dbName = "Persons.sqlite";
+QString dbName = "csdb.sqlite";
 controller::controller(){
     end = false;
     dbMain = QSqlDatabase::addDatabase("QSQLITE");
@@ -49,11 +49,12 @@ void controller::readCommand(string command){
             }
             switch(subnumber){
                 case 0:
-                    tempPerson = listDisplay.fillForm();
+                    tempPerson = listDisplay.fillFormPerson();
                     listPerson.addPerson(dbMain, tempPerson);
                 break;
                 case 1:
-                    //listComp.addComputer(dbMain, computer(-1,"blank",1991,"goog",true));
+                    tempComputer = listDisplay.fillFormComputer();
+                    listComp.addComputer(dbMain, tempComputer);
                 break;
                 default:
                     cout << "'" <<command << ' ' << temp <<"'" << endl;
@@ -124,7 +125,7 @@ void controller::readCommand(string command){
                 }
             else{
                 if(listPerson.idExists(tid)){
-                    tempPerson = listDisplay.fillForm();
+                    tempPerson = listDisplay.fillFormPerson();
                     listPerson.editPerson(tid, tempPerson, dbMain);
                     listPerson.overwriteFile(dbMain);
                 }
@@ -164,9 +165,9 @@ void controller::read(){
     string c;
     dbMain.setDatabaseName(dbName);
     listPerson.readFile(dbMain);
+    listComp.readFile(dbMain);
     listDisplay.printWelcome();
-
-    //listPerson.overwriteFile(dbName);
+    //listPerson.overwriteFile(dbMain);
     while(!end){
         cout << "Enter a command ('help' for list of commands): ";
         cin >> c;

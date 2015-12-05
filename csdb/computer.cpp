@@ -48,19 +48,35 @@ void computer::setId(int i){
     id = i;
 }
 
+void computer::setName(string n){
+    name = n;
+}
+void computer::setYearBuilt(int y){
+    yearBuilt = y;
+}
+void computer::setType(int t){
+    string types[] = {"transistor","electromechanical","electronic","electric"};
+    type = types[t];
+}
+void computer::setBuilt(bool b){
+    built = b;
+}
+
 bool computer::isYearBuiltValid(){
     if(yearBuilt > 1600 && yearBuilt < 2015){
-        return true;
         built = true;
+        return true;
     }
     else if(yearBuilt == -1){
         built = false;
         return true;
     }
+    else
+        return false;
 }
 
 bool computer::isTypeValid(int t){
-    if(t > 0 && t <= 4)
+    if(t > 0 && t <= 3)
         return true;
     else
         return false;

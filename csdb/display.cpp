@@ -5,7 +5,7 @@
 #include <algorithm>
 #include <fstream>
 #include "personlist.h"
-
+#include <sstream>
 #include <windows.h>
 
 HANDLE hCon;
@@ -113,7 +113,7 @@ void display::printSingle(person personToPrint){
             break;
 
             default:
-                cout << "Person was not found. " << endl;
+                cout << "Error. " << endl;
             break;
         }
 
@@ -131,7 +131,7 @@ void display::printSingle(person personToPrint){
     SetColor(WHITE);
 }
 
-person display::fillForm(){
+person display::fillFormPerson(){
     bool valid = false, lastspace = false;
     string tname, tgender, tbirth, tdeath, tknown;
     char pos;
@@ -141,7 +141,6 @@ person display::fillForm(){
     //goes through each character in user input
     do {
         cin.get(pos);
-        //translates spaces in user input to ',' so it can be read as a single string from the data.txt file
         if (isspace(pos) && !lastspace && tname.size() > 0){
             tname += ' ';
             lastspace = true;
@@ -150,7 +149,7 @@ person display::fillForm(){
         else if(pos == '-'){
             valid = true;
         }
-        //if the character is neither '-' or ',' it is appended to the name string
+        //if the character is neither '-' or ' ' it is appended to the name string
         else if(!isspace(pos)){
             tname += pos;
             lastspace = false;
@@ -223,6 +222,189 @@ person display::fillForm(){
     return newPerson;
 }
 
+void display::printSingleComputer(computer computerToPrint){
+    //colors in table
+    Color c1 = RED, c2 = DARKYELLOW, c3 = YELLOW, c4 = TEAL;
+    //width of the columns in the table
+    int l1 = 11, l2 = 15;
+    //overwrites default value for column 2 if the length fields 'Name' or 'Known for' exceed the original size
+    //length of column 1 always stays the same
+    if(computerToPrint.getType().size() > l2)
+        l2 = computerToPrint.getType().size();
+    if(computerToPrint.getName().size() > l2)
+        l2 = computerToPrint.getName().size();
+
+    string fields[] = {"Name","Year built","Type","Built"};
+    SetColor(c4);
+    printf("id:%d\n", computerToPrint.getId());
+    for(int i = 0; i < sizeof(fields)/sizeof(*fields); i++){
+        SetColor(c2);
+        cout << '+';
+        for(int k = 0; k < l1; k++){
+            cout << '-';
+        }
+        cout << '+';
+        for(int k = 0; k < l2; k++){
+            cout << '-';
+        }
+        cout << "+\n|";
+        SetColor(c3);
+        cout << fields[i];
+        SetColor(c2);
+        for(auto k = fields[i].size(); k < l1; k++){
+            cout << ' ';
+        }
+        cout << '|';
+
+        switch(i){
+            //name
+            case 0:
+                SetColor(c1);
+                cout << computerToPrint.getName();
+                SetColor(c2);
+                for(auto k = computerToPrint.getName().size(); k < l2; k++){
+                    cout << ' ';
+                }
+                cout << "|\n";
+            break;
+            //gender
+            case 1:
+                if(!computerToPrint.wasBuilt()){
+                    SetColor(c1);
+                    cout << computerToPrint.getYearBuilt();
+                    SetColor(c2);
+                    for(auto k = 4; k < l2; k++){
+                        cout << ' ';
+                    }
+                    cout << "|\n";
+                }
+                else{
+                    SetColor(c1);
+                    cout << "N/A";
+                    SetColor(c2);
+                    for(auto k = 3; k < l2; k++){
+                        cout << ' ';
+                    }
+                    cout << "|\n";
+                }
+            break;
+            //born
+            case 2:
+                SetColor(c1);
+                cout << computerToPrint.getType();
+                SetColor(c2);
+                for(auto k = computerToPrint.getType().size(); k < l2; k++){
+                    cout << ' ';
+                }
+                cout << "|\n";
+            break;
+            //died
+            case 3:
+                if(!computerToPrint.wasBuilt()){
+                    SetColor(c1);
+                    cout << "Yes";
+                    SetColor(c2);
+                    for(auto k = 3 ; k < l2; k++){
+                        cout << ' ';
+                    }
+                    cout << "|\n";
+                }
+                else{
+                    SetColor(c1);
+                    cout << "No";
+                    SetColor(c2);
+                    for(auto k = 2; k < l2; k++){
+                        cout << ' ';
+                    }
+                    cout << "|\n";
+                }
+            break;
+
+            default:
+                cout << "Error. " << endl;
+            break;
+        }
+
+    }
+    SetColor(c2);
+    cout << '+';
+    for(int k = 0; k < l1; k++){
+        cout << '-';
+    }
+    cout << '+';
+    for(int k = 0; k < l2; k++){
+        cout << '-';
+    }
+    cout << "+\n";
+    SetColor(WHITE);
+}
+
+computer display::fillFormComputer(){
+    bool valid = false, lastspace = false;
+    string tname;
+    int tyearBuilt, ttype;
+
+    computer newComputer;
+    char pos;
+    cout << "Enter name(enter '-' to end input):" << endl;
+    do{
+        cin.get(pos);
+        if (isspace(pos) && !lastspace && tname.size() > 0){
+            tname += ' ';
+            lastspace = true;
+        }
+        //'-' to end user input
+        else if(pos == '-'){
+            valid = true;
+        }
+        //if the character is neither '-' or ' ' it is appended to the name string
+        else if(!isspace(pos)){
+            tname += pos;
+            lastspace = false;
+        }
+
+    }while(!valid);
+    newComputer.setName(tname);
+    valid = false;
+    cout << "Enter year built (between 1600 and 2015):" << endl;
+    do{
+        cin >> tyearBuilt;
+        if(cin.fail()) {
+                cout << "Year built needs to be an integer." << endl;
+                cin.clear();
+                cin.ignore(256,'\n');
+
+            }
+        else{
+            newComputer.setYearBuilt(tyearBuilt);
+            valid = newComputer.isYearBuiltValid();
+            if(!valid)
+                cout << "The year you have entered is not valid. " << endl;
+        }
+    }while(!valid);
+    valid = false;
+    cout << "Enter type 1)'transistor', 2)'electromechanical', 3)'electronic', 4)'electric':" << endl;
+    do{
+        cin >> ttype;
+        if(cin.fail()) {
+                cout << "Type needs to be an integer." << endl;
+                cin.clear();
+                cin.ignore(256,'\n');
+
+            }
+        else{
+            newComputer.setYearBuilt(tyearBuilt);
+            valid = newComputer.isTypeValid(ttype-1);
+            if(!valid)
+                cout << "The type you have entered is not valid. " << endl;
+        }
+
+    }while(!valid);
+    newComputer.setType(ttype);
+
+    return newComputer;
+}
+
 void display::displayById(int i, vector<person> pList){
     if(i >= 0 && i < pList.size())
         for(int k = 0; k < pList.size(); k++){
@@ -236,6 +418,12 @@ void display::displayById(int i, vector<person> pList){
 void display::displayList(vector<person> pList){
     for(int i = 0; i < pList.size(); i++){
           printSingle(pList[i]);
+    }
+}
+
+void display::displayListComputer(vector<computer> cList){
+    for(int i = 0; i < cList.size(); i++){
+          printSingleComputer(cList[i]);
     }
 }
 
@@ -344,8 +532,6 @@ void display::printWelcome(){
     cout << "                               " << endl;
     cout << "                               " << endl;
 
-
-
     SetColor(WHITE);
 }
 
@@ -379,3 +565,5 @@ void display::printHelp(){
     }
     cout << "\n";
 }
+
+

@@ -26,6 +26,10 @@ public:
     bool wasBuilt()const;
 
     void setId(int i);
+    void setName(string n);
+    void setYearBuilt(int y);
+    void setType(int t);
+    void setBuilt(bool b);
 
     bool isYearBuiltValid();
     bool isTypeValid(int t);
