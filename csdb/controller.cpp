@@ -8,7 +8,7 @@
 
 string commands[] = {"search","add","display","quit","help","edit","delete"};
 string subCommands[] = {"-e","-a","-d","-g","-i"};
-string subAddCommands[] = {"-p","-c"};
+string subTypeCommands[] = {"-p","-c"};
 QString dbName = "csdb.sqlite";
 controller::controller(){
     end = false;
@@ -28,7 +28,7 @@ void controller::readCommand(string command){
         if(commands[i] == command)
             cnumber = i;
     };
-    string temp;
+    string temp, temp2;
     int tid;
     person tempPerson;
     computer tempComputer;
@@ -36,14 +36,34 @@ void controller::readCommand(string command){
     {
         //search
         case 0:
-            cin >> temp;
-            listDisplay.displayListByName(temp, listPerson.getFullList());
+
+                cin >> temp;
+                for(unsigned int i = 0; i < (sizeof(subTypeCommands)/sizeof(*subTypeCommands)); i++){
+                        if(subTypeCommands[i] == temp){
+                            subnumber = i;
+                        }
+                }
+                cin >> temp2;
+                switch(subnumber){
+                    case 0:
+                        listDisplay.displayListByName(temp2,listPerson.getFullList());
+                        break;
+                    case 1:
+                        listComp.readFileName(temp2, dbMain);
+                        listDisplay.displayListComputer(listComp.getFullList());
+                        break;
+                    default:
+                        printf("'%s %s' is not a valid command.\n",command, temp);
+                        break;
+                }
+
+                listDisplay.displayListByName(temp, listPerson.getFullList());
             break;
         //add
         case 1:
             cin >> temp;
-            for(unsigned int i = 0; i < (sizeof(subAddCommands)/sizeof(*subAddCommands)); i++){
-                    if(subAddCommands[i] == temp){
+            for(unsigned int i = 0; i < (sizeof(subTypeCommands)/sizeof(*subTypeCommands)); i++){
+                    if(subTypeCommands[i] == temp){
                         subnumber = i;
                     }
             }
@@ -57,7 +77,7 @@ void controller::readCommand(string command){
                     listComp.addComputer(dbMain, tempComputer);
                 break;
                 default:
-                    cout << "'" <<command << ' ' << temp <<"'" << endl;
+                    printf("'%s %s' is not a valid command.\n",command, temp);
                 break;
             }
 
@@ -101,7 +121,7 @@ void controller::readCommand(string command){
                         listDisplay.displayById(tid, listPerson.getFullList());
                     break;
                 default:
-                    cout << "'"<< command << ' ' << temp << "'" << " is not a valid command." << endl;
+                    printf("'%s %s' is not a valid command.\n",command, temp);
                     break;
             }
 
@@ -153,7 +173,7 @@ void controller::readCommand(string command){
             }
         break;
         default:
-            cout << "'"<< command << "'" << " is not a valid command." << endl;
+            printf("'%s' is not a valid command.\n",command);
             break;
 
     }
