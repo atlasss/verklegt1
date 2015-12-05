@@ -20,7 +20,7 @@ public:
     //adds a new person to pList
     void addPerson(QSqlDatabase& dbMain, person newPerson);
     //edits a person already in the list
-    void editPerson(int i, person editPerson, QSqlDatabase& dbMain);
+    void editPerson(unsigned int i, person editPerson, QSqlDatabase& dbMain);
     //removes a person from the list
     void deletePerson(int index, QSqlDatabase& dbMain);
     //returns the vector pList

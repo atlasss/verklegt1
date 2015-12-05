@@ -24,7 +24,7 @@ public:
     void printSingleComputer(computer computerToPrint);
 
     //prints out a person that matches id
-    void displayById(int i, vector<person> pList);
+    void displayById(unsigned int i, vector<person> pList);
 
     //prints out the entire list, ordered by id
     void displayList(vector<person> pList);
