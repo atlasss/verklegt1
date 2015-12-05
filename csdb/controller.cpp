@@ -6,6 +6,7 @@
 #include <string>
 #include "controller.h"
 
+
 string commands[] = {"search","add","display","quit","help","edit","delete"};
 string subCommands[] = {"-e","-a","-d","-g","-i"};
 string subTypeCommands[] = {"-p","-c"};
@@ -53,7 +54,7 @@ void controller::readCommand(string command){
                         listDisplay.displayListComputer(listComp.getFullList());
                         break;
                     default:
-                        printf("'%s %s' is not a valid command.\n",command, temp);
+                        printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
                         break;
                 }
 
@@ -77,7 +78,7 @@ void controller::readCommand(string command){
                     listComp.addComputer(dbMain, tempComputer);
                 break;
                 default:
-                    printf("'%s %s' is not a valid command.\n",command, temp);
+                    printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
                 break;
             }
 
@@ -121,7 +122,7 @@ void controller::readCommand(string command){
                         listDisplay.displayById(tid, listPerson.getFullList());
                     break;
                 default:
-                    printf("'%s %s' is not a valid command.\n",command, temp);
+                    printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
                     break;
             }
 
@@ -173,7 +174,7 @@ void controller::readCommand(string command){
             }
         break;
         default:
-            printf("'%s' is not a valid command.\n",command);
+            printf("'%s' is not a valid command.\n",command.c_str());
             break;
 
     }
