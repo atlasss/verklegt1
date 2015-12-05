@@ -30,7 +30,7 @@ void display::printSingle(person personToPrint){
     //colors in table
     Color c1 = RED, c2 = DARKYELLOW, c3 = YELLOW, c4 = TEAL;
     //width of the columns in the table
-    unsigned int l1 = 9, l2 = 15;
+    int l1 = 9, l2 = 15;
     //overwrites default value for column 2 if the length fields 'Name' or 'Known for' exceed the original size
     //length of column 1 always stays the same
     if(personToPrint.getKnownFor().size() > l2)
@@ -41,14 +41,14 @@ void display::printSingle(person personToPrint){
     string fields[] = {"Name","Gender","Born","Died", "Known for"};
     SetColor(c4);
     printf("id:%d \tage:%d\n", personToPrint.getId(),int(personToPrint.getAge()/365.25));
-    for(unsigned int i = 0; i < sizeof(fields)/sizeof(*fields); i++){
+    for(int i = 0; i < sizeof(fields)/sizeof(*fields); i++){
         SetColor(c2);
         cout << '+';
-        for(unsigned int k = 0; k < l1; k++){
+        for(int k = 0; k < l1; k++){
             cout << '-';
         }
         cout << '+';
-        for(unsigned int k = 0; k < l2; k++){
+        for(int k = 0; k < l2; k++){
             cout << '-';
         }
         cout << "+\n|";
@@ -120,11 +120,11 @@ void display::printSingle(person personToPrint){
     }
     SetColor(c2);
     cout << '+';
-    for(unsigned int k = 0; k < l1; k++){
+    for(int k = 0; k < l1; k++){
         cout << '-';
     }
     cout << '+';
-    for(unsigned int k = 0; k < l2; k++){
+    for(int k = 0; k < l2; k++){
         cout << '-';
     }
     cout << "+\n";
@@ -226,7 +226,7 @@ void display::printSingleComputer(computer computerToPrint){
     //colors in table
     Color c1 = RED, c2 = DARKYELLOW, c3 = YELLOW, c4 = TEAL;
     //width of the columns in the table
-    unsigned int l1 = 11, l2 = 15;
+    int l1 = 11, l2 = 15;
     //overwrites default value for column 2 if the length fields 'Name' or 'Known for' exceed the original size
     //length of column 1 always stays the same
     if(computerToPrint.getType().size() > l2)
@@ -237,14 +237,14 @@ void display::printSingleComputer(computer computerToPrint){
     string fields[] = {"Name","Year built","Type","Built"};
     SetColor(c4);
     printf("id:%d\n", computerToPrint.getId());
-    for(unsigned int i = 0; i < sizeof(fields)/sizeof(*fields); i++){
+    for(int i = 0; i < sizeof(fields)/sizeof(*fields); i++){
         SetColor(c2);
         cout << '+';
-        for(unsigned int k = 0; k < l1; k++){
+        for(int k = 0; k < l1; k++){
             cout << '-';
         }
         cout << '+';
-        for(unsigned int k = 0; k < l2; k++){
+        for(int k = 0; k < l2; k++){
             cout << '-';
         }
         cout << "+\n|";
@@ -328,11 +328,11 @@ void display::printSingleComputer(computer computerToPrint){
     }
     SetColor(c2);
     cout << '+';
-    for(unsigned int k = 0; k < l1; k++){
+    for(int k = 0; k < l1; k++){
         cout << '-';
     }
     cout << '+';
-    for(unsigned int k = 0; k < l2; k++){
+    for(int k = 0; k < l2; k++){
         cout << '-';
     }
     cout << "+\n";
@@ -405,7 +405,7 @@ computer display::fillFormComputer(){
     return newComputer;
 }
 
-void display::displayById(unsigned int i, vector<person> pList){
+void display::displayById(int i, vector<person> pList){
     if(i >= 0 && i < pList.size())
         for(int k = 0; k < pList.size(); k++){
             if(pList[k].getId() == i)
@@ -538,15 +538,15 @@ void display::printWelcome(){
 void display::printHelp(){
 
     string commands[] = {"Search","Add","Display","Quit","Help","Edit","Delete"};
-    string commandHelp[] = {"\t...(I.E. \"Search Bob\")","\t...(Type 'Add' to add a new person)","\t...Can display the list in the following ways:",
-                            "\t...(Quits program)","\t...(List of commands)","\t...(Edit information by entering 'Id' I.E. \"Edit 1\")",
-                            "\t...(Delete a person by entering 'Id' I.E. \"Delete 1\")"};
+    string commandHelp[] = {"\t(I.E. \"Search Bob\")","\t(Type 'Add' to add a new person)","\tCan display the list in the following ways:",
+                            "\t(Quits program)","\t(List of commands)","\t(Edit information by entering 'Id' I.E. \"Edit 1\")",
+                            "\t(Delete a person by entering 'Id' I.E. \"Delete 1\")"};
     string subCommands[] = {"-e","-a","-d","-g","-i"};
-    string subCommandsHelp[] = {"...Full list ordered by id(\"Display -e\")"
-                                ,"...Full list, in ascending order(\"Display -a\")",
-                                "...Full list, in descending order(\"Display -d\")",
-                                "...Only persons in list belonging to \n\t\t   requested gender(\"Display -g Male\")",
-                                "...Single person in list, that matches\n\t\t   a specific Id(\"Display -i 2\")"};
+    string subCommandsHelp[] = {"Full list ordered by id(\"Display -e\")"
+                                ,"Full list, in ascending order(\"Display -a\")",
+                                "Full list, in descending order(\"Display -d\")",
+                                "Only persons in list belonging to \n\t\trequested gender(\"Display -g Male\")",
+                                "Single person in list, that matches\n\t\ta specific Id(\"Display -i 2\")"};
 
     cout << "\n";
     for(unsigned int i = 0; i < (sizeof(commandHelp)/sizeof(*commandHelp)); i++){

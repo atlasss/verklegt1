@@ -59,8 +59,9 @@ vector<person> personlist::getFullList()const{
     return pList;
 }
 
-void personlist::editPerson(unsigned int i, person editPerson, QSqlDatabase& dbMain){
-    if(i < NOInList){
+void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
+    bool found = false;
+    if(i >= 0 && i < NOInList){
         for(int k = 0; k < NOInList-1; k++){
             if(pList[k].getId() == i){
                 pList[k].setName(editPerson.getName());
@@ -68,6 +69,7 @@ void personlist::editPerson(unsigned int i, person editPerson, QSqlDatabase& dbM
                 pList[k].setDateDeath(editPerson.getDateDeath());
                 pList[k].setGender(editPerson.getGender());
                 pList[k].setKnownFor(editPerson.getKnownFor());
+                found = true;
                 break;
             }
 
