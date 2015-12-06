@@ -405,17 +405,7 @@ computer display::fillFormComputer(){
     return newComputer;
 }
 
-void display::displayById(int i, vector<person> pList){
-    if(i >= 0 && i < pList.size())
-        for(int k = 0; k < pList.size(); k++){
-            if(pList[k].getId() == i)
-                printSingle(pList[k]);
-        }
-    else
-        printf("Person with id %d was not found\n",i);
-}
-
-void display::displayList(vector<person> pList){
+void display::displayListPerson(vector<person> pList){
     for(int i = 0; i < pList.size(); i++){
           printSingle(pList[i]);
     }
@@ -426,7 +416,7 @@ void display::displayListComputer(vector<computer> cList){
           printSingleComputer(cList[i]);
     }
 }
-
+/*
 void display::displayListAlpha(vector<person> pList){
     vector<string> names;
     vector<string> oNames;
@@ -445,62 +435,8 @@ void display::displayListAlpha(vector<person> pList){
     }
 }
 
-void display::displayListAlphaDesc(vector<person> pList){
-    vector<string> names;
-    vector<string> oNames;
+*/
 
-    for(int i = 0; i < pList.size(); i++){
-        names.push_back(pList[i].getName());
-        oNames.push_back(pList[i].getName());
-    }
-
-    sort(names.begin(), names.end());
-
-    for(auto i = pList.size()-1; i >= 0; i--){
-        auto it = find(oNames.begin(), oNames.end(),names[i]);
-        auto pos = distance(oNames.begin(), it);
-        printSingle(pList[pos]);
-    }
-}
-
-void display::displayListByName(string n, vector<person> pList){
-
-    bool personFound = false;
-    for(int i = 0; i < pList.size(); i++){
-
-        if(pList[i].getName().find(n) != string::npos){
-            printSingle(pList[i]);
-            personFound = true;
-        }
-    }
-    if(!personFound)
-        cout << "Person not found. " << endl;
-}
-
-void display::displayListByGender(string g, vector<person> pList){
-
-    transform(g.begin(), g.end(), g.begin(), ::tolower);
-
-    if(g[0] == 'f')
-        g[0] = 'F';
-    else if(g[0] == 'm')
-        g[0] = 'M';
-
-    if(g == "Male" || g == "Female"){
-        bool personFound = false;
-        for(auto i = 0; i < pList.size(); i++){
-            if(pList[i].getGender() == g){
-                printSingle(pList[i]);
-                personFound = true;
-            }
-        }
-        if(!personFound)
-            cout << "Person not found. " << endl;
-    }
-    else{
-        cout << "Requested gender needs to be either \"Male\" or \"Female\"" << endl;
-    }
-}
 
 void display::printWelcome(){
     SetColor(RED);
@@ -533,6 +469,41 @@ void display::printWelcome(){
     cout << "                               " << endl;
 
     SetColor(WHITE);
+}
+
+void display::printSecret(){
+    cout << "                      ........" << endl;
+    cout << "                    .@@@::.:::@@@." << endl;
+    cout << "                 ..@:            @@." << endl;
+    cout << "               ..@:               .@." << endl;
+    cout << "              .@@..          ..    .@" << endl;
+    cout << "            .@@@@@@@     .@@@@@@@  .@" << endl;
+    cout << "           .@@@@@..@@:  .@@@@@. .: .@" << endl;
+    cout << "            @@@@:@@: .. .@::....@  .@." << endl;
+    cout << "           .@:.  .@...@.. .@:::.   .@." << endl;
+    cout << "           .@..........@@@@@@@@:.  .@                ..@@." << endl;
+    cout << "           .@........              .@               .@@  @@." << endl;
+    cout << "           @@                      .@               :@    .@" << endl;
+    cout << "           @@                      .@.             .@.    @@" << endl;
+    cout << "           @@                @.@@   @@.           .@:   .:@" << endl;
+    cout << "           @@                @:.@   :@. ...@@@@@..@.   @.@:" << endl;
+    cout << "           .@                @:.@  ..@@@:.     .@@    ..@:..." << endl;
+    cout << "            @:               @ .@.  .@:.. @@@@@@@@..  .@@:.@@@" << endl;
+    cout << "            .@.              @..@.    . ..@:.     .:@@. .@@@@@::" << endl;
+    cout << "             @@              @:.@.                    .@.   .@@" << endl;
+    cout << "              @@            .@. .:@@.        .:        .@@..@@@" << endl;
+    cout << "               @@          @:.@.@@@@@        .         .@::@@" << endl;
+    cout << "                @@.        .@::@@           .         .@@" << endl;
+    cout << "                 .@@.                                .@:" << endl;
+    cout << "                   @@@..                     .:   ..@@." << endl;
+    cout << "                     .@@@@....         .  .......@@:" << endl;
+    cout << "                        .@@@@@@@@@@@@@@@: @@::::." << endl;
+    cout << "                        .@.@@.    .... @: @@ ." << endl;
+    cout << "                 .@@@...@ @@.     @@.@@@: @:" << endl;
+    cout << "                  @@..@@:.@.       @@...  @@." << endl;
+    cout << "                   .@@. .@:        ..:@@..@:." << endl;
+    cout << "                     .@@@:              .::." << endl;
+
 }
 
 void display::printHelp(){

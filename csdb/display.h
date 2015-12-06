@@ -23,29 +23,14 @@ public:
 
     void printSingleComputer(computer computerToPrint);
 
-    //prints out a person that matches id
-    void displayById(int i, vector<person> pList);
-
     //prints out the entire list, ordered by id
-    void displayList(vector<person> pList);
+    void displayListPerson(vector<person> pList);
 
     void displayListComputer(vector<computer> cList);
 
-    //prints the list in an alphabetical ascending order
-    void displayListAlpha(vector<person> pList);
-
-    //prints the list in an alphabetical descending order
-    void displayListAlphaDesc(vector<person> pList);
-
-    //prints the person that match string n
-    void displayListByName(string n, vector<person> pList);
-
-    //prints persons based on gender
-    void displayListByGender(string g, vector<person> pList);
-
     //welcome screen which is printed out at the start of the program
     void printWelcome();
-
+    void printSecret();
     //prints out description about how to use each available command
     void printHelp();
 };

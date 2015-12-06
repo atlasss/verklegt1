@@ -34,6 +34,10 @@ public:
     //adds persons from database alphabetically file to pList
     void readFileAlpha(QSqlDatabase& dbMain);
     void readFileAlphaDesc(QSqlDatabase& dbMain);
+    void readFileAlphaDesc(string n, QSqlDatabase& dbMain);
+    void readFileId(int i,QSqlDatabase& dbMain);
+    void readFileName(string n,QSqlDatabase& dbMain);
+    void readFileGender(string g,QSqlDatabase& dbMain);
     void readFileAge(QSqlDatabase& dbMain);
     //appends string with details of a person  in pList to txt file
     void writeToFile(QSqlDatabase& dbMain, person newPerson);

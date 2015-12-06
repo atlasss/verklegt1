@@ -47,7 +47,8 @@ void controller::readCommand(string command){
                 cin >> temp2;
                 switch(subnumber){
                     case 0:
-                        listDisplay.displayListByName(temp2,listPerson.getFullList());
+                        listPerson.readFileName(temp2,dbMain);
+                        listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     case 1:
                         listComp.readFileName(temp2, dbMain);
@@ -57,8 +58,6 @@ void controller::readCommand(string command){
                         printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
                         break;
                 }
-
-                listDisplay.displayListByName(temp, listPerson.getFullList());
             break;
         //add
         case 1:
@@ -103,20 +102,24 @@ void controller::readCommand(string command){
                 switch(subnumber){
                     //full list in order of id
                     case 0:
-                        listDisplay.displayList(listPerson.getFullList());
+                        listPerson.readFile(dbMain);
+                        listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     //ascending
                     case 1:
-                        listDisplay.displayListAlpha(listPerson.getFullList());
+                        listPerson.readFileAlpha(dbMain);
+                        listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     //descending
                     case 2:
-                        listDisplay.displayListAlphaDesc(listPerson.getFullList());
+                        listPerson.readFileAlphaDesc(dbMain);
+                        listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     //gender
                     case 3:
                         cin >> temp;
-                        listDisplay.displayListByGender(temp, listPerson.getFullList());
+                        listPerson.readFileGender(temp,dbMain);
+                        listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     //id
                     case 4:
@@ -127,13 +130,17 @@ void controller::readCommand(string command){
                                 cin.ignore(256,'\n');
 
                             }
-                        else
-                            listDisplay.displayById(tid, listPerson.getFullList());
+                        else{
+                            listPerson.readFileId(tid,dbMain);
+                            listDisplay.displayListPerson(listPerson.getFullList());
+
+                        }
                         break;
                     default:
                         printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
                         break;
                     }
+                break;
             case 1:
                 cin >> temp2;
                 for(unsigned int i = 0; i < (sizeof(subCommands)/sizeof(*subCommands)); i++){

@@ -135,6 +135,154 @@ void personlist::readFile(QSqlDatabase& dbMain){
 
 }
 
+void personlist::readFileAlpha(QSqlDatabase& dbMain){
+    pList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, tgender, tbirth, tdeath, tknown;
+    int tid, tage;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.exec("SELECT * from personData ORDER BY name ");
+
+    while(query.next()){
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tgender = query.value("gender").toString().toStdString();
+        tbirth = query.value("dateBirth").toString().toStdString();
+        tdeath = query.value("dateDeath").toString().toStdString();
+        tknown = query.value("knownFor").toString().toStdString();
+        tage = query.value("age").toUInt();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+    }
+    dbMain.close();
+}
+void personlist::readFileAlphaDesc(QSqlDatabase& dbMain){
+    pList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, tgender, tbirth, tdeath, tknown;
+    int tid, tage;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.exec("SELECT * from personData ORDER BY name DESC");
+
+    while(query.next()){
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tgender = query.value("gender").toString().toStdString();
+        tbirth = query.value("dateBirth").toString().toStdString();
+        tdeath = query.value("dateDeath").toString().toStdString();
+        tknown = query.value("knownFor").toString().toStdString();
+        tage = query.value("age").toUInt();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+    }
+    dbMain.close();
+}
+
+void personlist::readFileId(int i,QSqlDatabase& dbMain){
+    pList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, tgender, tbirth, tdeath, tknown;
+    int tid, tage;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("SELECT * from personData WHERE id = :id");
+    query.bindValue(":id",i);
+    query.exec();
+    while(query.next()){
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tgender = query.value("gender").toString().toStdString();
+        tbirth = query.value("dateBirth").toString().toStdString();
+        tdeath = query.value("dateDeath").toString().toStdString();
+        tknown = query.value("knownFor").toString().toStdString();
+        tage = query.value("age").toUInt();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+    }
+    dbMain.close();
+}
+
+void personlist::readFileName(string n,QSqlDatabase& dbMain){
+    pList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, tgender, tbirth, tdeath, tknown;
+    int tid, tage;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("SELECT * from personData where name LIKE '%'||:name||'%'");
+    query.bindValue(":name",QString::fromStdString(n));
+    query.exec();
+    while(query.next()){
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tgender = query.value("gender").toString().toStdString();
+        tbirth = query.value("dateBirth").toString().toStdString();
+        tdeath = query.value("dateDeath").toString().toStdString();
+        tknown = query.value("knownFor").toString().toStdString();
+        tage = query.value("age").toUInt();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+    }
+    dbMain.close();
+}
+
+void personlist::readFileGender(string g, QSqlDatabase& dbMain){
+
+    transform(g.begin(), g.end(), g.begin(), ::tolower);
+
+    if(g[0] == 'f')
+        g[0] = 'F';
+    else if(g[0] == 'm')
+        g[0] = 'M';
+
+    if(g == "Male" || g == "Female"){
+        pList.clear();
+        NOInList = 0;
+        //temporary variables
+        string tname, tgender, tbirth, tdeath, tknown;
+        int tid, tage;
+
+        dbMain.open();
+
+        QSqlQuery query(dbMain);
+
+        query.prepare("SELECT * from personData WHERE gender = :gender");
+        query.bindValue(":gender",QString::fromStdString(g));
+        query.exec();
+        while(query.next()){
+            tid = query.value("id").toUInt();
+            tname = query.value("name").toString().toStdString();
+            tgender = query.value("gender").toString().toStdString();
+            tbirth = query.value("dateBirth").toString().toStdString();
+            tdeath = query.value("dateDeath").toString().toStdString();
+            tknown = query.value("knownFor").toString().toStdString();
+            tage = query.value("age").toUInt();
+            addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+        }
+        dbMain.close();
+    }
+    else{
+        cout << "Gender needs to be either 'Male' or 'Female'" << endl;
+    }
+}
+void readFileAge(QSqlDatabase& dbMain){
+
+}
+
 void personlist::overwriteFile(QSqlDatabase& dbMain){
     dbMain.open();
 
