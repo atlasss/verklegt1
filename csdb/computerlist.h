@@ -5,7 +5,12 @@
 #include <computer.h>
 
 using namespace std;
-
+struct crel{
+    string cName;
+    vector<string> pName;
+    int cId;
+    vector<int> pId;
+};
 class computerlist
 {
 private:
@@ -18,10 +23,13 @@ public:
     void editComputer(QSqlDatabase& dbMain, computer newComputer);
     void deleteComputer();
     vector<computer> getFullList();
+
+    crel getRel(int i, QSqlDatabase& dbMain);
+
     void readFile(QSqlDatabase& dbMain);
     void readFileAlpha(QSqlDatabase& dbMain);
     void readFileAlphaDec(QSqlDatabase& dbMain);
-
+    void readFileAge(string m, QSqlDatabase& dbMain);
     void readFileName(string n, QSqlDatabase& dbMain);
     void readFileId(int i, QSqlDatabase& dbMain);
 

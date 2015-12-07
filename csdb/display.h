@@ -5,6 +5,9 @@
 #include<vector>
 #include "person.h"
 #include "computer.h"
+#include "computerlist.h"
+#include "personlist.h"
+
 using namespace std;
 
 
@@ -27,6 +30,9 @@ public:
     void displayListPerson(vector<person> pList);
 
     void displayListComputer(vector<computer> cList);
+
+    void displayRelComputer(crel c);
+    void displayRelPerson(prel p);
 
     //welcome screen which is printed out at the start of the program
     void printWelcome();

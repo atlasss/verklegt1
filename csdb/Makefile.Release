@@ -214,8 +214,8 @@ release\main.obj: main.cpp C:\Qt\5.5\msvc2013_64\include\QtCore\QCoreApplication
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsql.h \
 		display.h \
 		person.h \
-		personlist.h \
 		computer.h \
+		personlist.h \
 		computerlist.h
 
 release\person.obj: person.cpp person.h
@@ -472,6 +472,7 @@ release\personlist.obj: personlist.cpp C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlD
 
 release\display.obj: display.cpp display.h \
 		person.h \
+		computer.h \
 		personlist.h \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDatabase \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsqldatabase.h \
@@ -553,8 +554,8 @@ release\controller.obj: controller.cpp controller.h \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsql.h \
 		display.h \
 		person.h \
-		personlist.h \
 		computer.h \
+		personlist.h \
 		computerlist.h
 
 release\computer.obj: computer.cpp computer.h

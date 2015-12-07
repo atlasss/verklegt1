@@ -7,10 +7,18 @@
 #include "controller.h"
 
 
-string commands[] = {"search","add","display","quit","help","edit","delete"};
-string subCommands[] = {"-e","-a","-d","-g","-i"};
+string commands[] = {"search","add","display","quit","help","edit","delete","rel"};
+string subCommands[] = {"-e","-a","-d","-g","-i","-m"};
 string subTypeCommands[] = {"-p","-c"};
+string relCommands[] = {"-d","-n"};
 QString dbName = "csdb.sqlite";
+
+
+
+
+
+
+
 controller::controller(){
     end = false;
     dbMain = QSqlDatabase::addDatabase("QSQLITE");
@@ -19,6 +27,24 @@ controller::controller(){
 controller::~controller(){
 
 
+}
+
+bool controller::validateAgeString(string a){
+    bool midFound = false;
+
+    for(unsigned int i = 0; i < a.size(); i++){
+        if(a[i] == 47){
+            if(!midFound)
+                midFound = true;
+            else
+                return false;
+        }
+        else if(a[i] < 48 || a[i] > 57){
+            return false;
+        }
+    }
+
+    return midFound;
 }
 
 
@@ -30,7 +56,7 @@ void controller::readCommand(string command){
             cnumber = i;
     };
     string temp, temp2;
-    int tid;
+    int tid, tid2;
     person tempPerson;
     computer tempComputer;
     switch(cnumber)
@@ -136,6 +162,17 @@ void controller::readCommand(string command){
 
                         }
                         break;
+                    //age
+                    case 5:
+                        cin >> temp;
+                        if(!validateAgeString(temp)){
+                            listPerson.readFileAge(temp,dbMain);
+                            listDisplay.displayListPerson(listPerson.getFullList());
+                        }
+                        else{
+                            printf("Incorrect format. \n");
+                        }
+                        break;
                     default:
                         printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
                         break;
@@ -165,7 +202,7 @@ void controller::readCommand(string command){
                         break;
                     //gender
                     case 3:
-                        printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
+                        listDisplay.printSecret();
                         break;
                     //id
                     case 4:
@@ -181,6 +218,17 @@ void controller::readCommand(string command){
                                 listDisplay.displayListComputer(listComp.getFullList());
                             }
                             break;
+                    //age
+                    case 5:
+                        cin >> temp;
+                        if(!validateAgeString(temp)){
+                            listComp.readFileAge(temp,dbMain);
+                            listDisplay.displayListComputer(listComp.getFullList());
+                        }
+                        else{
+                            printf("Incorrect format. \n");
+                        }
+                        break;
                     default:
                         printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
                         break;
@@ -213,7 +261,6 @@ void controller::readCommand(string command){
                 if(listPerson.idExists(tid)){
                     tempPerson = listDisplay.fillFormPerson();
                     listPerson.editPerson(tid, tempPerson, dbMain);
-                    listPerson.overwriteFile(dbMain);
                 }
                 else
                     printf("No person with id '%d'.\n",tid);
@@ -232,10 +279,69 @@ void controller::readCommand(string command){
             else{
                 if(listPerson.idExists(tid)){
                     listPerson.deletePerson(tid, dbMain);
-                    listPerson.overwriteFile(dbMain);
                 }
                 else
                     printf("No person with id '%d'.\n",tid);
+            }
+        break;
+        //rel
+        case 7:
+            cin >> temp;
+            for(unsigned int i = 0; i < (sizeof(subTypeCommands)/sizeof(*subTypeCommands)); i++){
+                    if(subTypeCommands[i] == temp){
+                        subnumber = i;
+                    }
+            }
+            for(unsigned int i = 0; i < (sizeof(relCommands)/sizeof(*relCommands)); i++){
+                    if(relCommands[i] == temp){
+                        subnumber = i+(sizeof(subTypeCommands)/sizeof(*subTypeCommands));
+                    }
+            }
+            cin >> tid;
+            if(cin.fail()) {
+                    cout << "Id needs to be an integer." << endl;
+                    cin.clear();
+                    cin.ignore(256,'\n');
+
+                }
+            else{
+                switch(subnumber){
+                    //p
+                    case 0:
+                        listDisplay.displayRelPerson(listPerson.getRel(tid,dbMain));
+                        break;
+                    //c
+                    case 1:
+                        listDisplay.displayRelComputer(listComp.getRel(tid,dbMain));
+                        break;
+                    //d
+                    case 2:
+                        cin >> tid2;
+                        if(cin.fail()) {
+                                cout << "Id needs to be an integer." << endl;
+                                cin.clear();
+                                cin.ignore(256,'\n');
+
+                            }
+                        else
+                            listPerson.removeRel(tid, tid2, dbMain);
+                        break;
+                    //n
+                    case 3:
+                        cin >> tid2;
+                        if(cin.fail()) {
+                                cout << "Id needs to be an integer." << endl;
+                                cin.clear();
+                                cin.ignore(256,'\n');
+
+                            }
+                        else
+                            listPerson.addRel(tid, tid2, dbMain);
+                        break;
+                    default:
+                        printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
+                        break;
+                }
             }
         break;
         default:
@@ -254,12 +360,15 @@ void controller::read(){
     listComp.readFile(dbMain);
     listDisplay.printWelcome();
     //listPerson.overwriteFile(dbMain);
+    //listPerson.addRel(5,5,dbMain);
+
     while(!end){
         cout << "Enter a command ('help' for list of commands): ";
         cin >> c;
         transform(c.begin(), c.end(), c.begin(), ::tolower);
         readCommand(c);
     }
+
 }
 QString controller::getdbName()const{
     return dbName;

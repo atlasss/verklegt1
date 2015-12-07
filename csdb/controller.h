@@ -18,6 +18,7 @@ private:
     QSqlDatabase dbMain;
     //reads user command and determines which action should be executed
     void readCommand(string command);
+    bool validateAgeString(string a);
 public:
     controller();
     ~controller();

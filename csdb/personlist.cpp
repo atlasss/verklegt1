@@ -39,8 +39,7 @@ void personlist::deletePerson(int index, QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.prepare("DELETE from personData"
-               "WHERE id = :id");
+    query.prepare("DELETE from personData WHERE id = :id");
     query.bindValue(":id", index);
     query.exec();
 
@@ -79,10 +78,7 @@ void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
     dbMain.open();
     QSqlQuery query(dbMain);
 
-    query.prepare("Update personData"
-               "SET name = :name, gender = :gender, "
-               "dateBirth = :dateBirth, dateDeath = :dateDeath, knownFor = :knownFor, age = :age "
-               "WHERE id = :id");
+    query.prepare("Update personData SET name = :name, gender = :gender, dateBirth = :dateBirth, dateDeath = :dateDeath, knownFor = :knownFor, age = :age WHERE id = :id");
 
     query.bindValue(":id", i);
     query.bindValue(":name",  QString::fromStdString(editPerson.getName()));
@@ -108,6 +104,64 @@ bool personlist::idExists(int i){
     return false;
 }
 
+
+void personlist::addRel(int p, int c, QSqlDatabase& dbMain){
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("INSERT INTO personToComputer (computerId, personId) "
+                      "VALUES (:cid, :pid)");
+    query.bindValue(":cid", c);
+    query.bindValue(":pid", p);
+
+    if(query.exec()){
+        cout <<p <<' '<<c << " has been added to db" << endl;
+
+    }
+
+
+    dbMain.close();
+}
+
+void personlist::removeRel(int p, int c, QSqlDatabase& dbMain){
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("DELETE from personToComputer WHERE personId = :pid AND computerId = :cid");
+    query.bindValue(":cid", c);
+    query.bindValue(":pid", p);
+    query.exec();
+    if(query.exec()){
+        cout <<p <<' '<<c << " has been removed from db" << endl;
+    }
+
+    dbMain.close();
+
+}
+
+prel personlist::getRel(int i, QSqlDatabase& dbMain){
+    dbMain.open();
+    prel n;
+    QSqlQuery query(dbMain);
+    query.prepare("SELECT p.name AS personName, p.id AS personId, c.name AS computerName, c.id AS computerId FROM personToComputer ptc JOIN personData p ON p.id = :id JOIN computerData c ON c.id = ptc.computerId AND ptc.personId = :id");
+    query.bindValue(":id",i);
+    if(query.exec()){
+        while(query.next()){
+            n.pName = query.value("personName").toString().toStdString();
+            n.pId = query.value("personId").toUInt();
+            n.cName.push_back(query.value("computerName").toString().toStdString());
+            n.cId.push_back(query.value("computerId").toUInt());
+        }
+    }
+    else{
+        cout << "Not found" << endl;
+    }
+    return n;
+}
+
+
 void personlist::readFile(QSqlDatabase& dbMain){
     pList.clear();
     NOInList = 0;
@@ -132,7 +186,6 @@ void personlist::readFile(QSqlDatabase& dbMain){
         addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
     }
     dbMain.close();
-
 }
 
 void personlist::readFileAlpha(QSqlDatabase& dbMain){
@@ -279,9 +332,59 @@ void personlist::readFileGender(string g, QSqlDatabase& dbMain){
         cout << "Gender needs to be either 'Male' or 'Female'" << endl;
     }
 }
-void readFileAge(QSqlDatabase& dbMain){
+void personlist::readFileAge(string m,QSqlDatabase& dbMain){
+    int mid = 0;
+    double low = 0, high = 0, s = 0;
+
+    for(unsigned int i = 0; i < m.size(); i++){
+        if(m[i] == '-'){
+            mid =  i;
+            break;
+            }
+    }
+    s = pow(10,mid-1);
+
+    for(int i = 0; i < mid; i++){
+        low += (m[i]-48) * s;
+        s /= 10;
+    }
+    s = pow(10, (m.size() -1) - (mid+1));
+
+    for(int i = mid+1; i < m.size(); i++){
+        high += (m[i]-48) * s;
+        s /= 10;
+    }
+    low *= 365.25;
+    high*= 365.25;
+
+    pList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, tgender, tbirth, tdeath, tknown;
+    int tid, tage;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("SELECT * FROM personData WHERE age > :low AND age < :high ORDER BY age ASC");
+    query.bindValue(":low",low);
+    query.bindValue(":high",high);
+    query.exec();
+    while(query.next()){
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tgender = query.value("gender").toString().toStdString();
+        tbirth = query.value("dateBirth").toString().toStdString();
+        tdeath = query.value("dateDeath").toString().toStdString();
+        tknown = query.value("knownFor").toString().toStdString();
+        tage = query.value("age").toUInt();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+    }
+    dbMain.close();
 
 }
+
 
 void personlist::overwriteFile(QSqlDatabase& dbMain){
     dbMain.open();

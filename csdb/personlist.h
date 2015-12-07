@@ -7,12 +7,20 @@
 
 using namespace std;
 
+struct prel{
+    string pName;
+    vector<string> cName;
+    int pId;
+    vector<int> cId;
+};
+
 class personlist
 {
 private:
     vector<person> pList;    
     int NOInList;
     int saved;
+
 
 public:
     personlist();
@@ -25,11 +33,18 @@ public:
     void deletePerson(int index, QSqlDatabase& dbMain);
     //returns the vector pList
     vector<person> getFullList()const;
+
+    void addRel(int p, int c, QSqlDatabase& dbMain);
+
+    void removeRel(int p, int c, QSqlDatabase& dbMain);
+    prel getRel(int i, QSqlDatabase& dbMain);
+
     //returns the number of persons in the list
     int getListSize()const;
     //returns true if id is found in data
     bool idExists(int i);
     //adds persons from database file to pList
+
     void readFile(QSqlDatabase& dbMain);
     //adds persons from database alphabetically file to pList
     void readFileAlpha(QSqlDatabase& dbMain);
@@ -38,7 +53,7 @@ public:
     void readFileId(int i,QSqlDatabase& dbMain);
     void readFileName(string n,QSqlDatabase& dbMain);
     void readFileGender(string g,QSqlDatabase& dbMain);
-    void readFileAge(QSqlDatabase& dbMain);
+    void readFileAge(string m, QSqlDatabase& dbMain);
     //appends string with details of a person  in pList to txt file
     void writeToFile(QSqlDatabase& dbMain, person newPerson);
     //overwrites  txt file with all details in pList

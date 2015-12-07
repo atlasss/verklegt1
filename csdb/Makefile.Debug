@@ -214,8 +214,8 @@ debug\main.obj: main.cpp C:\Qt\5.5\msvc2013_64\include\QtCore\QCoreApplication \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsql.h \
 		display.h \
 		person.h \
-		personlist.h \
 		computer.h \
+		personlist.h \
 		computerlist.h
 
 debug\person.obj: person.cpp person.h
@@ -472,6 +472,7 @@ debug\personlist.obj: personlist.cpp C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDat
 
 debug\display.obj: display.cpp display.h \
 		person.h \
+		computer.h \
 		personlist.h \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDatabase \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsqldatabase.h \
@@ -553,8 +554,8 @@ debug\controller.obj: controller.cpp controller.h \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsql.h \
 		display.h \
 		person.h \
-		personlist.h \
 		computer.h \
+		personlist.h \
 		computerlist.h
 
 debug\computer.obj: computer.cpp computer.h

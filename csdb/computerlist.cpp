@@ -38,6 +38,26 @@ vector<computer>computerlist::getFullList(){
     return cList;
 }
 
+crel computerlist::getRel(int i, QSqlDatabase& dbMain){
+    dbMain.open();
+    crel n;
+    QSqlQuery query(dbMain);
+    query.prepare("SELECT p.name AS personName, p.id AS personId, c.name AS computerName, c.id AS computerId FROM personToComputer ptc JOIN computerData c ON c.id = :id JOIN personData p ON p.id = ptc.personId AND ptc.computerId = :id");
+    query.bindValue(":id",i);
+    if(query.exec()){
+        while(query.next()){
+            n.cName = query.value("computerName").toString().toStdString();
+            n.cId = query.value("computerId").toUInt();
+            n.pName.push_back(query.value("personName").toString().toStdString());
+            n.pId.push_back(query.value("personId").toUInt());
+        }
+    }
+    else{
+        cout << "Not found" << endl;
+    }
+    return n;
+}
+
 void computerlist::readFile(QSqlDatabase& dbMain){
     cList.clear();
     NOInList = 0;
@@ -119,6 +139,57 @@ void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
     }
 
     dbMain.close();
+}
+
+void computerlist::readFileAge(string m, QSqlDatabase& dbMain){
+    int mid = 0, low = 0, high = 0, s = 0;
+
+    for(unsigned int i = 0; i < m.size(); i++){
+        if(m[i] == '-'){
+            mid =  i;
+            break;
+            }
+    }
+    s = pow(10,mid-1);
+
+    for(int i = 0; i < mid; i++){
+        low += (m[i]-48) * s;
+        s /= 10;
+    }
+    s = pow(10, (m.size() -1) - (mid+1));
+
+    for(int i = mid+1; i < m.size(); i++){
+        high += (m[i]-48) * s;
+        s /= 10;
+    }
+
+
+    cList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, ttype;
+    bool tbuilt;
+    int tid, tyearBuilt;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("SELECT * FROM computerData WHERE yearBuilt > :low AND yearBuilt < :high ORDER BY yearBuilt ASC");
+    query.bindValue(":low",low);
+    query.bindValue(":high",high);
+    query.exec();
+    while(query.next()){
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tyearBuilt = query.value("yearBuilt").toString().toUInt();
+        ttype = query.value("type").toString().toStdString();
+        tbuilt = query.value("type").toString().toUInt();
+
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+    }
+    dbMain.close();
+
 }
 
 
@@ -203,7 +274,6 @@ void computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
     else{
         cout << "error" << endl;
     }
-
 
     dbMain.close();
 }
