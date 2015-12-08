@@ -418,18 +418,22 @@ computer display::fillFormComputer(){
 
 void display::displayRelComputer(crel c){
     if(!c.cName.empty()){
-        cout << c.cName << " id:" << c.cId << endl;
+        cout << "# |" << c.cName << endl;
+        cout << "--+--------------------" << endl;
         for(unsigned int i = 0; i < c.pName.size(); i++)
-            cout << c.pName[i] << " id:" << c.pId[i] <<endl;
+            cout << c.pId[i] << c.pName[i] <<endl;
     }
     else
         cout << "Computer not found." <<endl;
 }
 void display::displayRelPerson(prel p){
+    int s = 0;
     if(!p.pName.empty()){
-        cout << p.pName << " id:" << p.pId << endl;
+        cout << " # |" << p.pName << endl;
+        cout << "---+--------------------" << endl;
         for(unsigned int i = 0; i < p.cName.size(); i++)
-            cout << p.cName[i] << " id:" << p   .cId[i] <<endl;
+
+            cout << p.cId[i] << p.cName[i] <<endl;
     }
     else
         cout << "Person not found." <<endl;
@@ -541,7 +545,6 @@ void display::printSecret(){
 }
 
 void display::printHelp(){
-
     cout << "+---------+------------+------------------------------------------------------+" << endl;
     cout << "|Commands |Subcommands |Examples/Description                                  |" << endl;
     cout << "+---------+------------+------------------------------------------------------+" << endl;
@@ -549,7 +552,11 @@ void display::printHelp(){
     cout << "|         |-p..........|'Search -p Bob'                                       |" << endl;
     cout << "|         |            |(search for person)                                   |" << endl;
     cout << "|         |-c..........|'Search -c Harvard'                                   |" << endl;
-    cout << "|_________|____________|(search for computer)                                 |" << endl;
+    cout << "|         |            |(search for computer)                                 |" << endl;
+    cout << "|         |.....-i.....|'Display -p -i 12' or 'Display -c -i 3'               |" << endl;
+    cout << "|         |            |(prints one element in list, matching the id)         |" << endl;
+    cout << "|         |.....-m.....|'Display -p -m 25-35' or 'Display -c -m 1940-1950'    |" << endl;
+    cout << "|_________|____________|(print all elements in requested age range/year built)|" << endl;
     cout << "|*Display |            |                                                      |" << endl;
     cout << "|         |-p...-e.....|'Display -p -e' or 'Display -c -e'                    |" << endl;
     cout << "|         |            |(print full list in ascending order, by id)           |" << endl;
@@ -558,11 +565,7 @@ void display::printHelp(){
     cout << "|         |.....-d.....|'Display -p -d' or 'Display -c -d'                    |" << endl;
     cout << "|         |            |(print list descending order, aplhabetically)         |" << endl;
     cout << "|         |.....-g.....|'Display -p -g male'                                  |" << endl;
-    cout << "|         |            |(print list, either male only or female only)         |" << endl;
-    cout << "|         |.....-i.....|'Display -p -i 12' or 'Display -c -i 3'               |" << endl;
-    cout << "|         |            |(prints one element in list, matching the id)         |" << endl;
-    cout << "|         |.....-m.....|'Display -p -m 25-35' or 'Display -c -m 1940-1950'    |" << endl;
-    cout << "|_________|____________|(print all elements in requested age range/year built)|" << endl;
+    cout << "|________ |____________|(print list, either male only or female only)         |" << endl;
     cout << "|*Add     |            |                                                      |" << endl;
     cout << "|         |-p..........|'Add -p'                                              |" << endl;
     cout << "|         |            |(add a new person to database)                        |" << endl;
@@ -594,4 +597,3 @@ void display::printHelp(){
     cout << "|         |            |Quit program                                          |" << endl;
     cout << "+---------+------------+------------------------------------------------------+" << endl;
 }
-

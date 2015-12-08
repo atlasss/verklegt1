@@ -67,11 +67,7 @@ void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
     query.bindValue(":dateDeath", QString::fromStdString(editPerson.getDateDeath()));
     query.bindValue(":knownFor", QString::fromStdString(editPerson.getKnownFor()));
     query.bindValue(":age", editPerson.getAge());
-    if(query.exec())
-        cout << "Person updated. " << endl;
-    else
-        cout << "Person not found. " << endl;
-
+    query.exec();
 }
 
 int personlist::getListSize()const{
@@ -79,9 +75,10 @@ int personlist::getListSize()const{
 }
 
 bool personlist::idExists(int i){
-    for(int k = 0; k < NOInList; k++){
+    for(int k = 0; k < NOInList-1; k++){
         if(pList[k].getId() == i)
             return true;
+        cout << k;
     }
     return false;
 }

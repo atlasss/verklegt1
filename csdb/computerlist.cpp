@@ -66,6 +66,7 @@ bool computerlist::idExists(int i){
     for(int k = 0; k < NOInList; k++){
         if(cList[k].getId() == i)
             return true;
+        cout << k;
     }
     return false;
 }

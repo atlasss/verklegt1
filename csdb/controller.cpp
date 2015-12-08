@@ -8,16 +8,11 @@
 
 
 string commands[] = {"search","add","display","quit","help","edit","delete","rel"};
-string subCommands[] = {"-e","-a","-d","-g","-i","-m"};
+string subCommands[] = {"-e","-a","-d","-g"};
 string subTypeCommands[] = {"-p","-c"};
 string relCommands[] = {"-d","-n"};
+string searchCommands[] = {"-i","-m"};
 QString dbName = "csdb.sqlite";
-
-
-
-
-
-
 
 controller::controller(){
     end = false;
@@ -25,8 +20,6 @@ controller::controller(){
 }
 
 controller::~controller(){
-
-
 }
 
 bool controller::validateAgeString(string a){
@@ -73,12 +66,89 @@ void controller::readCommand(string command){
             cin >> temp2;
             switch(subnumber){
                 case 0:
-                    listPerson.readFileName(temp2,dbMain);
-                    listDisplay.displayListPerson(listPerson.getFullList());
+                    subnumber = -1;
+                    for(unsigned int i = 0; i < (sizeof(searchCommands)/sizeof(*searchCommands)); i++){
+                            if(searchCommands[i] == temp2){
+                                subnumber = i;
+                            }
+                    }
+                    switch(subnumber){
+                        //id
+                        case 0:
+                            cin >> tid;
+                            if(cin.fail()) {
+                                    cout << "Requested id needs to be an integer." << endl;
+                                    cin.clear();
+                                    cin.ignore(256,'\n');
+
+                                }
+                            else{
+                                listPerson.readFileId(tid,dbMain);
+                                listDisplay.displayListPerson(listPerson.getFullList());
+
+                            }
+                        break;
+
+                        //age
+                        case 1:
+                            cin >> temp;
+                            if(!validateAgeString(temp)){
+                                listPerson.readFileAge(temp,dbMain);
+                                listDisplay.displayListPerson(listPerson.getFullList());
+                            }
+                            else{
+                                printf("Incorrect format. \n");
+                            }
+                        break;
+                        //name
+                        default:
+                            listPerson.readFileName(temp2,dbMain);
+                            listDisplay.displayListPerson(listPerson.getFullList());
+                        break;
+
+                    }
+
                     break;
                 case 1:
-                    listComp.readFileName(temp2, dbMain);
-                    listDisplay.displayListComputer(listComp.getFullList());
+                    subnumber = -1;
+                    for(unsigned int i = 0; i < (sizeof(searchCommands)/sizeof(*searchCommands)); i++){
+                            if(searchCommands[i] == temp2){
+                                subnumber = i;
+                            }
+                    }
+                    switch(subnumber){
+                        //id
+                        case 0:
+                            cin >> tid;
+                            if(cin.fail()) {
+                                    cout << "Requested id needs to be an integer." << endl;
+                                    cin.clear();
+                                    cin.ignore(256,'\n');
+
+                                }
+                            else{
+                                    listComp.readFileId(tid, dbMain);
+                                    listDisplay.displayListComputer(listComp.getFullList());
+                                }
+                        break;
+                        //age
+                        case 1:
+                            cin >> temp;
+                            if(!validateAgeString(temp)){
+                                listComp.readFileAge(temp,dbMain);
+                                listDisplay.displayListComputer(listComp.getFullList());
+                            }
+                            else{
+                                printf("Incorrect format. \n");
+                            }
+                        break;
+                        //name
+                        default:
+                            listComp.readFileName(temp2, dbMain);
+                            listDisplay.displayListComputer(listComp.getFullList());
+                        break;
+
+                    }
                     break;
                 default:
                     printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
@@ -147,32 +217,6 @@ void controller::readCommand(string command){
                         listPerson.readFileGender(temp,dbMain);
                         listDisplay.displayListPerson(listPerson.getFullList());
                         break;
-                    //id
-                    case 4:
-                        cin >> tid;
-                        if(cin.fail()) {
-                                cout << "Requested id needs to be an integer." << endl;
-                                cin.clear();
-                                cin.ignore(256,'\n');
-
-                            }
-                        else{
-                            listPerson.readFileId(tid,dbMain);
-                            listDisplay.displayListPerson(listPerson.getFullList());
-
-                        }
-                        break;
-                    //age
-                    case 5:
-                        cin >> temp;
-                        if(!validateAgeString(temp)){
-                            listPerson.readFileAge(temp,dbMain);
-                            listDisplay.displayListPerson(listPerson.getFullList());
-                        }
-                        else{
-                            printf("Incorrect format. \n");
-                        }
-                        break;
                     default:
                         printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
                         break;
@@ -203,31 +247,6 @@ void controller::readCommand(string command){
                     //gender
                     case 3:
                         listDisplay.printSecret();
-                        break;
-                    //id
-                    case 4:
-                        cin >> tid;
-                        if(cin.fail()) {
-                                cout << "Requested id needs to be an integer." << endl;
-                                cin.clear();
-                                cin.ignore(256,'\n');
-
-                            }
-                        else{
-                                listComp.readFileId(tid, dbMain);
-                                listDisplay.displayListComputer(listComp.getFullList());
-                            }
-                            break;
-                    //age
-                    case 5:
-                        cin >> temp;
-                        if(!validateAgeString(temp)){
-                            listComp.readFileAge(temp,dbMain);
-                            listDisplay.displayListComputer(listComp.getFullList());
-                        }
-                        else{
-                            printf("Incorrect format. \n");
-                        }
                         break;
                     default:
                         printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());
@@ -287,7 +306,10 @@ void controller::readCommand(string command){
                             tempComputer = listDisplay.fillFormComputer();
                             listComp.editComputer(tid, tempComputer, dbMain);
                         }
+                        else
+                            printf("Computer with id %d not found. ",tid);
                     }
+                break;
                 default:
                     printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
                 break;
@@ -325,6 +347,7 @@ void controller::readCommand(string command){
                         }
                     else
                         listComp.deleteComputer(tid, dbMain);
+                break;
                 default:
                     printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
                 break;
