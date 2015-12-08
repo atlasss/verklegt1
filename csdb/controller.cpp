@@ -8,7 +8,7 @@
 
 
 string commands[] = {"search","add","display","quit","help","edit","delete","rel"};
-string subCommands[] = {"-e","-a","-d","-g"};
+string subCommands[] = {"-e","-a","-d","-g","-w"};
 string subTypeCommands[] = {"-p","-c"};
 string relCommands[] = {"-d","-n"};
 string searchCommands[] = {"-i","-m"};
@@ -247,6 +247,11 @@ void controller::readCommand(string command){
                     //gender
                     case 3:
                         listDisplay.printSecret();
+                        break;
+                    //weight
+                    case 4:
+                        listComp.readFileWeight(dbMain);
+                        listDisplay.displayListComputer(listComp.getFullList());
                         break;
                     default:
                         printf("'%s %s %s' is not a valid command.\n",command.c_str(), temp.c_str(), temp2.c_str());

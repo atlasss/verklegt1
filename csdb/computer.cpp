@@ -8,20 +8,22 @@ computer::computer(){
     built = false;
 }
 
-computer::computer(string lname, int lyearBuilt, string ltype, bool lbuilt){
+computer::computer(string lname, int lyearBuilt, string ltype, bool lbuilt, double lweight){
     id = -1;
     name = lname;
     yearBuilt = lyearBuilt;
     type = ltype;
     built = lbuilt;
+    weight = lweight;
 }
 
-computer::computer(int lid, string lname, int lyearBuilt, string ltype, bool lbuilt){
+computer::computer(int lid, string lname, int lyearBuilt, string ltype, bool lbuilt, double lweight){
     id = lid;
     name = lname;
     yearBuilt = lyearBuilt;
     type = ltype;
     built = lbuilt;
+    weight = lweight;
 }
 computer::~computer(){
 
@@ -39,6 +41,9 @@ int computer::getYearBuilt()const{
 }
 string computer::getType()const{
     return type;
+}
+double computer::getWeight()const{
+    return weight;
 }
 bool computer::wasBuilt()const{
     return built;
@@ -61,6 +66,9 @@ void computer::setType(int t){
 void computer::setBuilt(bool b){
     built = b;
 }
+void computer::setWeight(double w){
+    weight = w;
+}
 
 bool computer::isYearBuiltValid(){
     if(yearBuilt > 1600 && yearBuilt < 2015){
@@ -76,7 +84,7 @@ bool computer::isYearBuiltValid(){
 }
 
 bool computer::isTypeValid(int t){
-    if(t > 0 && t <= 3)
+    if(t >= 0 && t <= 3)
         return true;
     else
         return false;

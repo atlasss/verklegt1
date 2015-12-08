@@ -32,6 +32,7 @@ public:
     void readFileAge(string m, QSqlDatabase& dbMain);
     void readFileName(string n, QSqlDatabase& dbMain);
     void readFileId(int i, QSqlDatabase& dbMain);
+    void readFileWeight(QSqlDatabase& dbMain);
 
     void writeToFile(QSqlDatabase& dbMain, computer newComputer);
 };

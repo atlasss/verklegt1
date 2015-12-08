@@ -31,13 +31,14 @@ void computerlist::editComputer(int i, computer editComputer,  QSqlDatabase& dbM
     dbMain.open();
     QSqlQuery query(dbMain);
 
-    query.prepare("Update computerData SET name = :name, yearBuilt = :yearBuilt, type = :type, built = :built WHERE id = :id");
+    query.prepare("Update computerData SET name = :name, yearBuilt = :yearBuilt, type = :type, built = :built, weight = :weight WHERE id = :id");
 
     query.bindValue(":id", i);
     query.bindValue(":name",  QString::fromStdString(editComputer.getName()));
     query.bindValue(":yearBuilt", editComputer.getYearBuilt());
     query.bindValue(":type", QString::fromStdString(editComputer.getType()));
     query.bindValue(":built", editComputer.wasBuilt());
+    query.bindValue(":weight", editComputer.getWeight());
     if(query.exec())
         cout << "Computer updated. " << endl;
     else
@@ -98,6 +99,7 @@ void computerlist::readFile(QSqlDatabase& dbMain){
     string tname, ttype;
     bool tbuilt;
     int tid, tyearBuilt;
+    double tweight;
 
     dbMain.open();
 
@@ -111,9 +113,10 @@ void computerlist::readFile(QSqlDatabase& dbMain){
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
         ttype = query.value("type").toString().toStdString();
-        tbuilt = query.value("type").toString().toUInt();
+        tbuilt = query.value("built").toUInt();
+        tweight = query.value("weight").toDouble();
 
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
     dbMain.close();
@@ -126,6 +129,7 @@ void computerlist::readFileAlpha(QSqlDatabase& dbMain){
     string tname, ttype;
     bool tbuilt;
     int tid, tyearBuilt;
+    double tweight;
 
     dbMain.open();
 
@@ -139,9 +143,10 @@ void computerlist::readFileAlpha(QSqlDatabase& dbMain){
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
         ttype = query.value("type").toString().toStdString();
-        tbuilt = query.value("type").toString().toUInt();
+        tbuilt = query.value("built").toString().toUInt();
+        tweight = query.value("weight").toDouble();
 
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
     dbMain.close();
@@ -153,6 +158,7 @@ void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
     string tname, ttype;
     bool tbuilt;
     int tid, tyearBuilt;
+    double tweight;
 
     dbMain.open();
 
@@ -166,9 +172,10 @@ void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
         ttype = query.value("type").toString().toStdString();
-        tbuilt = query.value("type").toString().toUInt();
+        tbuilt = query.value("built").toString().toUInt();
+        tweight = query.value("weight").toDouble();
 
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
     dbMain.close();
@@ -203,6 +210,7 @@ void computerlist::readFileAge(string m, QSqlDatabase& dbMain){
     string tname, ttype;
     bool tbuilt;
     int tid, tyearBuilt;
+    double tweight;
 
     dbMain.open();
 
@@ -217,9 +225,10 @@ void computerlist::readFileAge(string m, QSqlDatabase& dbMain){
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
         ttype = query.value("type").toString().toStdString();
-        tbuilt = query.value("type").toString().toUInt();
+        tbuilt = query.value("built").toString().toUInt();
+        tweight = query.value("weight").toDouble();
 
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
     dbMain.close();
 
@@ -233,6 +242,7 @@ void computerlist::readFileName(string n, QSqlDatabase& dbMain){
     string tname, ttype;
     bool tbuilt;
     int tid, tyearBuilt;
+    double tweight;
 
     dbMain.open();
 
@@ -247,9 +257,10 @@ void computerlist::readFileName(string n, QSqlDatabase& dbMain){
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
         ttype = query.value("type").toString().toStdString();
-        tbuilt = query.value("type").toString().toUInt();
+        tbuilt = query.value("built").toString().toUInt();
+        tweight = query.value("weight").toDouble();
 
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
     dbMain.close();
@@ -262,6 +273,7 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
     string tname, ttype;
     bool tbuilt;
     int tid, tyearBuilt;
+    double tweight;
 
     dbMain.open();
 
@@ -275,9 +287,10 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
         ttype = query.value("type").toString().toStdString();
-        tbuilt = query.value("type").toString().toUInt();
+        tbuilt = query.value("built").toString().toUInt();
+        tweight = query.value("weight").toDouble();
 
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt));
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
     else{
         cout << "No computer with this id found. " << endl;
@@ -286,19 +299,51 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
     dbMain.close();
 }
 
+void computerlist::readFileWeight(QSqlDatabase& dbMain){
+    cList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, ttype;
+    bool tbuilt;
+    int tid, tyearBuilt;
+    double tweight;
+
+    dbMain.open();
+
+    QSqlQuery query(dbMain);
+
+    query.prepare("SELECT * from computerData ORDER BY weight");
+    query.exec();
+    while(query.next()){
+
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tyearBuilt = query.value("yearBuilt").toString().toUInt();
+        ttype = query.value("type").toString().toStdString();
+        tbuilt = query.value("built").toString().toUInt();
+        tweight = query.value("weight").toDouble();
+
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
+    }
+
+    dbMain.close();
+}
 
 void computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
     dbMain.open();
 
     QSqlQuery query(dbMain);
 
-    query.prepare("INSERT INTO computerData (id, name, yearBuilt, type, built) "
-                      "VALUES (:id, :name, :yearBuilt, :type, :built)");
+    query.prepare("INSERT INTO computerData (id, name, yearBuilt, type, built, weight) "
+                      "VALUES (:id, :name, :yearBuilt, :type, :built, :weight)");
     query.bindValue(":id", newComputer.getId());
     query.bindValue(":name", QString::fromStdString(newComputer.getName()));
     query.bindValue(":yearBuilt",  newComputer.getYearBuilt());
     query.bindValue(":type", QString::fromStdString(newComputer.getType()));
     query.bindValue(":built", newComputer.wasBuilt());
+    query.bindValue(":weight", newComputer.getWeight());
+
+
 
     if(query.exec()){
         cout << newComputer.getName()<< " has been added to db" << endl;
@@ -310,3 +355,4 @@ void computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
 
     dbMain.close();
 }
+

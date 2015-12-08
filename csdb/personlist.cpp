@@ -323,13 +323,13 @@ void personlist::readFileAge(string m,QSqlDatabase& dbMain){
     }
     s = pow(10,mid-1);
 
-    for(int i = 0; i < mid; i++){
+    for(unsigned int i = 0; i < mid; i++){
         low += (m[i]-48) * s;
         s /= 10;
     }
     s = pow(10, (m.size() -1) - (mid+1));
 
-    for(int i = mid+1; i < m.size(); i++){
+    for(unsigned int i = mid+1; i < m.size(); i++){
         high += (m[i]-48) * s;
         s /= 10;
     }
@@ -374,7 +374,7 @@ void personlist::overwriteFile(QSqlDatabase& dbMain){
     }
 
     cout << pList.size() << endl;
-    for(int i = 0; i < pList.size(); i++){
+    for(unsigned int i = 0; i < pList.size(); i++){
         pList[i].isDateBirthValid();
         pList[i].isDateDeathValid();
         cout << pList[i].getAge() << endl;
