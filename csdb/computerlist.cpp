@@ -27,15 +27,47 @@ void computerlist::addComputer(QSqlDatabase& dbMain, computer newComputer){
     }
     NOInList++;
 }
-void computerlist::editComputer(QSqlDatabase& dbMain, computer newComputer){
+void computerlist::editComputer(int i, computer editComputer,  QSqlDatabase& dbMain){
+    dbMain.open();
+    QSqlQuery query(dbMain);
+
+    query.prepare("Update computerData SET name = :name, yearBuilt = :yearBuilt, type = :type, built = :built WHERE id = :id");
+
+    query.bindValue(":id", i);
+    query.bindValue(":name",  QString::fromStdString(editComputer.getName()));
+    query.bindValue(":yearBuilt", editComputer.getYearBuilt());
+    query.bindValue(":type", QString::fromStdString(editComputer.getType()));
+    query.bindValue(":built", editComputer.wasBuilt());
+    if(query.exec())
+        cout << "Computer updated. " << endl;
+    else
+        cout << "Computer not found. " << endl;
 
 }
-void computerlist::deleteComputer(){
+void computerlist::deleteComputer(int index, QSqlDatabase& dbMain){
+    dbMain.open();
 
+    QSqlQuery query(dbMain);
+
+    query.prepare("DELETE FROM computerData WHERE id = :id");
+    query.bindValue(":id", index);
+    if(query.exec())
+        cout << "Computer removed. " << endl;
+    else
+        cout << "Computer not found. " << endl;
+    dbMain.close();
 }
 
 vector<computer>computerlist::getFullList(){
     return cList;
+}
+
+bool computerlist::idExists(int i){
+    for(int k = 0; k < NOInList; k++){
+        if(cList[k].getId() == i)
+            return true;
+    }
+    return false;
 }
 
 crel computerlist::getRel(int i, QSqlDatabase& dbMain){

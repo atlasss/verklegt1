@@ -64,26 +64,26 @@ void controller::readCommand(string command){
         //search
         case 0:
 
-                cin >> temp;
-                for(unsigned int i = 0; i < (sizeof(subTypeCommands)/sizeof(*subTypeCommands)); i++){
-                        if(subTypeCommands[i] == temp){
-                            subnumber = i;
-                        }
-                }
-                cin >> temp2;
-                switch(subnumber){
-                    case 0:
-                        listPerson.readFileName(temp2,dbMain);
-                        listDisplay.displayListPerson(listPerson.getFullList());
-                        break;
-                    case 1:
-                        listComp.readFileName(temp2, dbMain);
-                        listDisplay.displayListComputer(listComp.getFullList());
-                        break;
-                    default:
-                        printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
-                        break;
-                }
+            cin >> temp;
+            for(unsigned int i = 0; i < (sizeof(subTypeCommands)/sizeof(*subTypeCommands)); i++){
+                    if(subTypeCommands[i] == temp){
+                        subnumber = i;
+                    }
+            }
+            cin >> temp2;
+            switch(subnumber){
+                case 0:
+                    listPerson.readFileName(temp2,dbMain);
+                    listDisplay.displayListPerson(listPerson.getFullList());
+                    break;
+                case 1:
+                    listComp.readFileName(temp2, dbMain);
+                    listDisplay.displayListComputer(listComp.getFullList());
+                    break;
+                default:
+                    printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
+                    break;
+            }
             break;
         //add
         case 1:
@@ -250,38 +250,84 @@ void controller::readCommand(string command){
             break;
         //edit
         case 5:
-            cin >> tid;
-            if(cin.fail()) {
-                    cout << "Requested id needs to be an integer." << endl;
-                    cin.clear();
-                    cin.ignore(256,'\n');
-
-                }
-            else{
-                if(listPerson.idExists(tid)){
-                    tempPerson = listDisplay.fillFormPerson();
-                    listPerson.editPerson(tid, tempPerson, dbMain);
-                }
-                else
-                    printf("No person with id '%d'.\n",tid);
+            cin >> temp;
+            for(unsigned int i = 0; i < (sizeof(subTypeCommands)/sizeof(*subTypeCommands)); i++){
+                    if(subTypeCommands[i] == temp){
+                        subnumber = i;
+                    }
             }
-            break;
+            switch(subnumber){
+                case 0:
+                    cin >> tid;
+                    if(cin.fail()) {
+                        cout << "Requested id needs to be an integer." << endl;
+                        cin.clear();
+                        cin.ignore(256,'\n');
+
+                        }
+                    else{
+                        listPerson.readFile(dbMain);
+                        if(listPerson.idExists(tid)){
+                            tempPerson = listDisplay.fillFormPerson();
+                            listPerson.editPerson(tid, tempPerson, dbMain);
+                        }
+                    }
+                break;
+                case 1:
+                    cin >> tid;
+                    if(cin.fail()) {
+                        cout << "Requested id needs to be an integer." << endl;
+                        cin.clear();
+                        cin.ignore(256,'\n');
+
+                        }
+                    else{
+                        listComp.readFile(dbMain);
+                        if(listComp.idExists(tid)){
+                            tempComputer = listDisplay.fillFormComputer();
+                            listComp.editComputer(tid, tempComputer, dbMain);
+                        }
+                    }
+                default:
+                    printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
+                break;
+            }
+        break;
+
         //delete
-
         case 6:
-            cin >> tid;
-            if(cin.fail()) {
-                    cout << "Requested id needs to be an integer." << endl;
-                    cin.clear();
-                    cin.ignore(256,'\n');
+            cin >> temp;
+            for(unsigned int i = 0; i < (sizeof(subTypeCommands)/sizeof(*subTypeCommands)); i++){
+                    if(subTypeCommands[i] == temp){
+                        subnumber = i;
+                    }
+            }
+            switch(subnumber){
+                case 0:
+                    cin >> tid;
+                    if(cin.fail()) {
+                        cout << "Requested id needs to be an integer." << endl;
+                        cin.clear();
+                        cin.ignore(256,'\n');
 
-                }
-            else{
-                if(listPerson.idExists(tid)){
-                    listPerson.deletePerson(tid, dbMain);
-                }
-                else
-                    printf("No person with id '%d'.\n",tid);
+                        }
+                    else
+                        listPerson.deletePerson(tid, dbMain);
+
+                break;
+                case 1:
+                    cin >> tid;
+                    if(cin.fail()) {
+                        cout << "Requested id needs to be an integer." << endl;
+                        cin.clear();
+                        cin.ignore(256,'\n');
+
+                        }
+                    else
+                        listComp.deleteComputer(tid, dbMain);
+                default:
+                    printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
+                break;
             }
         break;
         //rel

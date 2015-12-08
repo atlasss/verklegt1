@@ -41,17 +41,13 @@ void personlist::deletePerson(int index, QSqlDatabase& dbMain){
 
     query.prepare("DELETE from personData WHERE id = :id");
     query.bindValue(":id", index);
-    query.exec();
+    if(query.exec())
+        cout << "Person removed. " << endl;
+    else
+        cout << "Person not found. " << endl;
+
 
     dbMain.close();
-
-    vector<person> newList;
-    for(int i = 0; i < NOInList; i++){
-        if(pList[i].getId() != index)
-            newList.push_back(pList[i]);
-    }
-    pList.swap(newList);
-    NOInList--;
 }
 
 vector<person> personlist::getFullList()const{
@@ -59,22 +55,6 @@ vector<person> personlist::getFullList()const{
 }
 
 void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
-    bool found = false;
-    if(i >= 0 && i < NOInList){
-        for(int k = 0; k < NOInList; k++){
-            if(pList[k].getId() == i){
-                pList[k].setName(editPerson.getName());
-                pList[k].setDateBirth(editPerson.getDateBirth());
-                pList[k].setDateDeath(editPerson.getDateDeath());
-                pList[k].setGender(editPerson.getGender());
-                pList[k].setKnownFor(editPerson.getKnownFor());
-                found = true;
-                break;
-            }
-
-        }
-    }
-    //dbMain.setDatabaseName(dbMain);
     dbMain.open();
     QSqlQuery query(dbMain);
 
@@ -89,6 +69,8 @@ void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
     query.bindValue(":age", editPerson.getAge());
     if(query.exec())
         cout << "Person updated. " << endl;
+    else
+        cout << "Person not found. " << endl;
 
 }
 

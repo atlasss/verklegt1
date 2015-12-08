@@ -20,10 +20,10 @@ public:
     computerlist();
     ~computerlist();
     void addComputer(QSqlDatabase& dbMain, computer newComputer);
-    void editComputer(QSqlDatabase& dbMain, computer newComputer);
-    void deleteComputer();
+    void editComputer(int i, computer editComputer, QSqlDatabase& dbMain);
+    void deleteComputer(int index, QSqlDatabase& dbMain);
     vector<computer> getFullList();
-
+    bool idExists(int i);
     crel getRel(int i, QSqlDatabase& dbMain);
 
     void readFile(QSqlDatabase& dbMain);
