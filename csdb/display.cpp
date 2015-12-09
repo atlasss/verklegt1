@@ -148,7 +148,7 @@ person display::fillFormPerson(){
     char pos;
     person newPerson;
 
-    cout << "Enter name(enter '-' to end input): "<< endl;
+    cout << "Enter name(enter '*' to end input): "<< endl;
     //goes through each character in user input
     do {
         cin.get(pos);
@@ -156,11 +156,11 @@ person display::fillFormPerson(){
             tname += ' ';
             lastspace = true;
         }
-        //'-' to end user input
-        else if(pos == '-'){
+        //'*' to end user input
+        else if(pos == '*'){
             valid = true;
         }
-        //if the character is neither '-' or ' ' it is appended to the name string
+        //if the character is neither '*' or ' ' it is appended to the name string
         else if(!isspace(pos)){
             tname += pos;
             lastspace = false;
@@ -211,14 +211,14 @@ person display::fillFormPerson(){
 
     valid = false;
 
-    cout << "Enter what the person was known for(enter '-' to end input):" << endl;
+    cout << "Enter what the person was known for(enter '*' to end input):" << endl;
     do {
         cin.get(pos);
         if (isspace(pos) && !lastspace && tknown.size() > 0){
             tknown += ' ';
             lastspace = true;
         }
-        else if(pos == '-'){
+        else if(pos == '*'){
             valid = true;
         }
         else if(!isspace(pos)){
@@ -373,18 +373,18 @@ computer display::fillFormComputer(){
     double tweight;
     computer newComputer;
     char pos;
-    cout << "Enter name(enter '-' to end input):" << endl;
+    cout << "Enter name(enter '*' to end input):" << endl;
     do{
         cin.get(pos);
         if (isspace(pos) && !lastspace && tname.size() > 0){
             tname += ' ';
             lastspace = true;
         }
-        //'-' to end user input
-        else if(pos == '-'){
+        //'*' to end user input
+        else if(pos == '*'){
             valid = true;
         }
-        //if the character is neither '-' or ' ' it is appended to the name string
+        //if the character is neither '*' or ' ' it is appended to the name string
         else if(!isspace(pos)){
             tname += pos;
             lastspace = false;

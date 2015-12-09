@@ -6,12 +6,12 @@ using namespace std;
 
 class computer{
 private:
-int id;
-string name;
-int yearBuilt;
-string type;
-bool built;
-double weight;
+    int id;
+    string name;
+    int yearBuilt;
+    string type;
+    bool built;
+    double weight;
 
 public:
     computer();
