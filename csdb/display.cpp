@@ -518,7 +518,7 @@ void display::displayRelComputer(crel c){
         setColor(WHITE);
     }
     else
-        cout << "Computer not found." <<endl;
+        cout << "Connection not found." <<endl;
 }
 void display::displayRelPerson(prel p){
     int l1 = 3, l2 = 15;
@@ -591,7 +591,7 @@ void display::displayRelPerson(prel p){
         setColor(WHITE);
     }
     else
-        cout << "Person not found." <<endl;
+        cout << "Connection not found." <<endl;
 
 
 }

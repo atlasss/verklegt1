@@ -390,8 +390,18 @@ void controller::readCommand(string command){
                                 cin.ignore(256,'\n');
 
                             }
-                        else
-                            listPerson.removeRel(tid, tid2, db.readDb());
+                        else{
+                            listPerson.readFile(db.readDb());
+                            if(listPerson.idExists(tid)){
+                                if(listComp.idExists(tid2)){
+                                    listPerson.removeRel(tid, tid2, db.readDb());
+                                }
+                                else
+                                    printf("Computer with id %d was not found.\n",tid2);
+                            }
+                            else
+                                printf("Person with id %d was not found.\n",tid);
+                        }
                         break;
                     //n
                     case 3:
@@ -402,8 +412,18 @@ void controller::readCommand(string command){
                                 cin.ignore(256,'\n');
 
                             }
-                        else
-                            listPerson.addRel(tid, tid2, db.readDb());
+                        else{
+                            listPerson.readFile(db.readDb());
+                            if(listPerson.idExists(tid)){
+                                if(listComp.idExists(tid2)){
+                                    listPerson.addRel(tid, tid2, db.readDb());
+                                }
+                                else
+                                    printf("Computer with id %d was not found.\n",tid2);
+                            }
+                            else
+                                printf("Person with id %d was not found.\n",tid);
+                        }
                         break;
                     default:
                         printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
