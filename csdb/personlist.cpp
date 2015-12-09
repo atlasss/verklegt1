@@ -78,7 +78,6 @@ bool personlist::idExists(int i){
     for(int k = 0; k < NOInList-1; k++){
         if(pList[k].getId() == i)
             return true;
-        cout << k;
     }
     return false;
 }
@@ -98,7 +97,6 @@ void personlist::addRel(int p, int c, QSqlDatabase& dbMain){
         cout <<p <<' '<<c << " has been added to db" << endl;
 
     }
-
 
     dbMain.close();
 }
@@ -134,9 +132,7 @@ prel personlist::getRel(int i, QSqlDatabase& dbMain){
             n.cId.push_back(query.value("computerId").toUInt());
         }
     }
-    else{
-        cout << "Not found" << endl;
-    }
+
     return n;
 }
 
@@ -323,7 +319,7 @@ void personlist::readFileAge(string m,QSqlDatabase& dbMain){
     }
     s = pow(10,mid-1);
 
-    for(unsigned int i = 0; i < mid; i++){
+    for(int i = 0; i < mid; i++){
         low += (m[i]-48) * s;
         s /= 10;
     }

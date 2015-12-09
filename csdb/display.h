@@ -11,8 +11,7 @@
 using namespace std;
 
 
-class display
-{
+class display{
 public:
     display();
     ~display();

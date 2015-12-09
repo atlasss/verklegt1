@@ -11,8 +11,7 @@ struct crel{
     int cId;
     vector<int> pId;
 };
-class computerlist
-{
+class computerlist{
 private:
     vector<computer> cList;
     int NOInList;

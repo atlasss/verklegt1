@@ -4,8 +4,7 @@
 
 using namespace std;
 
-class computer
-{
+class computer{
 private:
 int id;
 string name;
@@ -33,8 +32,9 @@ public:
     void setType(int t);
     void setBuilt(bool b);
     void setWeight(double w);
-
+    //used to verify if yearbuilt is valid when user fills in form to create a new computer
     bool isYearBuiltValid();
+    //used to verify if type is valid when user fills in form to create a new computer
     bool isTypeValid(int t);
 };
 

@@ -10,13 +10,11 @@
 string commands[] = {"search","add","display","quit","help","edit","delete","rel"};
 string subCommands[] = {"-e","-a","-d","-g","-w"};
 string subTypeCommands[] = {"-p","-c"};
-string relCommands[] = {"-d","-n"};
+string relCommands[] = {"-r","-n"};
 string searchCommands[] = {"-i","-m"};
-QString dbName = "csdb.sqlite";
 
 controller::controller(){
     end = false;
-    dbMain = QSqlDatabase::addDatabase("QSQLITE");
 }
 
 controller::~controller(){
@@ -39,7 +37,6 @@ bool controller::validateAgeString(string a){
 
     return midFound;
 }
-
 
 void controller::readCommand(string command){
     int cnumber = -1;
@@ -77,13 +74,13 @@ void controller::readCommand(string command){
                         case 0:
                             cin >> tid;
                             if(cin.fail()) {
-                                    cout << "Requested id needs to be an integer." << endl;
-                                    cin.clear();
-                                    cin.ignore(256,'\n');
+                                cout << "Requested id needs to be an integer." << endl;
+                                cin.clear();
+                                cin.ignore(256,'\n');
 
                                 }
                             else{
-                                listPerson.readFileId(tid,dbMain);
+                                listPerson.readFileId(tid,db.readDb());
                                 listDisplay.displayListPerson(listPerson.getFullList());
 
                             }
@@ -93,7 +90,7 @@ void controller::readCommand(string command){
                         case 1:
                             cin >> temp;
                             if(!validateAgeString(temp)){
-                                listPerson.readFileAge(temp,dbMain);
+                                listPerson.readFileAge(temp,db.readDb());
                                 listDisplay.displayListPerson(listPerson.getFullList());
                             }
                             else{
@@ -102,7 +99,7 @@ void controller::readCommand(string command){
                         break;
                         //name
                         default:
-                            listPerson.readFileName(temp2,dbMain);
+                            listPerson.readFileName(temp2,db.readDb());
                             listDisplay.displayListPerson(listPerson.getFullList());
                         break;
 
@@ -121,21 +118,21 @@ void controller::readCommand(string command){
                         case 0:
                             cin >> tid;
                             if(cin.fail()) {
-                                    cout << "Requested id needs to be an integer." << endl;
-                                    cin.clear();
-                                    cin.ignore(256,'\n');
+                                cout << "Requested id needs to be an integer." << endl;
+                                cin.clear();
+                                cin.ignore(256,'\n');
 
                                 }
                             else{
-                                    listComp.readFileId(tid, dbMain);
-                                    listDisplay.displayListComputer(listComp.getFullList());
+                                listComp.readFileId(tid, db.readDb());
+                                listDisplay.displayListComputer(listComp.getFullList());
                                 }
                         break;
                         //age
                         case 1:
                             cin >> temp;
                             if(!validateAgeString(temp)){
-                                listComp.readFileAge(temp,dbMain);
+                                listComp.readFileAge(temp,db.readDb());
                                 listDisplay.displayListComputer(listComp.getFullList());
                             }
                             else{
@@ -144,7 +141,7 @@ void controller::readCommand(string command){
                         break;
                         //name
                         default:
-                            listComp.readFileName(temp2, dbMain);
+                            listComp.readFileName(temp2, db.readDb());
                             listDisplay.displayListComputer(listComp.getFullList());
                         break;
 
@@ -166,11 +163,11 @@ void controller::readCommand(string command){
             switch(subnumber){
                 case 0:
                     tempPerson = listDisplay.fillFormPerson();
-                    listPerson.addPerson(dbMain, tempPerson);
+                    listPerson.addPerson(db.readDb(), tempPerson);
                 break;
                 case 1:
                     tempComputer = listDisplay.fillFormComputer();
-                    listComp.addComputer(dbMain, tempComputer);
+                    listComp.addComputer(db.readDb(), tempComputer);
                 break;
                 default:
                     printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
@@ -198,23 +195,23 @@ void controller::readCommand(string command){
                 switch(subnumber){
                     //full list in order of id
                     case 0:
-                        listPerson.readFile(dbMain);
+                        listPerson.readFile(db.readDb());
                         listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     //ascending
                     case 1:
-                        listPerson.readFileAlpha(dbMain);
+                        listPerson.readFileAlpha(db.readDb());
                         listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     //descending
                     case 2:
-                        listPerson.readFileAlphaDesc(dbMain);
+                        listPerson.readFileAlphaDesc(db.readDb());
                         listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     //gender
                     case 3:
                         cin >> temp;
-                        listPerson.readFileGender(temp,dbMain);
+                        listPerson.readFileGender(temp,db.readDb());
                         listDisplay.displayListPerson(listPerson.getFullList());
                         break;
                     default:
@@ -231,17 +228,17 @@ void controller::readCommand(string command){
                 switch(subnumber){
                     //full list in order of id
                     case 0:
-                        listComp.readFile(dbMain);
+                        listComp.readFile(db.readDb());
                         listDisplay.displayListComputer(listComp.getFullList());
                         break;
                     //ascending
                     case 1:
-                        listComp.readFileAlpha(dbMain);
+                        listComp.readFileAlpha(db.readDb());
                         listDisplay.displayListComputer(listComp.getFullList());
                         break;
                     //descending
                     case 2:
-                        listComp.readFileAlphaDec(dbMain);
+                        listComp.readFileAlphaDec(db.readDb());
                         listDisplay.displayListComputer(listComp.getFullList());
                         break;
                     //gender
@@ -250,7 +247,7 @@ void controller::readCommand(string command){
                         break;
                     //weight
                     case 4:
-                        listComp.readFileWeight(dbMain);
+                        listComp.readFileWeight(db.readDb());
                         listDisplay.displayListComputer(listComp.getFullList());
                         break;
                     default:
@@ -287,13 +284,12 @@ void controller::readCommand(string command){
                         cout << "Requested id needs to be an integer." << endl;
                         cin.clear();
                         cin.ignore(256,'\n');
-
                         }
                     else{
-                        listPerson.readFile(dbMain);
+                        listPerson.readFile(db.readDb());
                         if(listPerson.idExists(tid)){
                             tempPerson = listDisplay.fillFormPerson();
-                            listPerson.editPerson(tid, tempPerson, dbMain);
+                            listPerson.editPerson(tid, tempPerson, db.readDb());
                         }
                     }
                 break;
@@ -303,13 +299,12 @@ void controller::readCommand(string command){
                         cout << "Requested id needs to be an integer." << endl;
                         cin.clear();
                         cin.ignore(256,'\n');
-
                         }
                     else{
-                        listComp.readFile(dbMain);
+                        listComp.readFile(db.readDb());
                         if(listComp.idExists(tid)){
                             tempComputer = listDisplay.fillFormComputer();
-                            listComp.editComputer(tid, tempComputer, dbMain);
+                            listComp.editComputer(tid, tempComputer, db.readDb());
                         }
                         else
                             printf("Computer with id %d not found. ",tid);
@@ -336,10 +331,9 @@ void controller::readCommand(string command){
                         cout << "Requested id needs to be an integer." << endl;
                         cin.clear();
                         cin.ignore(256,'\n');
-
                         }
                     else
-                        listPerson.deletePerson(tid, dbMain);
+                        listPerson.deletePerson(tid, db.readDb());
 
                 break;
                 case 1:
@@ -348,10 +342,9 @@ void controller::readCommand(string command){
                         cout << "Requested id needs to be an integer." << endl;
                         cin.clear();
                         cin.ignore(256,'\n');
-
                         }
                     else
-                        listComp.deleteComputer(tid, dbMain);
+                        listComp.deleteComputer(tid, db.readDb());
                 break;
                 default:
                     printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
@@ -382,11 +375,11 @@ void controller::readCommand(string command){
                 switch(subnumber){
                     //p
                     case 0:
-                        listDisplay.displayRelPerson(listPerson.getRel(tid,dbMain));
+                        listDisplay.displayRelPerson(listPerson.getRel(tid,db.readDb()));
                         break;
                     //c
                     case 1:
-                        listDisplay.displayRelComputer(listComp.getRel(tid,dbMain));
+                        listDisplay.displayRelComputer(listComp.getRel(tid,db.readDb()));
                         break;
                     //d
                     case 2:
@@ -398,7 +391,7 @@ void controller::readCommand(string command){
 
                             }
                         else
-                            listPerson.removeRel(tid, tid2, dbMain);
+                            listPerson.removeRel(tid, tid2, db.readDb());
                         break;
                     //n
                     case 3:
@@ -410,7 +403,7 @@ void controller::readCommand(string command){
 
                             }
                         else
-                            listPerson.addRel(tid, tid2, dbMain);
+                            listPerson.addRel(tid, tid2, db.readDb());
                         break;
                     default:
                         printf("'%s %s' is not a valid command.\n",command.c_str(), temp.c_str());
@@ -429,13 +422,10 @@ void controller::readCommand(string command){
 void controller::read(){
     end = false;
     string c;
-    dbMain.setDatabaseName(dbName);
-    listPerson.readFile(dbMain);
-    listComp.readFile(dbMain);
+    db.open();
+    listPerson.readFile(db.readDb());
+    listComp.readFile(db.readDb());
     listDisplay.printWelcome();
-    //listPerson.overwriteFile(dbMain);
-    //listPerson.addRel(5,5,dbMain);
-
     while(!end){
         cout << "Enter a command ('help' for list of commands): ";
         cin >> c;
@@ -443,7 +433,4 @@ void controller::read(){
         readCommand(c);
     }
 
-}
-QString controller::getdbName()const{
-    return dbName;
 }

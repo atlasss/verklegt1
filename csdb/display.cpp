@@ -4,15 +4,15 @@
 #include <string>
 #include <algorithm>
 #include <fstream>
-#include "personlist.h"
 #include <sstream>
+#include <iomanip>
 #include <windows.h>
-
+#include "personlist.h"
 HANDLE hCon;
 
-enum Color { DARKBLUE = 1, DARKGREEN, DARKTEAL, DARKRED, DARKPINK, DARKYELLOW, GRAY, DARKGRAY, BLUE, GREEN, TEAL, RED, PINK, YELLOW, WHITE };
+enum color { DARKBLUE = 1, DARKGREEN, DARKTEAL, DARKRED, DARKPINK, DARKYELLOW, GRAY, DARKGRAY, BLUE, GREEN, TEAL, RED, PINK, YELLOW, WHITE };
 
-void setColor(Color c){
+void setColor(color c){
     if(hCon == NULL)
             hCon = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(hCon, c);
@@ -28,7 +28,7 @@ display::~display(){
 
 void display::printSingle(person personToPrint){
     //colors in table
-    Color c1 = RED, c2 = DARKYELLOW, c3 = YELLOW, c4 = TEAL;
+    color c1 = RED, c2 = DARKYELLOW, c3 = YELLOW, c4 = TEAL;
     //width of the columns in the table
     size_t l1 = 9, l2 = 15;
     //overwrites default value for column 2 if the length fields 'Name' or 'Known for' exceed the original size
@@ -235,7 +235,7 @@ person display::fillFormPerson(){
 
 void display::printSingleComputer(computer computerToPrint){
     //colors in table
-    Color c1 = RED, c2 = DARKYELLOW, c3 = YELLOW, c4 = TEAL;
+    color c1 = RED, c2 = DARKYELLOW, c3 = YELLOW, c4 = TEAL;
     //width of the columns in the table
     size_t l1 = 11, l2 = 15;
     //overwrites default value for column 2 if the length fields 'Name' or 'Known for' exceed the original size
@@ -244,8 +244,9 @@ void display::printSingleComputer(computer computerToPrint){
         l2 = computerToPrint.getType().size();
     if(computerToPrint.getName().size() > l2)
         l2 = computerToPrint.getName().size();
-
-    string fields[] = {"Name","Year built","Type","Built"};
+    ostringstream out;
+    string s;
+    string fields[] = {"Name", "Year built", "Type", "Built", "Weight(kg)"};
     setColor(c4);
     printf("id:%d\n", computerToPrint.getId());
     for(int i = 0; i < sizeof(fields)/sizeof(*fields); i++){
@@ -278,9 +279,9 @@ void display::printSingleComputer(computer computerToPrint){
                 }
                 cout << "|\n";
             break;
-            //gender
+            //year built
             case 1:
-                if(!computerToPrint.wasBuilt()){
+                if(computerToPrint.wasBuilt()){
                     setColor(c1);
                     cout << computerToPrint.getYearBuilt();
                     setColor(c2);
@@ -299,7 +300,7 @@ void display::printSingleComputer(computer computerToPrint){
                     cout << "|\n";
                 }
             break;
-            //born
+            //type
             case 2:
                 setColor(c1);
                 cout << computerToPrint.getType();
@@ -309,9 +310,9 @@ void display::printSingleComputer(computer computerToPrint){
                 }
                 cout << "|\n";
             break;
-            //died
+            //was built
             case 3:
-                if(!computerToPrint.wasBuilt()){
+                if(computerToPrint.wasBuilt()){
                     setColor(c1);
                     cout << "Yes";
                     setColor(c2);
@@ -330,7 +331,22 @@ void display::printSingleComputer(computer computerToPrint){
                     cout << "|\n";
                 }
             break;
+            //weight
+            case 4:
+                setColor(c1);
 
+                 std::cout.precision(4);
+                cout << computerToPrint.getWeight();
+                setColor(c2);
+                out << setprecision(4) << computerToPrint.getWeight();
+
+                s = out.str();
+
+                for(auto k = s.size(); k < l2; k++){
+                    cout << ' ';
+                }
+                cout << "|\n";
+            break;
             default:
                 cout << "Error. " << endl;
             break;
@@ -354,7 +370,7 @@ computer display::fillFormComputer(){
     bool valid = false, lastspace = false;
     string tname;
     int tyearBuilt, ttype;
-
+    double tweight;
     computer newComputer;
     char pos;
     cout << "Enter name(enter '-' to end input):" << endl;
@@ -394,7 +410,7 @@ computer display::fillFormComputer(){
         }
     }while(!valid);
     valid = false;
-    cout << "Enter type 1)'transistor', 2)'electromechanical', 3)'electronic', 4)'electric':" << endl;
+    cout << "Enter type 1)'transistor', 2)'electromechanical', 3)'electronic', 4)'mechanical':" << endl;
     do{
         cin >> ttype;
         if(cin.fail()) {
@@ -404,39 +420,180 @@ computer display::fillFormComputer(){
 
             }
         else{
-            newComputer.setYearBuilt(tyearBuilt);
             valid = newComputer.isTypeValid(ttype-1);
             if(!valid)
                 cout << "The type you have entered is not valid. " << endl;
         }
 
     }while(!valid);
-    newComputer.setType(ttype);
+    newComputer.setType(ttype-1);
+
+    valid = false;
+    cout << "Enter weight (in kg):" << endl;
+    do{
+        cin >> tweight;
+        if(cin.fail()) {
+                cout << "Weight needs to be a number." << endl;
+                cin.clear();
+                cin.ignore(256,'\n');
+
+            }
+       else{
+            newComputer.setWeight(tweight);
+            valid = true;
+        }
+    }while(!valid);
 
     return newComputer;
 }
 
 void display::displayRelComputer(crel c){
+    int l1 = 3, l2 = 15;
+    color c1 = YELLOW, c2 = DARKYELLOW, c3 = RED, c4 = TEAL;
     if(!c.cName.empty()){
-        cout << "# |" << c.cName << endl;
-        cout << "--+--------------------" << endl;
-        for(unsigned int i = 0; i < c.pName.size(); i++)
-            cout << c.pId[i] << c.pName[i] <<endl;
+        for(unsigned int i = 0; i < c.pName.size(); i++){
+            if(c.pName[i].size() > l2)
+                l2 = c.pName[i].size();
+        }
+
+        setColor(c1);
+        printf("Persons connected to %s\n",c.cName.c_str());
+        setColor(c2);
+        cout << '+';
+        for(int i = 0; i < l1; i++){
+            cout << '-';
+        }
+        cout << '+';
+        for(int i = 0; i < l2; i++){
+            cout << '-';
+        }
+        cout << "+\n|";
+        setColor(c1);
+        cout <<  "id";
+        setColor(c2);
+        for(size_t x = 1; x < l1-1; x++)
+                cout << ' ';
+        cout << "|";
+        setColor(c1);
+        cout << "name";
+        setColor(c2);
+        for(size_t x = 4; x < l2; x++)
+                cout << ' ';
+        cout << "|\n";
+
+        cout << '+';
+        for(int i = 0; i < l1; i++){
+            cout << '-';
+        }
+        cout << '+';
+        for(int i = 0; i < l2; i++){
+            cout << '-';
+        }
+        cout << "+\n";
+        for(unsigned int i = 0; i < c.pName.size(); i++){
+            cout <<'|';
+            setColor(c4);
+            cout << c.pId[i];
+            for(size_t x = to_string(c.pId[i]).size(); x < l1; x++)
+                    cout << ' ';
+            setColor(c2);
+            cout << '|';
+            setColor(c3);
+            cout << c.pName[i];
+            setColor(c2);
+            for(size_t x = c.pName[i].size(); x < l2; x++)
+                    cout << ' ';
+            cout << "|\n";
+
+            cout << '+';
+            for(int i = 0; i < l1; i++){
+                cout << '-';
+            }
+            cout << '+';
+            for(int i = 0; i < l2; i++){
+                cout << '-';
+            }
+            cout << "+\n";
+        }
+        setColor(WHITE);
     }
     else
         cout << "Computer not found." <<endl;
 }
 void display::displayRelPerson(prel p){
-    int s = 0;
+    int l1 = 3, l2 = 15;
+    color c1 = YELLOW, c2 = DARKYELLOW, c3 = RED, c4 = TEAL;
     if(!p.pName.empty()){
-        cout << " # |" << p.pName << endl;
-        cout << "---+--------------------" << endl;
-        for(unsigned int i = 0; i < p.cName.size(); i++)
+        for(unsigned int i = 0; i < p.cName.size(); i++){
+            if(p.cName[i].size() > l2)
+                l2 = p.cName[i].size();
+        }
 
-            cout << p.cId[i] << p.cName[i] <<endl;
+        setColor(c1);
+        printf("Computers connected to %s\n",p.pName.c_str());
+        setColor(c2);
+        cout << '+';
+        for(int i = 0; i < l1; i++){
+            cout << '-';
+        }
+        cout << '+';
+        for(int i = 0; i < l2; i++){
+            cout << '-';
+        }
+        cout << "+\n|";
+        setColor(c1);
+        cout <<  "id";
+        setColor(c2);
+        for(size_t x = 1; x < l1-1; x++)
+                cout << ' ';
+        cout << "|";
+        setColor(c1);
+        cout << "name";
+        setColor(c2);
+        for(size_t x = 4; x < l2; x++)
+                cout << ' ';
+        cout << "|\n";
+
+        cout << '+';
+        for(int i = 0; i < l1; i++){
+            cout << '-';
+        }
+        cout << '+';
+        for(int i = 0; i < l2; i++){
+            cout << '-';
+        }
+        cout << "+\n";
+        for(unsigned int i = 0; i < p.cName.size(); i++){
+            cout <<'|';
+            setColor(c4);
+            cout << p.cId[i];
+            for(size_t x = to_string(p.cId[i]).size(); x < l1; x++)
+                    cout << ' ';
+            setColor(c2);
+            cout << '|';
+            setColor(c3);
+            cout << p.cName[i];
+            setColor(c2);
+            for(size_t x = p.cName[i].size(); x < l2; x++)
+                    cout << ' ';
+            cout << "|\n";
+
+            cout << '+';
+            for(int i = 0; i < l1; i++){
+                cout << '-';
+            }
+            cout << '+';
+            for(int i = 0; i < l2; i++){
+                cout << '-';
+            }
+            cout << "+\n";
+        }
+        setColor(WHITE);
     }
     else
         cout << "Person not found." <<endl;
+
+
 }
 
 void display::displayListPerson(vector<person> pList){
@@ -450,27 +607,6 @@ void display::displayListComputer(vector<computer> cList){
           printSingleComputer(cList[i]);
     }
 }
-/*
-void display::displayListAlpha(vector<person> pList){
-    vector<string> names;
-    vector<string> oNames;
-
-    for(int i = 0; i < pList.size(); i++){
-        names.push_back(pList[i].getName());
-        oNames.push_back(pList[i].getName());
-    }
-
-    sort(names.begin(), names.end());
-
-    for(int i = 0; i < pList.size(); i++){
-        auto it=find(oNames.begin(), oNames.end(),names[i]);
-        auto pos = distance(oNames.begin(), it);
-        printSingle(pList[pos]);
-    }
-}
-
-*/
-
 
 void display::printWelcome(){
     setColor(RED);
@@ -563,9 +699,11 @@ void display::printHelp(){
     cout << "|         |-c...-a.....|'Display -p -a' or 'Display -c -a'                    |" << endl;
     cout << "|         |            |(print list, ascending order, alphabetically)         |" << endl;
     cout << "|         |.....-d.....|'Display -p -d' or 'Display -c -d'                    |" << endl;
-    cout << "|         |            |(print list descending order, aplhabetically)         |" << endl;
+    cout << "|         |            |(print list, descending order, aplhabetically)        |" << endl;
     cout << "|         |.....-g.....|'Display -p -g male'                                  |" << endl;
-    cout << "|________ |____________|(print list, either male only or female only)         |" << endl;
+    cout << "|         |            |(print list, either male only or female only)         |" << endl;
+    cout << "|         |.....-w.....|'Display -c -w'                                       |" << endl;
+    cout << "|________ |____________|(print list order by weight, in ascending order)      |" << endl;
     cout << "|*Add     |            |                                                      |" << endl;
     cout << "|         |-p..........|'Add -p'                                              |" << endl;
     cout << "|         |            |(add a new person to database)                        |" << endl;
@@ -586,7 +724,7 @@ void display::printHelp(){
     cout << "|         |            |(show computers connected to person)                  |" << endl;
     cout << "|         |-c..........|'Rel -c 5'                                            |" << endl;
     cout << "|         |            |(show person connected to computer)                   |" << endl;
-    cout << "|         |-d..........|'Rel -d 10 5'                                         |" << endl;
+    cout << "|         |-r..........|'Rel -r 10 5'                                         |" << endl;
     cout << "|         |            |(remove connection between person & computer)         |" << endl;
     cout << "|         |-n..........|'Rel -n 10 5'                                         |" << endl;
     cout << "|_________|____________|(add new connection between person & computer)        |" << endl;

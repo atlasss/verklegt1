@@ -6,6 +6,7 @@ computer::computer(){
     yearBuilt = -1;
     type = "missing";
     built = false;
+    weight = -1;
 }
 
 computer::computer(string lname, int lyearBuilt, string ltype, bool lbuilt, double lweight){

@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     display.cpp \
     controller.cpp \
     computer.cpp \
-    computerlist.cpp
+    computerlist.cpp \
+    dataaccess.cpp
 
 HEADERS += \
     person.h \
@@ -24,6 +25,7 @@ HEADERS += \
     controller.h \
     computer.h \
     computerlist.h \
-    person.h
+    person.h \
+    dataaccess.h
 
 DISTFILES +=
