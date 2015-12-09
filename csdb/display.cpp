@@ -703,7 +703,7 @@ void display::printHelp(){
     cout << "|         |.....-g.....|'Display -p -g male'                                  |" << endl;
     cout << "|         |            |(print list, either male only or female only)         |" << endl;
     cout << "|         |.....-w.....|'Display -c -w'                                       |" << endl;
-    cout << "|________ |____________|(print list order by weight, in ascending order)      |" << endl;
+    cout << "|_________|____________|(print list order by weight, in ascending order)      |" << endl;
     cout << "|*Add     |            |                                                      |" << endl;
     cout << "|         |-p..........|'Add -p'                                              |" << endl;
     cout << "|         |            |(add a new person to database)                        |" << endl;
