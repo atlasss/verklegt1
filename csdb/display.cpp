@@ -448,7 +448,7 @@ computer display::fillFormComputer(){
 }
 
 void display::displayRelComputer(crel c){
-    int l1 = 3, l2 = 15;
+    size_t l1 = 3, l2 = 15;
     color c1 = YELLOW, c2 = DARKYELLOW, c3 = RED, c4 = TEAL;
     if(!c.cName.empty()){
         for(unsigned int i = 0; i < c.pName.size(); i++){
@@ -521,7 +521,7 @@ void display::displayRelComputer(crel c){
         cout << "Connection not found." <<endl;
 }
 void display::displayRelPerson(prel p){
-    int l1 = 3, l2 = 15;
+    size_t l1 = 3, l2 = 15;
     color c1 = YELLOW, c2 = DARKYELLOW, c3 = RED, c4 = TEAL;
     if(!p.pName.empty()){
         for(unsigned int i = 0; i < p.cName.size(); i++){

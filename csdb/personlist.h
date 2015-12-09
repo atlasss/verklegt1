@@ -24,7 +24,7 @@ private:
 public:
     personlist();
     ~personlist();
-    //adds a new person to pList
+    //adds a new person
     void addPerson(QSqlDatabase& dbMain, person newPerson);
     //edits a person already in the list
     void editPerson(int i, person editPerson, QSqlDatabase& dbMain);
@@ -36,6 +36,7 @@ public:
     void addRel(int p, int c, QSqlDatabase& dbMain);
     //remove connection between a person and computer
     void removeRel(int p, int c, QSqlDatabase& dbMain);
+    //get computers connected to person that matches the id
     prel getRel(int i, QSqlDatabase& dbMain);
     //returns the number of persons in the list
     int getListSize()const;
