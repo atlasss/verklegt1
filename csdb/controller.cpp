@@ -291,6 +291,8 @@ void controller::readCommand(string command){
                             tempPerson = listDisplay.fillFormPerson();
                             listPerson.editPerson(tid, tempPerson, db.readDb());
                         }
+                        else
+                            printf("Person with id %d not found. \n",tid);
                     }
                 break;
                 case 1:
@@ -307,7 +309,7 @@ void controller::readCommand(string command){
                             listComp.editComputer(tid, tempComputer, db.readDb());
                         }
                         else
-                            printf("Computer with id %d not found. ",tid);
+                            printf("Computer with id %d not found. \n",tid);
                     }
                 break;
                 default:

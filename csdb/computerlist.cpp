@@ -39,11 +39,7 @@ void computerlist::editComputer(int i, computer editComputer,  QSqlDatabase& dbM
     query.bindValue(":type", QString::fromStdString(editComputer.getType()));
     query.bindValue(":built", editComputer.wasBuilt());
     query.bindValue(":weight", editComputer.getWeight());
-    if(query.exec())
-        cout << "Computer updated. " << endl;
-    else
-        cout << "Computer not found. " << endl;
-
+    query.exec();
 }
 void computerlist::deleteComputer(int index, QSqlDatabase& dbMain){
     dbMain.open();
@@ -52,11 +48,7 @@ void computerlist::deleteComputer(int index, QSqlDatabase& dbMain){
 
     query.prepare("DELETE FROM computerData WHERE id = :id");
     query.bindValue(":id", index);
-    if(query.exec())
-        cout << "Computer removed. " << endl;
-    else
-        cout << "Computer not found. " << endl;
-    dbMain.close();
+    query.exec();
 }
 
 vector<computer>computerlist::getFullList(){
@@ -105,7 +97,6 @@ void computerlist::readFile(QSqlDatabase& dbMain){
     query.exec("SELECT * from computerData");
 
     while(query.next()){
-
         tid = query.value("id").toUInt();
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
@@ -135,7 +126,6 @@ void computerlist::readFileAlpha(QSqlDatabase& dbMain){
     query.exec("SELECT * from computerData ORDER BY name");
 
     while(query.next()){
-
         tid = query.value("id").toUInt();
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
@@ -164,7 +154,6 @@ void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
     query.exec("SELECT * from computerData ORDER BY name DESC");
 
     while(query.next()){
-
         tid = query.value("id").toUInt();
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
@@ -249,7 +238,6 @@ void computerlist::readFileName(string n, QSqlDatabase& dbMain){
     query.bindValue(":name",QString::fromStdString(n));
     query.exec();
     while(query.next()){
-
         tid = query.value("id").toUInt();
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
@@ -289,9 +277,6 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
 
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
-    else{
-        cout << "No computer with this id found. " << endl;
-    }
 
     dbMain.close();
 }
@@ -312,7 +297,6 @@ void computerlist::readFileWeight(QSqlDatabase& dbMain){
     query.prepare("SELECT * from computerData ORDER BY weight");
     query.exec();
     while(query.next()){
-
         tid = query.value("id").toUInt();
         tname = query.value("name").toString().toStdString();
         tyearBuilt = query.value("yearBuilt").toString().toUInt();
@@ -339,17 +323,7 @@ void computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
     query.bindValue(":type", QString::fromStdString(newComputer.getType()));
     query.bindValue(":built", newComputer.wasBuilt());
     query.bindValue(":weight", newComputer.getWeight());
-
-
-
-    if(query.exec()){
-        cout << newComputer.getName()<< " has been added to db" << endl;
-
-    }
-    else{
-        cout << "error" << endl;
-    }
-
+    query.exec();
     dbMain.close();
 }
 
