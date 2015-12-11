@@ -20,6 +20,9 @@ public:
     ~MainWindow();
 
 private slots:
+    void on_search_person_textChanged(const QString &arg1);
+    void on_table_person_itemSelectionChanged();
+    void on_add_person_clicked();
 
 private:
     Ui::MainWindow *ui;

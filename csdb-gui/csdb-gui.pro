@@ -21,13 +21,16 @@ SOURCES += main.cpp\
     personlist.cpp \
     computer.cpp \
     dataaccess.cpp \
-    person.cpp
+    person.cpp \
+    addperson.cpp
 
 HEADERS  += mainwindow.h \
     computer.h \
     personlist.h \
     computerlist.h \
     dataaccess.h \
-    person.h
+    person.h \
+    addperson.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    addperson.ui

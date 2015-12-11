@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>882</width>
-    <height>455</height>
+    <height>491</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QTabWidget" name="tab_view_chocie">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>0</y>
-      <width>841</width>
-      <height>401</height>
+      <x>0</x>
+      <y>10</y>
+      <width>831</width>
+      <height>411</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -34,9 +34,9 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>170</y>
-        <width>291</width>
-        <height>191</height>
+        <y>150</y>
+        <width>301</width>
+        <height>231</height>
        </rect>
       </property>
       <property name="currentIndex">
@@ -46,11 +46,163 @@
        <attribute name="title">
         <string>Profile</string>
        </attribute>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="geometry">
+         <rect>
+          <x>90</x>
+          <y>0</y>
+          <width>201</width>
+          <height>181</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Information</string>
+        </property>
+        <widget class="QTextEdit" name="person_known_for">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>120</y>
+           <width>161</width>
+           <height>51</height>
+          </rect>
+         </property>
+         <property name="inputMethodHints">
+          <set>Qt::ImhHiddenText|Qt::ImhMultiLine</set>
+         </property>
+         <property name="textInteractionFlags">
+          <set>Qt::NoTextInteraction</set>
+         </property>
+        </widget>
+        <widget class="QWidget" name="formLayoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>181</width>
+           <height>100</height>
+          </rect>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Age</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="person_name">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="person_age">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Date birth</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="person_birth">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Date death</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLineEdit" name="person_death">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="gridLayoutWidget">
+        <property name="geometry">
+         <rect>
+          <x>110</x>
+          <y>180</y>
+          <width>161</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
+          <widget class="QPushButton" name="button_delete">
+           <property name="text">
+            <string>Delete</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="button_edit">
+           <property name="text">
+            <string>Edit</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
       <widget class="QWidget" name="person_connections">
        <attribute name="title">
         <string>Connections</string>
        </attribute>
+       <widget class="QTableWidget" name="table_person_connections">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>256</width>
+          <height>151</height>
+         </rect>
+        </property>
+        <column>
+         <property name="text">
+          <string>Id</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </column>
+       </widget>
       </widget>
      </widget>
      <widget class="QTableWidget" name="table_person">
@@ -59,11 +211,14 @@
         <x>370</x>
         <y>10</y>
         <width>449</width>
-        <height>349</height>
+        <height>371</height>
        </rect>
       </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
       </property>
       <column>
        <property name="text">
@@ -77,12 +232,12 @@
       </column>
       <column>
        <property name="text">
-        <string>Date Birth</string>
+        <string>Date birth</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>Date Death</string>
+        <string>Date death</string>
        </property>
       </column>
      </widget>
@@ -99,6 +254,32 @@
        <string>Search for person...</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="add_person">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>90</y>
+        <width>75</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
+      </property>
+      <property name="autoDefault">
+       <bool>false</bool>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <zorder>person_details</zorder>
+     <zorder>search_person</zorder>
+     <zorder>table_person</zorder>
+     <zorder>add_person</zorder>
     </widget>
     <widget class="QWidget" name="tab_computer">
      <attribute name="title">

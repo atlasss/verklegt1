@@ -86,7 +86,6 @@ void personlist::addRel(int p, int c, QSqlDatabase& dbMain){
     query.bindValue(":cid", c);
     query.bindValue(":pid", p);
     query.exec();
-
 }
 
 void personlist::removeRel(int p, int c, QSqlDatabase& dbMain){
@@ -96,8 +95,6 @@ void personlist::removeRel(int p, int c, QSqlDatabase& dbMain){
     query.bindValue(":cid", c);
     query.bindValue(":pid", p);
     query.exec();
-
-
 }
 
 prel personlist::getRel(int i, QSqlDatabase& dbMain){
