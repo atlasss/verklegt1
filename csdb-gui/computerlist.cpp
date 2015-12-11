@@ -28,7 +28,7 @@ void computerlist::addComputer(QSqlDatabase& dbMain, computer newComputer){
     NOInList++;
 }
 void computerlist::editComputer(int i, computer editComputer,  QSqlDatabase& dbMain){
-    dbMain.open();
+
     QSqlQuery query(dbMain);
 
     query.prepare("Update computerData SET name = :name, yearBuilt = :yearBuilt, type = :type, built = :built, weight = :weight WHERE id = :id");
@@ -42,7 +42,7 @@ void computerlist::editComputer(int i, computer editComputer,  QSqlDatabase& dbM
     query.exec();
 }
 void computerlist::deleteComputer(int index, QSqlDatabase& dbMain){
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -64,7 +64,7 @@ bool computerlist::idExists(int i){
 }
 
 crel computerlist::getRel(int i, QSqlDatabase& dbMain){
-    dbMain.open();
+
     crel n;
     QSqlQuery query(dbMain);
     query.prepare("SELECT p.name AS personName, p.id AS personId, c.name AS computerName, c.id AS computerId FROM personToComputer ptc JOIN computerData c ON c.id = :id JOIN personData p ON p.id = ptc.personId AND ptc.computerId = :id");
@@ -90,7 +90,7 @@ void computerlist::readFile(QSqlDatabase& dbMain){
     int tid, tyearBuilt;
     double tweight;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -107,7 +107,7 @@ void computerlist::readFile(QSqlDatabase& dbMain){
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
-    dbMain.close();
+
 }
 
 void computerlist::readFileAlpha(QSqlDatabase& dbMain){
@@ -119,7 +119,7 @@ void computerlist::readFileAlpha(QSqlDatabase& dbMain){
     int tid, tyearBuilt;
     double tweight;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -136,7 +136,7 @@ void computerlist::readFileAlpha(QSqlDatabase& dbMain){
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
-    dbMain.close();
+
 }
 void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
     cList.clear();
@@ -147,7 +147,7 @@ void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
     int tid, tyearBuilt;
     double tweight;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -164,7 +164,7 @@ void computerlist::readFileAlphaDec(QSqlDatabase& dbMain){
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
-    dbMain.close();
+
 }
 
 void computerlist::readFileAge(string m, QSqlDatabase& dbMain){
@@ -198,7 +198,7 @@ void computerlist::readFileAge(string m, QSqlDatabase& dbMain){
     int tid, tyearBuilt;
     double tweight;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -216,7 +216,7 @@ void computerlist::readFileAge(string m, QSqlDatabase& dbMain){
 
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
-    dbMain.close();
+
 
 }
 
@@ -230,7 +230,7 @@ void computerlist::readFileName(string n, QSqlDatabase& dbMain){
     int tid, tyearBuilt;
     double tweight;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -248,7 +248,7 @@ void computerlist::readFileName(string n, QSqlDatabase& dbMain){
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
-    dbMain.close();
+
 }
 
 void computerlist::readFileId(int i, QSqlDatabase& dbMain){
@@ -260,7 +260,7 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
     int tid, tyearBuilt;
     double tweight;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -278,7 +278,7 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
-    dbMain.close();
+
 }
 
 void computerlist::readFileWeight(QSqlDatabase& dbMain){
@@ -290,7 +290,7 @@ void computerlist::readFileWeight(QSqlDatabase& dbMain){
     int tid, tyearBuilt;
     double tweight;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -307,11 +307,11 @@ void computerlist::readFileWeight(QSqlDatabase& dbMain){
         addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
     }
 
-    dbMain.close();
+
 }
 
 void computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -324,6 +324,6 @@ void computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
     query.bindValue(":built", newComputer.wasBuilt());
     query.bindValue(":weight", newComputer.getWeight());
     query.exec();
-    dbMain.close();
+
 }
 

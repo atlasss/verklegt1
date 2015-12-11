@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
-    <height>465</height>
+    <width>882</width>
+    <height>455</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>10</y>
-      <width>651</width>
+      <y>0</y>
+      <width>841</width>
       <height>401</height>
      </rect>
     </property>
@@ -30,70 +30,17 @@
      <attribute name="title">
       <string>Person</string>
      </attribute>
-     <widget class="QWidget" name="horizontalLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>340</x>
-        <y>10</y>
-        <width>291</width>
-        <height>351</height>
-       </rect>
-      </property>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QTableWidget" name="table_person">
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <column>
-          <property name="text">
-           <string>Id</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Name</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Age</string>
-          </property>
-         </column>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QPlainTextEdit" name="search_person">
-      <property name="geometry">
-       <rect>
-        <x>10</x>
-        <y>20</y>
-        <width>171</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="placeholderText">
-       <string>Search for person name...</string>
-      </property>
-     </widget>
      <widget class="QTabWidget" name="person_details">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>180</y>
+        <y>170</y>
         <width>291</width>
         <height>191</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="person_profile">
        <attribute name="title">
@@ -105,6 +52,52 @@
         <string>Connections</string>
        </attribute>
       </widget>
+     </widget>
+     <widget class="QTableWidget" name="table_person">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>10</y>
+        <width>449</width>
+        <height>349</height>
+       </rect>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <column>
+       <property name="text">
+        <string>Id</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Date Birth</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Date Death</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QLineEdit" name="search_person">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>171</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Search for person...</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_computer">
@@ -119,7 +112,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>699</width>
+     <width>882</width>
      <height>21</height>
     </rect>
    </property>

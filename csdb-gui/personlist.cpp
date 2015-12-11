@@ -35,14 +35,14 @@ void personlist::addPerson(QSqlDatabase& dbMain, person newPerson){
 }
 
 void personlist::deletePerson(int index, QSqlDatabase& dbMain){
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
     query.prepare("DELETE from personData WHERE id = :id");
     query.bindValue(":id", index);
     query.exec();
-    dbMain.close();
+
 }
 
 vector<person> personlist::getFullList()const{
@@ -50,7 +50,7 @@ vector<person> personlist::getFullList()const{
 }
 
 void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
-    dbMain.open();
+
     QSqlQuery query(dbMain);
 
     query.prepare("Update personData SET name = :name, gender = :gender, dateBirth = :dateBirth, dateDeath = :dateDeath, knownFor = :knownFor, age = :age WHERE id = :id");
@@ -79,29 +79,29 @@ bool personlist::idExists(int i){
 
 
 void personlist::addRel(int p, int c, QSqlDatabase& dbMain){
-    dbMain.open();
+
     QSqlQuery query(dbMain);
     query.prepare("INSERT INTO personToComputer (computerId, personId) "
                       "VALUES (:cid, :pid)");
     query.bindValue(":cid", c);
     query.bindValue(":pid", p);
     query.exec();
-    dbMain.close();
+
 }
 
 void personlist::removeRel(int p, int c, QSqlDatabase& dbMain){
-    dbMain.open();
+
     QSqlQuery query(dbMain);
     query.prepare("DELETE from personToComputer WHERE personId = :pid AND computerId = :cid");
     query.bindValue(":cid", c);
     query.bindValue(":pid", p);
     query.exec();
-    dbMain.close();
+
 
 }
 
 prel personlist::getRel(int i, QSqlDatabase& dbMain){
-    dbMain.open();
+
     prel n;
     QSqlQuery query(dbMain);
     query.prepare("SELECT p.name AS personName, p.id AS personId, c.name AS computerName, c.id AS computerId FROM personToComputer ptc JOIN personData p ON p.id = :id JOIN computerData c ON c.id = ptc.computerId AND ptc.personId = :id");
@@ -126,7 +126,7 @@ void personlist::readFile(QSqlDatabase& dbMain){
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -142,7 +142,7 @@ void personlist::readFile(QSqlDatabase& dbMain){
         tage = query.value("age").toUInt();
         addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
     }
-    dbMain.close();
+
 }
 
 void personlist::readFileAlpha(QSqlDatabase& dbMain){
@@ -152,7 +152,7 @@ void personlist::readFileAlpha(QSqlDatabase& dbMain){
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -168,7 +168,7 @@ void personlist::readFileAlpha(QSqlDatabase& dbMain){
         tage = query.value("age").toUInt();
         addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
     }
-    dbMain.close();
+
 }
 void personlist::readFileAlphaDesc(QSqlDatabase& dbMain){
     pList.clear();
@@ -177,7 +177,7 @@ void personlist::readFileAlphaDesc(QSqlDatabase& dbMain){
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -193,7 +193,7 @@ void personlist::readFileAlphaDesc(QSqlDatabase& dbMain){
         tage = query.value("age").toUInt();
         addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
     }
-    dbMain.close();
+
 }
 
 void personlist::readFileId(int i,QSqlDatabase& dbMain){
@@ -203,7 +203,7 @@ void personlist::readFileId(int i,QSqlDatabase& dbMain){
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -220,7 +220,7 @@ void personlist::readFileId(int i,QSqlDatabase& dbMain){
         tage = query.value("age").toUInt();
         addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
     }
-    dbMain.close();
+
 }
 
 void personlist::readFileName(string n,QSqlDatabase& dbMain){
@@ -230,7 +230,7 @@ void personlist::readFileName(string n,QSqlDatabase& dbMain){
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -247,7 +247,7 @@ void personlist::readFileName(string n,QSqlDatabase& dbMain){
         tage = query.value("age").toUInt();
         addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
     }
-    dbMain.close();
+
 }
 
 void personlist::readFileGender(string g, QSqlDatabase& dbMain){
@@ -266,7 +266,7 @@ void personlist::readFileGender(string g, QSqlDatabase& dbMain){
         string tname, tgender, tbirth, tdeath, tknown;
         int tid, tage;
 
-        dbMain.open();
+
 
         QSqlQuery query(dbMain);
 
@@ -283,7 +283,7 @@ void personlist::readFileGender(string g, QSqlDatabase& dbMain){
             tage = query.value("age").toUInt();
             addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
         }
-        dbMain.close();
+
     }
 }
 void personlist::readFileAge(string m,QSqlDatabase& dbMain){
@@ -317,7 +317,7 @@ void personlist::readFileAge(string m,QSqlDatabase& dbMain){
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
 
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -335,13 +335,13 @@ void personlist::readFileAge(string m,QSqlDatabase& dbMain){
         tage = query.value("age").toUInt();
         addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
     }
-    dbMain.close();
+
 
 }
 
 
 void personlist::overwriteFile(QSqlDatabase& dbMain){
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -363,12 +363,12 @@ void personlist::overwriteFile(QSqlDatabase& dbMain){
 
     }
 
-    dbMain.close();
+
 
 }
 
 void personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
-    dbMain.open();
+
 
     QSqlQuery query(dbMain);
 
@@ -385,5 +385,5 @@ void personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
 
 
 
-    dbMain.close();
+
 }
