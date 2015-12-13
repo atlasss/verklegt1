@@ -4,6 +4,7 @@
 #include <fstream>
 #include <algorithm>
 #include <cctype>
+#include <cwctype>
 
 using namespace std;
 
@@ -18,12 +19,13 @@ person::person(){
     age = -1;
 }
 
-person::person(string lname, string lgender, string lbirth, string ldeath, string lknown){
+person::person(string lname, string lgender, string lbirth, string ldeath, string lknown, int lage){
     name = lname;
     dateBirth = lbirth;
     dateDeath = ldeath;
     gender = lgender;
     knownFor = lknown;
+    age = lage;
     id = -1;
 }
 
@@ -100,13 +102,22 @@ void person::setKnownFor(string lknown){
     knownFor = lknown;
 }
 
+inline bool caseInsCharCompareN(char a, char b){
+    return(toupper(a) == toupper(b));
+}
+
 bool person::isGenderValid(){
-    string temp = gender;
-    if(temp == "Male" || temp == "Female"){
+    string m = "Male", f = "Female";
+    if((gender.size() == m.size()) && equal(gender.begin(), gender.end(), m.begin(), caseInsCharCompareN)){
+        gender = m;
         return true;
     }
-    else
-        return false;
+    if((gender.size() == m.size()) && equal(gender.begin(), gender.end(), m.begin(), caseInsCharCompareN)){
+        gender = f;
+        return true;
+    }
+
+    return false;
 }
 
 

@@ -18,7 +18,7 @@ private:
 public:
     person();
     ~person();
-    person(string lname, string lgender, string lbirth, string ldeath, string lknown);
+    person(string lname, string lgender, string lbirth, string ldeath, string lknown, int age);
     person(int lid, string lname, string lgender, string lbirth, string ldeath, string lknown, int lage);
     std::string getName()const;
     string getDateBirth()const;

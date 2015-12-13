@@ -22,7 +22,11 @@ public:
 private slots:
     void on_search_person_textChanged(const QString &arg1);
     void on_table_person_itemSelectionChanged();
-    void on_add_person_clicked();
+    void on_add_person_confirm_clicked();
+
+    void on_button_delete_person_clicked();
+
+    void on_button_edit_person_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -30,9 +34,10 @@ private:
     computerlist listComputer;
     personlist listPerson;
 
+    bool personEdited;
+    bool personDeleted;
     void displayAllPersons();
     void displayPersons(vector<person> persons);
-
     vector<person> displayedPersons;
 
 };
