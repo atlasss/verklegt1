@@ -53,7 +53,7 @@ void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.prepare("Update personData SET name = :name, gender = :gender, dateBirth = :dateBirth, dateDeath = :dateDeath, knownFor = :knownFor, age = :age WHERE id = :id");
+    query.prepare("Update personData SET name = :name, gender = :gender, dateBirth = :dateBirth, dateDeath = :dateDeath, knownFor = :knownFor, age = :age, bVal = :bVal WHERE id = :id");
 
     query.bindValue(":id", i);
     query.bindValue(":name",  QString::fromStdString(editPerson.getName()));
@@ -62,6 +62,7 @@ void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
     query.bindValue(":dateDeath", QString::fromStdString(editPerson.getDateDeath()));
     query.bindValue(":knownFor", QString::fromStdString(editPerson.getKnownFor()));
     query.bindValue(":age", editPerson.getAge());
+    query.bindValue(":bVal", editPerson.getBVal());
     query.exec();
 }
 
@@ -116,7 +117,114 @@ prel personlist::getRel(int i, QSqlDatabase& dbMain){
 }
 
 
-void personlist::readFile(QSqlDatabase& dbMain){
+void personlist::readFile(string n, string g, string a, QSqlDatabase& dbMain, bool asc){
+    int mid = 0;
+    double low = 0, high = 0, s = 0;
+
+    if(!a.empty()){
+        for(unsigned int i = 0; i < a.size(); i++){
+            if(a[i] == '-'){
+                mid =  i;
+                break;
+                }
+        }
+        s = pow(10,mid-1);
+
+        for(int i = 0; i < mid; i++){
+            low += (a[i]-48) * s;
+            s /= 10;
+        }
+        s = pow(10, (a.size() -1) - (mid+1));
+
+        for(unsigned int i = mid+1; i < a.size(); i++){
+            high += (a[i]-48) * s;
+            s /= 10;
+        }
+        low *= 365.25;
+        high*= 365.25;
+    }
+    else{
+        low = 0;
+        high= 2000 * 365.25;
+    }
+
+    pList.clear();
+    NOInList = 0;
+    //temporary variables
+    string tname, tgender, tbirth, tdeath, tknown;
+    int tid, tage;
+
+    QSqlQuery query(dbMain);
+    if(asc){
+        query.prepare("SELECT * from personData "
+                      "where name LIKE '%'||:name||'%' "
+                      "AND gender LIKE :gender||'%'"
+                      "AND (age < :high AND age > :low)"
+                      "ORDER BY id");
+        query.bindValue(":name",QString::fromStdString(n));
+        query.bindValue(":gender",QString::fromStdString(g));
+        query.bindValue(":low",low);
+        query.bindValue(":high",high);
+        query.exec();
+        }
+
+    else{
+        query.prepare("SELECT * from personData "
+                      "where name LIKE '%'||:name||'%' "
+                      "AND gender LIKE :gender||'%'"
+                      "AND (age < :high AND age > :low)"
+                      "ORDER BY id DESC");
+        query.bindValue(":name",QString::fromStdString(n));
+        query.bindValue(":gender",QString::fromStdString(g));
+        query.bindValue(":low",low);
+        query.bindValue(":high",high);
+        query.exec();
+    }
+
+    while(query.next()){
+        tid = query.value("id").toUInt();
+        tname = query.value("name").toString().toStdString();
+        tgender = query.value("gender").toString().toStdString();
+        tbirth = query.value("dateBirth").toString().toStdString();
+        tdeath = query.value("dateDeath").toString().toStdString();
+        tknown = query.value("knownFor").toString().toStdString();
+        tage = query.value("age").toUInt();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+
+    }
+}
+
+void personlist::readFileAlpha(string n, string g, string a, QSqlDatabase& dbMain, bool asc){
+    int mid = 0;
+    double low = 0, high = 0, s = 0;
+
+    if(a != ""){
+        for(unsigned int i = 0; i < a.size(); i++){
+            if(a[i] == '-'){
+                mid =  i;
+                break;
+                }
+        }
+        s = pow(10,mid-1);
+
+        for(int i = 0; i < mid; i++){
+            low += (a[i]-48) * s;
+            s /= 10;
+        }
+        s = pow(10, (a.size() -1) - (mid+1));
+
+        for(unsigned int i = mid+1; i < a.size(); i++){
+            high += (a[i]-48) * s;
+            s /= 10;
+        }
+        low *= 365.25;
+        high*= 365.25;
+    }
+    else{
+        low = 0;
+        high= 2000 * 365.25;
+    }
+
     pList.clear();
     NOInList = 0;
     //temporary variables
@@ -127,7 +235,31 @@ void personlist::readFile(QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.exec("SELECT * from personData");
+    if(asc){
+        query.prepare("SELECT * from personData "
+                      "where name LIKE '%'||:name||'%' "
+                      "AND gender LIKE :gender||'%'"
+                      "AND (age < :high AND age > :low)"
+                      "ORDER BY name");
+        query.bindValue(":name",QString::fromStdString(n));
+        query.bindValue(":gender",QString::fromStdString(g));
+        query.bindValue(":low",low);
+        query.bindValue(":high",high);
+        query.exec();
+        }
+
+    else{
+        query.prepare("SELECT * from personData "
+                      "where name LIKE '%'||:name||'%' "
+                      "AND gender LIKE :gender||'%'"
+                      "AND (age < :high AND age > :low)"
+                      "ORDER BY name DESC");
+        query.bindValue(":name",QString::fromStdString(n));
+        query.bindValue(":gender",QString::fromStdString(g));
+        query.bindValue(":low",low);
+        query.bindValue(":high",high);
+        query.exec();
+    }
 
     while(query.next()){
         tid = query.value("id").toUInt();
@@ -142,7 +274,37 @@ void personlist::readFile(QSqlDatabase& dbMain){
 
 }
 
-void personlist::readFileAlpha(QSqlDatabase& dbMain){
+void personlist::readFileYearBorn(string n, string g, string a, QSqlDatabase &dbMain, bool asc){
+    int mid = 0;
+    double low = 0, high = 0, s = 0;
+
+    if(a != ""){
+        for(unsigned int i = 0; i < a.size(); i++){
+            if(a[i] == '-'){
+                mid =  i;
+                break;
+                }
+        }
+        s = pow(10,mid-1);
+
+        for(int i = 0; i < mid; i++){
+            low += (a[i]-48) * s;
+            s /= 10;
+        }
+        s = pow(10, (a.size() -1) - (mid+1));
+
+        for(unsigned int i = mid+1; i < a.size(); i++){
+            high += (a[i]-48) * s;
+            s /= 10;
+        }
+        low *= 365.25;
+        high*= 365.25;
+    }
+    else{
+        low = 0;
+        high= 2000 * 365.25;
+    }
+
     pList.clear();
     NOInList = 0;
     //temporary variables
@@ -153,7 +315,31 @@ void personlist::readFileAlpha(QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.exec("SELECT * from personData ORDER BY name ");
+    if(asc){
+        query.prepare("SELECT * from personData "
+                      "where name LIKE '%'||:name||'%' "
+                      "AND gender LIKE :gender||'%'"
+                      "AND (age < :high AND age > :low)"
+                      "ORDER BY bVal");
+        query.bindValue(":name",QString::fromStdString(n));
+        query.bindValue(":gender",QString::fromStdString(g));
+        query.bindValue(":low",low);
+        query.bindValue(":high",high);
+        query.exec();
+        }
+
+    else{
+        query.prepare("SELECT * from personData "
+                      "where name LIKE '%'||:name||'%' "
+                      "AND gender LIKE :gender||'%'"
+                      "AND (age < :high AND age > :low)"
+                      "ORDER BY bVal DESC");
+        query.bindValue(":name",QString::fromStdString(n));
+        query.bindValue(":gender",QString::fromStdString(g));
+        query.bindValue(":low",low);
+        query.bindValue(":high",high);
+        query.exec();
+    }
 
     while(query.next()){
         tid = query.value("id").toUInt();
@@ -167,31 +353,7 @@ void personlist::readFileAlpha(QSqlDatabase& dbMain){
     }
 
 }
-void personlist::readFileAlphaDesc(QSqlDatabase& dbMain){
-    pList.clear();
-    NOInList = 0;
-    //temporary variables
-    string tname, tgender, tbirth, tdeath, tknown;
-    int tid, tage;
 
-
-
-    QSqlQuery query(dbMain);
-
-    query.exec("SELECT * from personData ORDER BY name DESC");
-
-    while(query.next()){
-        tid = query.value("id").toUInt();
-        tname = query.value("name").toString().toStdString();
-        tgender = query.value("gender").toString().toStdString();
-        tbirth = query.value("dateBirth").toString().toStdString();
-        tdeath = query.value("dateDeath").toString().toStdString();
-        tknown = query.value("knownFor").toString().toStdString();
-        tage = query.value("age").toUInt();
-        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
-    }
-
-}
 
 void personlist::readFileId(int i,QSqlDatabase& dbMain){
     pList.clear();
@@ -220,142 +382,23 @@ void personlist::readFileId(int i,QSqlDatabase& dbMain){
 
 }
 
-void personlist::readFileName(string n,QSqlDatabase& dbMain){
-    pList.clear();
-    NOInList = 0;
-    //temporary variables
-    string tname, tgender, tbirth, tdeath, tknown;
-    int tid, tage;
 
+void personlist::updateAge(QSqlDatabase& dbMain){
 
 
     QSqlQuery query(dbMain);
 
-    query.prepare("SELECT * from personData where name LIKE '%'||:name||'%'");
-    query.bindValue(":name",QString::fromStdString(n));
-    query.exec();
-    while(query.next()){
-        tid = query.value("id").toUInt();
-        tname = query.value("name").toString().toStdString();
-        tgender = query.value("gender").toString().toStdString();
-        tbirth = query.value("dateBirth").toString().toStdString();
-        tdeath = query.value("dateDeath").toString().toStdString();
-        tknown = query.value("knownFor").toString().toStdString();
-        tage = query.value("age").toUInt();
-        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
-    }
-
-}
-
-void personlist::readFileGender(string g, QSqlDatabase& dbMain){
-
-    transform(g.begin(), g.end(), g.begin(), ::tolower);
-
-    if(g[0] == 'f')
-        g[0] = 'F';
-    else if(g[0] == 'm')
-        g[0] = 'M';
-
-    if(g == "Male" || g == "Female"){
-        pList.clear();
-        NOInList = 0;
-        //temporary variables
-        string tname, tgender, tbirth, tdeath, tknown;
-        int tid, tage;
-
-
-
-        QSqlQuery query(dbMain);
-
-        query.prepare("SELECT * from personData WHERE gender = :gender");
-        query.bindValue(":gender",QString::fromStdString(g));
-        query.exec();
-        while(query.next()){
-            tid = query.value("id").toUInt();
-            tname = query.value("name").toString().toStdString();
-            tgender = query.value("gender").toString().toStdString();
-            tbirth = query.value("dateBirth").toString().toStdString();
-            tdeath = query.value("dateDeath").toString().toStdString();
-            tknown = query.value("knownFor").toString().toStdString();
-            tage = query.value("age").toUInt();
-            addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
-        }
-
-    }
-}
-void personlist::readFileAge(string m,QSqlDatabase& dbMain){
-    int mid = 0;
-    double low = 0, high = 0, s = 0;
-
-    for(unsigned int i = 0; i < m.size(); i++){
-        if(m[i] == '-'){
-            mid =  i;
-            break;
-            }
-    }
-    s = pow(10,mid-1);
-
-    for(int i = 0; i < mid; i++){
-        low += (m[i]-48) * s;
-        s /= 10;
-    }
-    s = pow(10, (m.size() -1) - (mid+1));
-
-    for(unsigned int i = mid+1; i < m.size(); i++){
-        high += (m[i]-48) * s;
-        s /= 10;
-    }
-    low *= 365.25;
-    high*= 365.25;
-
-    pList.clear();
-    NOInList = 0;
-    //temporary variables
-    string tname, tgender, tbirth, tdeath, tknown;
-    int tid, tage;
-
-
-
-    QSqlQuery query(dbMain);
-
-    query.prepare("SELECT * FROM personData WHERE age > :low AND age < :high ORDER BY age ASC");
-    query.bindValue(":low",low);
-    query.bindValue(":high",high);
-    query.exec();
-    while(query.next()){
-        tid = query.value("id").toUInt();
-        tname = query.value("name").toString().toStdString();
-        tgender = query.value("gender").toString().toStdString();
-        tbirth = query.value("dateBirth").toString().toStdString();
-        tdeath = query.value("dateDeath").toString().toStdString();
-        tknown = query.value("knownFor").toString().toStdString();
-        tage = query.value("age").toUInt();
-        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
-    }
-
-
-}
-
-
-void personlist::overwriteFile(QSqlDatabase& dbMain){
-
-
-    QSqlQuery query(dbMain);
-
-    if(query.exec("DELETE FROM personData"))
+    //if(query.exec("DELETE FROM personData"))
 
     for(unsigned int i = 0; i < pList.size(); i++){
         pList[i].isDateBirthValid();
         pList[i].isDateDeathValid();
-        query.prepare("INSERT INTO personData (id, name, gender, dateBirth, dateDeath, knownFor, age) "
-                          "VALUES (:id, :name, :gender, :dateBirth, :dateDeath, :knownFor, :age)");
-        query.bindValue(":id", pList[i].getId());
-        query.bindValue(":name", QString::fromStdString(pList[i].getName()));
-        query.bindValue(":gender",  QString::fromStdString(pList[i].getGender()));
-        query.bindValue(":dateBirth", QString::fromStdString(pList[i].getDateBirth()));
-        query.bindValue(":dateDeath", QString::fromStdString(pList[i].getDateDeath()));
-        query.bindValue(":knownFor", QString::fromStdString(pList[i].getKnownFor()));
+        query.prepare("UPDATE personData (age, bVal) "
+                      "VALUES (:bVal,:bVal)"
+                      "WHERE id = :id");
         query.bindValue(":age", pList[i].getAge());
+        query.bindValue(":bVal", pList[i].getBVal());
+        query.bindValue(":id",i);
         query.exec();
 
     }
@@ -369,8 +412,8 @@ void personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
 
     QSqlQuery query(dbMain);
 
-    query.prepare("INSERT INTO personData (id, name, gender, dateBirth, dateDeath, knownFor, age) "
-                      "VALUES (:id, :name, :gender, :dateBirth, :dateDeath, :knownFor, :age)");
+    query.prepare("INSERT INTO personData (id, name, gender, dateBirth, dateDeath, knownFor, age, bVal) "
+                      "VALUES (:id, :name, :gender, :dateBirth, :dateDeath, :knownFor, :age, :bVal)");
     query.bindValue(":id", newPerson.getId());
     query.bindValue(":name", QString::fromStdString(newPerson.getName()));
     query.bindValue(":gender",  QString::fromStdString(newPerson.getGender()));
@@ -378,6 +421,7 @@ void personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
     query.bindValue(":dateDeath", QString::fromStdString(newPerson.getDateDeath()));
     query.bindValue(":knownFor", QString::fromStdString(newPerson.getKnownFor()));
     query.bindValue(":age", newPerson.getAge());
+    query.bindValue(":bVal", newPerson.getBVal());
     query.exec();
 
 

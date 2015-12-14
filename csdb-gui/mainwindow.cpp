@@ -21,8 +21,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+bool MainWindow::validateAgeString(string a){
+    bool midFound = false;
+    for(unsigned int i = 0; i < a.size(); i++){
+      if(a[i] == 45){
+          if(!midFound)
+              midFound = true;
+          else
+              return false;
+      }
+      else if(a[i] < 48 || a[i] > 57){
+          return false;
+      }
+    }
+
+      return midFound;
+}
+
 void MainWindow::displayAllPersons(){
-    listPerson.readFile(dbMain.readDb());
+    listPerson.readFile("", "", "",dbMain.readDb(),1);
     vector<person> persons = listPerson.getFullList();
     displayPersons(persons);
 }
@@ -41,8 +59,8 @@ void MainWindow::displayPersons(vector<person> persons){
 
         ui->table_person->setItem(row,0, new QTableWidgetItem(QString::number(currentPerson.getId())));
         ui->table_person->setItem(row,1, new QTableWidgetItem(name));
-        ui->table_person->setItem(row, 2, new QTableWidgetItem(dBirth));
-        ui->table_person->setItem(row, 3, new QTableWidgetItem(dDeath));
+        ui->table_person->setItem(row,2, new QTableWidgetItem(dBirth));
+        ui->table_person->setItem(row,3, new QTableWidgetItem(dDeath));
     }
 
         displayedPersons = persons;
@@ -52,12 +70,12 @@ void MainWindow::displayPersons(vector<person> persons){
 
 
 
-void MainWindow::on_search_person_textChanged(const QString &arg1)
-{
-    string input = ui->search_person->text().toStdString();
-    listPerson.readFileName(input, dbMain.readDb());
-    vector<person> persons = listPerson.getFullList();
-    displayPersons(persons);
+
+void MainWindow::displayAllComputers(){
+
+}
+void MainWindow::displayComputer(vector<computer> computers){
+
 }
 
 void MainWindow::on_table_person_itemSelectionChanged()
@@ -69,7 +87,7 @@ void MainWindow::on_table_person_itemSelectionChanged()
 
 
         ui->person_name->setEnabled(false);
-
+        ui->person_gender->setEnabled(false);
         ui->person_known_for->setEnabled(false);
         ui->person_birth->setEnabled(false);
         ui->person_death->setEnabled(false);
@@ -219,7 +237,7 @@ void MainWindow::on_button_edit_person_clicked()
 
         int selectedPersonIndex = ui->table_person->currentIndex().row();
 
-        person SelectedPerson = displayedPersons[selectedPersonIndex];
+        person SelectedPerson = displayedPersons.at(selectedPersonIndex);
 
         person editedPerson;
 
@@ -259,7 +277,12 @@ void MainWindow::on_button_edit_person_clicked()
             return;
         }
 
-        listPerson.editPerson(SelectedPerson.getId(),editedPerson,dbMain.readDb());
+
+        QString personId = ui->label_person_id->text();
+        listPerson.editPerson(personId.split(":")[1].toInt(),editedPerson,dbMain.readDb());
+
+
+
         ui->button_edit_person->setText("Edit");
         ui->person_name->setEnabled(false);
         ui->person_gender->setEnabled(false);
@@ -285,3 +308,39 @@ void MainWindow::on_button_edit_person_clicked()
     }
 
 }
+
+void MainWindow::on_button_person_search_update_clicked()
+{
+    string input = ui->search_person->text().toStdString();
+
+    string ageRange = ui->person_age_line_edit->text().toStdString();
+    if(!validateAgeString(ageRange))
+        ageRange = "";
+    bool asc = true;
+    string gender = "";
+    if(ui->person_order_combo->currentText()== "Descending"){
+        asc = false;
+    }
+
+    if(ui->person_gender_combo->currentText() == "Male"){
+        gender = "Male";
+    }
+    else if(ui->person_gender_combo->currentText() == "Female"){
+        gender = "Female";
+    }
+    if(ui->person_orderBy_combo->currentText() == "Id"){
+        listPerson.readFile(input, gender, ageRange, dbMain.readDb(), asc);
+    }
+    else if(ui->person_orderBy_combo->currentText() == "Name"){
+        listPerson.readFileAlpha(input, gender, ageRange,dbMain.readDb(), asc);
+    }
+    else if(ui->person_orderBy_combo->currentText() == "Date birth"){
+        listPerson.readFileYearBorn(input, gender, ageRange,dbMain.readDb(), asc);
+    }
+
+
+
+    vector<person> persons = listPerson.getFullList();
+    displayPersons(persons);
+}
+

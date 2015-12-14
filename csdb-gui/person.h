@@ -27,6 +27,7 @@ public:
     string getKnownFor()const;
     int getId()const;
     double getAge()const;
+    double getBVal()const;
     //returns string with all necessary data which is stored in the txt file
     string getData();
     void setName(string lname);

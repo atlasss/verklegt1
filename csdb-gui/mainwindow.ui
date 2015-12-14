@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>882</width>
-    <height>609</height>
+    <width>828</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>10</y>
-      <width>821</width>
-      <height>521</height>
+      <y>0</y>
+      <width>811</width>
+      <height>541</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -31,11 +31,14 @@
       <string>Person</string>
      </attribute>
      <widget class="QTableWidget" name="table_person">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
         <x>390</x>
         <y>20</y>
-        <width>431</width>
+        <width>411</width>
         <height>481</height>
        </rect>
       </property>
@@ -57,6 +60,12 @@
       <property name="sortingEnabled">
        <bool>false</bool>
       </property>
+      <property name="rowCount">
+       <number>0</number>
+      </property>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
       <attribute name="verticalHeaderStretchLastSection">
        <bool>false</bool>
       </attribute>
@@ -115,25 +124,12 @@
        <attribute name="title">
         <string>Search</string>
        </attribute>
-       <widget class="QLineEdit" name="search_person">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>171</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="placeholderText">
-         <string>Search for person...</string>
-        </property>
-       </widget>
        <widget class="QTabWidget" name="person_details">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>160</y>
-          <width>351</width>
+          <y>170</y>
+          <width>361</width>
           <height>311</height>
          </rect>
         </property>
@@ -334,9 +330,12 @@
            <rect>
             <x>10</x>
             <y>10</y>
-            <width>211</width>
+            <width>201</width>
             <height>271</height>
            </rect>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
           </property>
           <column>
            <property name="text">
@@ -349,34 +348,187 @@
            </property>
           </column>
          </widget>
-         <widget class="QWidget" name="verticalLayoutWidget_2">
+         <widget class="QWidget" name="gridLayoutWidget_5">
           <property name="geometry">
            <rect>
-            <x>240</x>
-            <y>10</y>
-            <width>92</width>
-            <height>61</height>
+            <x>220</x>
+            <y>20</y>
+            <width>131</width>
+            <height>80</height>
            </rect>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
-           <item>
-            <widget class="QPushButton" name="button_add_connection_person">
-             <property name="text">
-              <string>Add new</string>
-             </property>
-            </widget>
-           </item>
-           <item>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="1" column="0">
             <widget class="QPushButton" name="button_remove_connection_person">
              <property name="text">
               <string>Remove selected</string>
              </property>
             </widget>
            </item>
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout_4">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetNoConstraint</enum>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Id:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QPushButton" name="button_add_connection_person">
+               <property name="text">
+                <string>Add new</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLineEdit" name="lineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
           </layout>
          </widget>
+         <zorder>table_person_connections</zorder>
+         <zorder>formLayoutWidget_3</zorder>
+         <zorder>gridLayoutWidget_5</zorder>
         </widget>
        </widget>
+       <widget class="QWidget" name="gridLayoutWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>221</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QLineEdit" name="search_person">
+           <property name="placeholderText">
+            <string>Search for person...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="2" column="1">
+            <widget class="QComboBox" name="person_order_combo">
+             <item>
+              <property name="text">
+               <string>Ascending</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Descending</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="person_gender_combo">
+             <item>
+              <property name="text">
+               <string>Both</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Male</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Female</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>Age</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>Order</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="person_age_line_edit">
+             <property name="placeholderText">
+              <string>e.g 35-50</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Gender</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="person_orderBy_combo">
+             <item>
+              <property name="text">
+               <string>Id</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Name</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Date birth</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_9">
+             <property name="text">
+              <string>Order by</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="button_person_search_update">
+           <property name="text">
+            <string>Update</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <zorder>person_details</zorder>
+       <zorder>gridLayoutWidget_3</zorder>
+       <zorder>person_orderBy_combo</zorder>
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -460,7 +612,11 @@
           </layout>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="line_person_date_birth"/>
+          <widget class="QLineEdit" name="line_person_date_birth">
+           <property name="inputMethodHints">
+            <set>Qt::ImhNone</set>
+           </property>
+          </widget>
          </item>
          <item row="7" column="1">
           <widget class="QLineEdit" name="line_person_date_death"/>
@@ -520,6 +676,221 @@
      <attribute name="title">
       <string>Computer</string>
      </attribute>
+     <widget class="QTableWidget" name="table_computer">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>20</y>
+        <width>411</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Plain</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="showGrid">
+       <bool>true</bool>
+      </property>
+      <property name="sortingEnabled">
+       <bool>false</bool>
+      </property>
+      <property name="rowCount">
+       <number>0</number>
+      </property>
+      <attribute name="verticalHeaderVisible">
+       <bool>false</bool>
+      </attribute>
+      <attribute name="verticalHeaderStretchLastSection">
+       <bool>false</bool>
+      </attribute>
+      <column>
+       <property name="text">
+        <string>Id</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Year built</string>
+       </property>
+      </column>
+      <column>
+       <property name="text">
+        <string>Type</string>
+       </property>
+      </column>
+     </widget>
+     <widget class="QTabWidget" name="tabWidget_2">
+      <property name="geometry">
+       <rect>
+        <x>-2</x>
+        <y>-1</y>
+        <width>351</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Search</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_6">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>222</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="0" column="0">
+          <widget class="QLineEdit" name="search_computer">
+           <property name="placeholderText">
+            <string>Search for computer...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <layout class="QGridLayout" name="gridLayout_7">
+           <item row="2" column="1">
+            <widget class="QComboBox" name="computer_order_combo">
+             <item>
+              <property name="text">
+               <string>Ascending</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Descending</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QComboBox" name="computer_type_combo">
+             <item>
+              <property name="text">
+               <string>all</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>electromechanical</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>electronic</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>transistor</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>mechanical</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="text">
+              <string>Year buillt</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="text">
+              <string>Order</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="computer_yearBuilt_line_edit">
+             <property name="placeholderText">
+              <string>e.g 1940-1950</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>Type</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="computer_orderBy_combo">
+             <item>
+              <property name="text">
+               <string>Id</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Name</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Year built</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Weight</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_14">
+             <property name="text">
+              <string>Order by</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="1">
+          <widget class="QPushButton" name="button_computer_search_update">
+           <property name="text">
+            <string>Update</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Add new</string>
+       </attribute>
+      </widget>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -528,7 +899,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>882</width>
+     <width>828</width>
      <height>21</height>
     </rect>
    </property>

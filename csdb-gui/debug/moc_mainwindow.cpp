@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[8];
-    char stringdata0[175];
+    QByteArrayData data[7];
+    char stringdata0[180];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -30,20 +30,19 @@ struct qt_meta_stringdata_MainWindow_t {
 static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
-QT_MOC_LITERAL(1, 11, 28), // "on_search_person_textChanged"
-QT_MOC_LITERAL(2, 40, 0), // ""
-QT_MOC_LITERAL(3, 41, 4), // "arg1"
-QT_MOC_LITERAL(4, 46, 36), // "on_table_person_itemSelection..."
-QT_MOC_LITERAL(5, 83, 29), // "on_add_person_confirm_clicked"
-QT_MOC_LITERAL(6, 113, 31), // "on_button_delete_person_clicked"
-QT_MOC_LITERAL(7, 145, 29) // "on_button_edit_person_clicked"
+QT_MOC_LITERAL(1, 11, 36), // "on_table_person_itemSelection..."
+QT_MOC_LITERAL(2, 48, 0), // ""
+QT_MOC_LITERAL(3, 49, 29), // "on_add_person_confirm_clicked"
+QT_MOC_LITERAL(4, 79, 31), // "on_button_delete_person_clicked"
+QT_MOC_LITERAL(5, 111, 29), // "on_button_edit_person_clicked"
+QT_MOC_LITERAL(6, 141, 38) // "on_button_person_search_updat..."
 
     },
-    "MainWindow\0on_search_person_textChanged\0"
-    "\0arg1\0on_table_person_itemSelectionChanged\0"
-    "on_add_person_confirm_clicked\0"
+    "MainWindow\0on_table_person_itemSelectionChanged\0"
+    "\0on_add_person_confirm_clicked\0"
     "on_button_delete_person_clicked\0"
-    "on_button_edit_person_clicked"
+    "on_button_edit_person_clicked\0"
+    "on_button_person_search_update_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -61,14 +60,14 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   39,    2, 0x08 /* Private */,
-       4,    0,   42,    2, 0x08 /* Private */,
-       5,    0,   43,    2, 0x08 /* Private */,
-       6,    0,   44,    2, 0x08 /* Private */,
-       7,    0,   45,    2, 0x08 /* Private */,
+       1,    0,   39,    2, 0x08 /* Private */,
+       3,    0,   40,    2, 0x08 /* Private */,
+       4,    0,   41,    2, 0x08 /* Private */,
+       5,    0,   42,    2, 0x08 /* Private */,
+       6,    0,   43,    2, 0x08 /* Private */,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::QString,    3,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -83,14 +82,15 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         MainWindow *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_search_person_textChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 1: _t->on_table_person_itemSelectionChanged(); break;
-        case 2: _t->on_add_person_confirm_clicked(); break;
-        case 3: _t->on_button_delete_person_clicked(); break;
-        case 4: _t->on_button_edit_person_clicked(); break;
+        case 0: _t->on_table_person_itemSelectionChanged(); break;
+        case 1: _t->on_add_person_confirm_clicked(); break;
+        case 2: _t->on_button_delete_person_clicked(); break;
+        case 3: _t->on_button_edit_person_clicked(); break;
+        case 4: _t->on_button_person_search_update_clicked(); break;
         default: ;
         }
     }
+    Q_UNUSED(_a);
 }
 
 const QMetaObject MainWindow::staticMetaObject = {

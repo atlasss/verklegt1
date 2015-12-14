@@ -70,6 +70,10 @@ double person::getAge()const{
     return age;
 }
 
+double person::getBVal()const{
+    return bval;
+}
+
 string person::getData(){
     string s = to_string(id);
     s.append("\t" + name);
@@ -112,7 +116,7 @@ bool person::isGenderValid(){
         gender = m;
         return true;
     }
-    if((gender.size() == m.size()) && equal(gender.begin(), gender.end(), m.begin(), caseInsCharCompareN)){
+    if((gender.size() == f.size()) && equal(gender.begin(), gender.end(), f.begin(), caseInsCharCompareN)){
         gender = f;
         return true;
     }
@@ -122,6 +126,8 @@ bool person::isGenderValid(){
 
 
 bool person::isDateBirthValid(){
+    if(dateBirth.size() != 10)
+        return false;
     //checks each character in the date string to confirm wether they are the correct ascii values
     if(dateBirth[0] < 48 || dateBirth[0] > 51)//xd/mm/yyyy
         return false;
@@ -155,10 +161,12 @@ bool person::isDateBirthValid(){
 bool person::isDateDeathValid(){    
     double maxAge = 2015 * 365.25 + 12 * 30.4375 + 4;
     age = maxAge - bval;
-    if (dateDeath == "-1"){
+    if (dateDeath == "-1" || dateDeath == "Alive" ){
         dateDeath = "Alive";
         return true;
     }
+    if(dateDeath.size() != 10)
+        return false;
     if(dateDeath[0] < 48 || dateDeath[0] > 51)//xd/mm/yyyy
         return false;
     if(dateDeath[1] < 48 || dateDeath[1] > 57)//xx/mm/yyyy
