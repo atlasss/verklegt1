@@ -60,9 +60,8 @@ void computer::setName(string n){
 void computer::setYearBuilt(int y){
     yearBuilt = y;
 }
-void computer::setType(int t){
-    string types[] = {"transistor","electromechanical","electronic","mechanical"};
-    type = types[t];
+void computer::setType(string t){
+    type = t;
 }
 void computer::setBuilt(bool b){
     built = b;
@@ -72,7 +71,7 @@ void computer::setWeight(double w){
 }
 
 bool computer::isYearBuiltValid(){
-    if(yearBuilt > 1600 && yearBuilt < 2015){
+    if(yearBuilt >= 1600 && yearBuilt <= 2015){
         built = true;
         return true;
     }

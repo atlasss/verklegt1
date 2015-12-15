@@ -317,6 +317,32 @@
            </item>
           </layout>
          </widget>
+         <widget class="QPushButton" name="button_person_change_profilepic">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>120</y>
+            <width>75</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
+         <widget class="QLabel" name="person_profilepic">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>20</y>
+            <width>71</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
         </widget>
         <widget class="QWidget" name="person_connections">
          <attribute name="title">
@@ -353,7 +379,7 @@
            <rect>
             <x>220</x>
             <y>20</y>
-            <width>131</width>
+            <width>155</width>
             <height>80</height>
            </rect>
           </property>
@@ -404,9 +430,6 @@
            </item>
           </layout>
          </widget>
-         <zorder>table_person_connections</zorder>
-         <zorder>formLayoutWidget_3</zorder>
-         <zorder>gridLayoutWidget_5</zorder>
         </widget>
        </widget>
        <widget class="QWidget" name="gridLayoutWidget_3">
@@ -520,15 +543,12 @@
          <item row="0" column="1">
           <widget class="QPushButton" name="button_person_search_update">
            <property name="text">
-            <string>Update</string>
+            <string>Search</string>
            </property>
           </widget>
          </item>
         </layout>
        </widget>
-       <zorder>person_details</zorder>
-       <zorder>gridLayoutWidget_3</zorder>
-       <zorder>person_orderBy_combo</zorder>
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
@@ -741,12 +761,12 @@
        <rect>
         <x>-2</x>
         <y>-1</y>
-        <width>351</width>
-        <height>411</height>
+        <width>371</width>
+        <height>501</height>
        </rect>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -757,7 +777,7 @@
          <rect>
           <x>10</x>
           <y>10</y>
-          <width>222</width>
+          <width>269</width>
           <height>161</height>
          </rect>
         </property>
@@ -769,7 +789,7 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item row="2" column="0">
           <layout class="QGridLayout" name="gridLayout_7">
            <item row="2" column="1">
             <widget class="QComboBox" name="computer_order_combo">
@@ -873,22 +893,419 @@
              </property>
             </widget>
            </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="computer_wasBuilt_checkBox">
+             <property name="text">
+              <string>Was built</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+             <property name="tristate">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item row="0" column="1">
           <widget class="QPushButton" name="button_computer_search_update">
            <property name="text">
-            <string>Update</string>
+            <string>Search</string>
            </property>
           </widget>
          </item>
         </layout>
+       </widget>
+       <widget class="QTabWidget" name="computer_details">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>170</y>
+          <width>361</width>
+          <height>311</height>
+         </rect>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="tabShape">
+         <enum>QTabWidget::Rounded</enum>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <property name="documentMode">
+         <bool>false</bool>
+        </property>
+        <property name="movable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="computer_profile">
+         <attribute name="title">
+          <string>Profile</string>
+         </attribute>
+         <widget class="QWidget" name="verticalLayoutWidget_2">
+          <property name="geometry">
+           <rect>
+            <x>130</x>
+            <y>10</y>
+            <width>211</width>
+            <height>221</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QGroupBox" name="groupBox_2">
+             <property name="title">
+              <string>Information</string>
+             </property>
+             <widget class="QWidget" name="gridLayoutWidget_2">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>180</y>
+                <width>181</width>
+                <height>31</height>
+               </rect>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_8">
+               <item row="0" column="0">
+                <widget class="QPushButton" name="button_delete_computer">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Delete</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="button_edit_computer">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>Edit</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="formLayoutWidget_4">
+              <property name="geometry">
+               <rect>
+                <x>10</x>
+                <y>20</y>
+                <width>181</width>
+                <height>151</height>
+               </rect>
+              </property>
+              <layout class="QFormLayout" name="formLayout_2">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_computer_id">
+                 <property name="text">
+                  <string>Id:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_23">
+                 <property name="text">
+                  <string>Name</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="computer_name">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_25">
+                 <property name="text">
+                  <string>Year built</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLineEdit" name="computer_yearBuilt">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_26">
+                 <property name="text">
+                  <string>Was built?</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QLineEdit" name="computer_built">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="inputMethodHints">
+                  <set>Qt::ImhNone</set>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_27">
+                 <property name="text">
+                  <string>Weight</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QLineEdit" name="computer_weight">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="frame">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_28">
+                 <property name="text">
+                  <string>Type</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QLineEdit" name="computer_type">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="computer_connections_tab">
+         <attribute name="title">
+          <string>Connections</string>
+         </attribute>
+         <widget class="QTableWidget" name="table_computer_connections">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>201</width>
+            <height>271</height>
+           </rect>
+          </property>
+          <property name="horizontalScrollBarPolicy">
+           <enum>Qt::ScrollBarAlwaysOff</enum>
+          </property>
+          <column>
+           <property name="text">
+            <string>Id</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Name</string>
+           </property>
+          </column>
+         </widget>
+         <widget class="QWidget" name="gridLayoutWidget_7">
+          <property name="geometry">
+           <rect>
+            <x>220</x>
+            <y>20</y>
+            <width>155</width>
+            <height>80</height>
+           </rect>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="1" column="0">
+            <widget class="QPushButton" name="button_remove_connection_computer">
+             <property name="text">
+              <string>Remove selected</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <layout class="QGridLayout" name="gridLayout_10">
+             <property name="sizeConstraint">
+              <enum>QLayout::SetNoConstraint</enum>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_29">
+               <property name="text">
+                <string>Id:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QPushButton" name="button_add_connection_computer">
+               <property name="text">
+                <string>Add new</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="2">
+              <widget class="QLineEdit" name="lineEdit_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </widget>
        </widget>
       </widget>
       <widget class="QWidget" name="tab_2">
        <attribute name="title">
         <string>Add new</string>
        </attribute>
+       <widget class="QWidget" name="formLayoutWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>271</width>
+          <height>341</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="person_form_2">
+         <item row="0" column="1">
+          <layout class="QFormLayout" name="formLayout_20">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_20">
+             <property name="text">
+              <string>Name:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_computer_name_error_code">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="line_computer_name"/>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>Type:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="computer_type_add_Combo">
+           <item>
+            <property name="text">
+             <string>electromechanical</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>electronic</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>mechanical</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>transistor</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <layout class="QFormLayout" name="formLayout_22">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_22">
+             <property name="text">
+              <string>Year built (-1 if N/A):</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_yearBuilt_error_code">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="line_computer_yearBuilt">
+           <property name="inputMethodHints">
+            <set>Qt::ImhDigitsOnly</set>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="1">
+          <layout class="QFormLayout" name="formLayout_24">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_24">
+             <property name="text">
+              <string>Weight:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_weight_error_code">
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="7" column="1">
+          <widget class="QLineEdit" name="line_computer_weight">
+           <property name="inputMethodHints">
+            <set>Qt::ImhDigitsOnly</set>
+           </property>
+          </widget>
+         </item>
+         <item row="9" column="1">
+          <widget class="QPushButton" name="add_computer_confirm">
+           <property name="text">
+            <string>Add Computer</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </widget>
     </widget>

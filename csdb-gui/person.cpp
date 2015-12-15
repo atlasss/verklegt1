@@ -19,7 +19,7 @@ person::person(){
     age = -1;
 }
 
-person::person(string lname, string lgender, string lbirth, string ldeath, string lknown, int lage){
+person::person(string lname, string lgender, string lbirth, string ldeath, string lknown, int lage, QByteArray lpic){
     name = lname;
     dateBirth = lbirth;
     dateDeath = ldeath;
@@ -27,10 +27,11 @@ person::person(string lname, string lgender, string lbirth, string ldeath, strin
     knownFor = lknown;
     age = lage;
     id = -1;
+    pic = lpic;
 }
 
 
-person::person(int lid, string lname, string lgender, string lbirth, string ldeath, string lknown, int lage){
+person::person(int lid, string lname, string lgender, string lbirth, string ldeath, string lknown, int lage, QByteArray lpic){
     id = lid;
     name = lname;
     dateBirth = lbirth;
@@ -38,6 +39,7 @@ person::person(int lid, string lname, string lgender, string lbirth, string ldea
     gender = lgender;
     knownFor = lknown;
     age = lage;
+    pic = lpic;
 }
 
 person::~person(){
@@ -74,6 +76,10 @@ double person::getBVal()const{
     return bval;
 }
 
+QByteArray person::getPic() const{
+    return pic;
+}
+
 string person::getData(){
     string s = to_string(id);
     s.append("\t" + name);
@@ -86,6 +92,10 @@ string person::getData(){
 
 void person::setId(int ID){
     id = ID;
+}
+
+void person::setPic(QByteArray lpic){
+    pic = lpic;
 }
 
 void person::setName(string lname){

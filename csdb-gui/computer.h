@@ -29,7 +29,7 @@ public:
     void setId(int i);
     void setName(string n);
     void setYearBuilt(int y);
-    void setType(int t);
+    void setType(string t);
     void setBuilt(bool b);
     void setWeight(double w);
     //used to verify if yearbuilt is valid when user fills in form to create a new computer

@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
@@ -66,6 +67,8 @@ public:
     QLineEdit *person_death;
     QLabel *label_5;
     QLineEdit *person_gender;
+    QPushButton *button_person_change_profilepic;
+    QLabel *person_profilepic;
     QWidget *person_connections;
     QTableWidget *table_person_connections;
     QWidget *gridLayoutWidget_5;
@@ -128,8 +131,57 @@ public:
     QLabel *label_13;
     QComboBox *computer_orderBy_combo;
     QLabel *label_14;
+    QCheckBox *computer_wasBuilt_checkBox;
     QPushButton *button_computer_search_update;
+    QTabWidget *computer_details;
+    QWidget *computer_profile;
+    QWidget *verticalLayoutWidget_2;
+    QVBoxLayout *verticalLayout_2;
+    QGroupBox *groupBox_2;
+    QWidget *gridLayoutWidget_2;
+    QGridLayout *gridLayout_8;
+    QPushButton *button_delete_computer;
+    QPushButton *button_edit_computer;
+    QWidget *formLayoutWidget_4;
+    QFormLayout *formLayout_2;
+    QLabel *label_computer_id;
+    QLabel *label_23;
+    QLineEdit *computer_name;
+    QLabel *label_25;
+    QLineEdit *computer_yearBuilt;
+    QLabel *label_26;
+    QLineEdit *computer_built;
+    QLabel *label_27;
+    QLineEdit *computer_weight;
+    QLabel *label_28;
+    QLineEdit *computer_type;
+    QWidget *computer_connections_tab;
+    QTableWidget *table_computer_connections;
+    QWidget *gridLayoutWidget_7;
+    QGridLayout *gridLayout_9;
+    QPushButton *button_remove_connection_computer;
+    QGridLayout *gridLayout_10;
+    QLabel *label_29;
+    QPushButton *button_add_connection_computer;
+    QLineEdit *lineEdit_2;
     QWidget *tab_2;
+    QWidget *formLayoutWidget_3;
+    QFormLayout *person_form_2;
+    QFormLayout *formLayout_20;
+    QLabel *label_20;
+    QLabel *label_computer_name_error_code;
+    QLineEdit *line_computer_name;
+    QLabel *label_21;
+    QComboBox *computer_type_add_Combo;
+    QFormLayout *formLayout_22;
+    QLabel *label_22;
+    QLabel *label_yearBuilt_error_code;
+    QLineEdit *line_computer_yearBuilt;
+    QFormLayout *formLayout_24;
+    QLabel *label_24;
+    QLabel *label_weight_error_code;
+    QLineEdit *line_computer_weight;
+    QPushButton *add_computer_confirm;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -298,6 +350,12 @@ public:
 
         verticalLayout->addWidget(groupBox);
 
+        button_person_change_profilepic = new QPushButton(person_profile);
+        button_person_change_profilepic->setObjectName(QStringLiteral("button_person_change_profilepic"));
+        button_person_change_profilepic->setGeometry(QRect(20, 120, 75, 23));
+        person_profilepic = new QLabel(person_profile);
+        person_profilepic->setObjectName(QStringLiteral("person_profilepic"));
+        person_profilepic->setGeometry(QRect(20, 20, 71, 71));
         person_details->addTab(person_profile, QString());
         person_connections = new QWidget();
         person_connections->setObjectName(QStringLiteral("person_connections"));
@@ -314,7 +372,7 @@ public:
         table_person_connections->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         gridLayoutWidget_5 = new QWidget(person_connections);
         gridLayoutWidget_5->setObjectName(QStringLiteral("gridLayoutWidget_5"));
-        gridLayoutWidget_5->setGeometry(QRect(220, 20, 131, 80));
+        gridLayoutWidget_5->setGeometry(QRect(220, 20, 155, 80));
         gridLayout_5 = new QGridLayout(gridLayoutWidget_5);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -354,8 +412,6 @@ public:
         gridLayout_5->addLayout(gridLayout_4, 0, 0, 1, 1);
 
         person_details->addTab(person_connections, QString());
-        table_person_connections->raise();
-        gridLayoutWidget_5->raise();
         gridLayoutWidget_3 = new QWidget(person_tab_search);
         gridLayoutWidget_3->setObjectName(QStringLiteral("gridLayoutWidget_3"));
         gridLayoutWidget_3->setGeometry(QRect(10, 10, 221, 161));
@@ -421,9 +477,6 @@ public:
         gridLayout_3->addWidget(button_person_search_update, 0, 1, 1, 1);
 
         tabWidget->addTab(person_tab_search, QString());
-        person_details->raise();
-        gridLayoutWidget_3->raise();
-        person_orderBy_combo->raise();
         tab_3 = new QWidget();
         tab_3->setObjectName(QStringLiteral("tab_3"));
         formLayoutWidget_2 = new QWidget(tab_3);
@@ -575,12 +628,12 @@ public:
         table_computer->verticalHeader()->setStretchLastSection(false);
         tabWidget_2 = new QTabWidget(tab_computer);
         tabWidget_2->setObjectName(QStringLiteral("tabWidget_2"));
-        tabWidget_2->setGeometry(QRect(-2, -1, 351, 411));
+        tabWidget_2->setGeometry(QRect(-2, -1, 371, 501));
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
         gridLayoutWidget_6 = new QWidget(tab);
         gridLayoutWidget_6->setObjectName(QStringLiteral("gridLayoutWidget_6"));
-        gridLayoutWidget_6->setGeometry(QRect(10, 10, 222, 161));
+        gridLayoutWidget_6->setGeometry(QRect(10, 10, 269, 161));
         gridLayout_6 = new QGridLayout(gridLayoutWidget_6);
         gridLayout_6->setSpacing(6);
         gridLayout_6->setContentsMargins(11, 11, 11, 11);
@@ -634,17 +687,277 @@ public:
 
         gridLayout_7->addWidget(label_14, 3, 0, 1, 1);
 
+        computer_wasBuilt_checkBox = new QCheckBox(gridLayoutWidget_6);
+        computer_wasBuilt_checkBox->setObjectName(QStringLiteral("computer_wasBuilt_checkBox"));
+        computer_wasBuilt_checkBox->setChecked(true);
+        computer_wasBuilt_checkBox->setTristate(false);
 
-        gridLayout_6->addLayout(gridLayout_7, 1, 0, 1, 1);
+        gridLayout_7->addWidget(computer_wasBuilt_checkBox, 4, 0, 1, 1);
+
+
+        gridLayout_6->addLayout(gridLayout_7, 2, 0, 1, 1);
 
         button_computer_search_update = new QPushButton(gridLayoutWidget_6);
         button_computer_search_update->setObjectName(QStringLiteral("button_computer_search_update"));
 
         gridLayout_6->addWidget(button_computer_search_update, 0, 1, 1, 1);
 
+        computer_details = new QTabWidget(tab);
+        computer_details->setObjectName(QStringLiteral("computer_details"));
+        computer_details->setGeometry(QRect(10, 170, 361, 311));
+        computer_details->setAutoFillBackground(false);
+        computer_details->setTabShape(QTabWidget::Rounded);
+        computer_details->setDocumentMode(false);
+        computer_details->setMovable(true);
+        computer_profile = new QWidget();
+        computer_profile->setObjectName(QStringLiteral("computer_profile"));
+        verticalLayoutWidget_2 = new QWidget(computer_profile);
+        verticalLayoutWidget_2->setObjectName(QStringLiteral("verticalLayoutWidget_2"));
+        verticalLayoutWidget_2->setGeometry(QRect(130, 10, 211, 221));
+        verticalLayout_2 = new QVBoxLayout(verticalLayoutWidget_2);
+        verticalLayout_2->setSpacing(6);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        groupBox_2 = new QGroupBox(verticalLayoutWidget_2);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        gridLayoutWidget_2 = new QWidget(groupBox_2);
+        gridLayoutWidget_2->setObjectName(QStringLiteral("gridLayoutWidget_2"));
+        gridLayoutWidget_2->setGeometry(QRect(10, 180, 181, 31));
+        gridLayout_8 = new QGridLayout(gridLayoutWidget_2);
+        gridLayout_8->setSpacing(6);
+        gridLayout_8->setContentsMargins(11, 11, 11, 11);
+        gridLayout_8->setObjectName(QStringLiteral("gridLayout_8"));
+        gridLayout_8->setContentsMargins(0, 0, 0, 0);
+        button_delete_computer = new QPushButton(gridLayoutWidget_2);
+        button_delete_computer->setObjectName(QStringLiteral("button_delete_computer"));
+        button_delete_computer->setEnabled(false);
+
+        gridLayout_8->addWidget(button_delete_computer, 0, 0, 1, 1);
+
+        button_edit_computer = new QPushButton(gridLayoutWidget_2);
+        button_edit_computer->setObjectName(QStringLiteral("button_edit_computer"));
+        button_edit_computer->setEnabled(false);
+
+        gridLayout_8->addWidget(button_edit_computer, 0, 1, 1, 1);
+
+        formLayoutWidget_4 = new QWidget(groupBox_2);
+        formLayoutWidget_4->setObjectName(QStringLiteral("formLayoutWidget_4"));
+        formLayoutWidget_4->setGeometry(QRect(10, 20, 181, 151));
+        formLayout_2 = new QFormLayout(formLayoutWidget_4);
+        formLayout_2->setSpacing(6);
+        formLayout_2->setContentsMargins(11, 11, 11, 11);
+        formLayout_2->setObjectName(QStringLiteral("formLayout_2"));
+        formLayout_2->setContentsMargins(0, 0, 0, 0);
+        label_computer_id = new QLabel(formLayoutWidget_4);
+        label_computer_id->setObjectName(QStringLiteral("label_computer_id"));
+
+        formLayout_2->setWidget(1, QFormLayout::LabelRole, label_computer_id);
+
+        label_23 = new QLabel(formLayoutWidget_4);
+        label_23->setObjectName(QStringLiteral("label_23"));
+
+        formLayout_2->setWidget(2, QFormLayout::LabelRole, label_23);
+
+        computer_name = new QLineEdit(formLayoutWidget_4);
+        computer_name->setObjectName(QStringLiteral("computer_name"));
+        computer_name->setEnabled(false);
+
+        formLayout_2->setWidget(2, QFormLayout::FieldRole, computer_name);
+
+        label_25 = new QLabel(formLayoutWidget_4);
+        label_25->setObjectName(QStringLiteral("label_25"));
+
+        formLayout_2->setWidget(4, QFormLayout::LabelRole, label_25);
+
+        computer_yearBuilt = new QLineEdit(formLayoutWidget_4);
+        computer_yearBuilt->setObjectName(QStringLiteral("computer_yearBuilt"));
+        computer_yearBuilt->setEnabled(false);
+
+        formLayout_2->setWidget(4, QFormLayout::FieldRole, computer_yearBuilt);
+
+        label_26 = new QLabel(formLayoutWidget_4);
+        label_26->setObjectName(QStringLiteral("label_26"));
+
+        formLayout_2->setWidget(5, QFormLayout::LabelRole, label_26);
+
+        computer_built = new QLineEdit(formLayoutWidget_4);
+        computer_built->setObjectName(QStringLiteral("computer_built"));
+        computer_built->setEnabled(false);
+        computer_built->setInputMethodHints(Qt::ImhNone);
+
+        formLayout_2->setWidget(5, QFormLayout::FieldRole, computer_built);
+
+        label_27 = new QLabel(formLayoutWidget_4);
+        label_27->setObjectName(QStringLiteral("label_27"));
+
+        formLayout_2->setWidget(6, QFormLayout::LabelRole, label_27);
+
+        computer_weight = new QLineEdit(formLayoutWidget_4);
+        computer_weight->setObjectName(QStringLiteral("computer_weight"));
+        computer_weight->setEnabled(false);
+        computer_weight->setFrame(true);
+
+        formLayout_2->setWidget(6, QFormLayout::FieldRole, computer_weight);
+
+        label_28 = new QLabel(formLayoutWidget_4);
+        label_28->setObjectName(QStringLiteral("label_28"));
+
+        formLayout_2->setWidget(3, QFormLayout::LabelRole, label_28);
+
+        computer_type = new QLineEdit(formLayoutWidget_4);
+        computer_type->setObjectName(QStringLiteral("computer_type"));
+        computer_type->setEnabled(false);
+
+        formLayout_2->setWidget(3, QFormLayout::FieldRole, computer_type);
+
+
+        verticalLayout_2->addWidget(groupBox_2);
+
+        computer_details->addTab(computer_profile, QString());
+        computer_connections_tab = new QWidget();
+        computer_connections_tab->setObjectName(QStringLiteral("computer_connections_tab"));
+        table_computer_connections = new QTableWidget(computer_connections_tab);
+        if (table_computer_connections->columnCount() < 2)
+            table_computer_connections->setColumnCount(2);
+        QTableWidgetItem *__qtablewidgetitem10 = new QTableWidgetItem();
+        table_computer_connections->setHorizontalHeaderItem(0, __qtablewidgetitem10);
+        QTableWidgetItem *__qtablewidgetitem11 = new QTableWidgetItem();
+        table_computer_connections->setHorizontalHeaderItem(1, __qtablewidgetitem11);
+        table_computer_connections->setObjectName(QStringLiteral("table_computer_connections"));
+        table_computer_connections->setEnabled(true);
+        table_computer_connections->setGeometry(QRect(10, 10, 201, 271));
+        table_computer_connections->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        gridLayoutWidget_7 = new QWidget(computer_connections_tab);
+        gridLayoutWidget_7->setObjectName(QStringLiteral("gridLayoutWidget_7"));
+        gridLayoutWidget_7->setGeometry(QRect(220, 20, 155, 80));
+        gridLayout_9 = new QGridLayout(gridLayoutWidget_7);
+        gridLayout_9->setSpacing(6);
+        gridLayout_9->setContentsMargins(11, 11, 11, 11);
+        gridLayout_9->setObjectName(QStringLiteral("gridLayout_9"));
+        gridLayout_9->setContentsMargins(0, 0, 0, 0);
+        button_remove_connection_computer = new QPushButton(gridLayoutWidget_7);
+        button_remove_connection_computer->setObjectName(QStringLiteral("button_remove_connection_computer"));
+
+        gridLayout_9->addWidget(button_remove_connection_computer, 1, 0, 1, 1);
+
+        gridLayout_10 = new QGridLayout();
+        gridLayout_10->setSpacing(6);
+        gridLayout_10->setObjectName(QStringLiteral("gridLayout_10"));
+        gridLayout_10->setSizeConstraint(QLayout::SetNoConstraint);
+        gridLayout_10->setContentsMargins(0, -1, 0, -1);
+        label_29 = new QLabel(gridLayoutWidget_7);
+        label_29->setObjectName(QStringLiteral("label_29"));
+
+        gridLayout_10->addWidget(label_29, 0, 1, 1, 1);
+
+        button_add_connection_computer = new QPushButton(gridLayoutWidget_7);
+        button_add_connection_computer->setObjectName(QStringLiteral("button_add_connection_computer"));
+
+        gridLayout_10->addWidget(button_add_connection_computer, 0, 0, 1, 1);
+
+        lineEdit_2 = new QLineEdit(gridLayoutWidget_7);
+        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
+        sizePolicy.setHeightForWidth(lineEdit_2->sizePolicy().hasHeightForWidth());
+        lineEdit_2->setSizePolicy(sizePolicy);
+
+        gridLayout_10->addWidget(lineEdit_2, 0, 2, 1, 1);
+
+
+        gridLayout_9->addLayout(gridLayout_10, 0, 0, 1, 1);
+
+        computer_details->addTab(computer_connections_tab, QString());
         tabWidget_2->addTab(tab, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QStringLiteral("tab_2"));
+        formLayoutWidget_3 = new QWidget(tab_2);
+        formLayoutWidget_3->setObjectName(QStringLiteral("formLayoutWidget_3"));
+        formLayoutWidget_3->setGeometry(QRect(0, 0, 271, 341));
+        person_form_2 = new QFormLayout(formLayoutWidget_3);
+        person_form_2->setSpacing(6);
+        person_form_2->setContentsMargins(11, 11, 11, 11);
+        person_form_2->setObjectName(QStringLiteral("person_form_2"));
+        person_form_2->setContentsMargins(0, 0, 0, 0);
+        formLayout_20 = new QFormLayout();
+        formLayout_20->setSpacing(6);
+        formLayout_20->setObjectName(QStringLiteral("formLayout_20"));
+        label_20 = new QLabel(formLayoutWidget_3);
+        label_20->setObjectName(QStringLiteral("label_20"));
+
+        formLayout_20->setWidget(0, QFormLayout::LabelRole, label_20);
+
+        label_computer_name_error_code = new QLabel(formLayoutWidget_3);
+        label_computer_name_error_code->setObjectName(QStringLiteral("label_computer_name_error_code"));
+
+        formLayout_20->setWidget(0, QFormLayout::FieldRole, label_computer_name_error_code);
+
+
+        person_form_2->setLayout(0, QFormLayout::FieldRole, formLayout_20);
+
+        line_computer_name = new QLineEdit(formLayoutWidget_3);
+        line_computer_name->setObjectName(QStringLiteral("line_computer_name"));
+
+        person_form_2->setWidget(1, QFormLayout::FieldRole, line_computer_name);
+
+        label_21 = new QLabel(formLayoutWidget_3);
+        label_21->setObjectName(QStringLiteral("label_21"));
+
+        person_form_2->setWidget(2, QFormLayout::FieldRole, label_21);
+
+        computer_type_add_Combo = new QComboBox(formLayoutWidget_3);
+        computer_type_add_Combo->setObjectName(QStringLiteral("computer_type_add_Combo"));
+
+        person_form_2->setWidget(3, QFormLayout::FieldRole, computer_type_add_Combo);
+
+        formLayout_22 = new QFormLayout();
+        formLayout_22->setSpacing(6);
+        formLayout_22->setObjectName(QStringLiteral("formLayout_22"));
+        label_22 = new QLabel(formLayoutWidget_3);
+        label_22->setObjectName(QStringLiteral("label_22"));
+
+        formLayout_22->setWidget(0, QFormLayout::LabelRole, label_22);
+
+        label_yearBuilt_error_code = new QLabel(formLayoutWidget_3);
+        label_yearBuilt_error_code->setObjectName(QStringLiteral("label_yearBuilt_error_code"));
+
+        formLayout_22->setWidget(0, QFormLayout::FieldRole, label_yearBuilt_error_code);
+
+
+        person_form_2->setLayout(4, QFormLayout::FieldRole, formLayout_22);
+
+        line_computer_yearBuilt = new QLineEdit(formLayoutWidget_3);
+        line_computer_yearBuilt->setObjectName(QStringLiteral("line_computer_yearBuilt"));
+        line_computer_yearBuilt->setInputMethodHints(Qt::ImhDigitsOnly);
+
+        person_form_2->setWidget(5, QFormLayout::FieldRole, line_computer_yearBuilt);
+
+        formLayout_24 = new QFormLayout();
+        formLayout_24->setSpacing(6);
+        formLayout_24->setObjectName(QStringLiteral("formLayout_24"));
+        label_24 = new QLabel(formLayoutWidget_3);
+        label_24->setObjectName(QStringLiteral("label_24"));
+
+        formLayout_24->setWidget(0, QFormLayout::LabelRole, label_24);
+
+        label_weight_error_code = new QLabel(formLayoutWidget_3);
+        label_weight_error_code->setObjectName(QStringLiteral("label_weight_error_code"));
+
+        formLayout_24->setWidget(0, QFormLayout::FieldRole, label_weight_error_code);
+
+
+        person_form_2->setLayout(6, QFormLayout::FieldRole, formLayout_24);
+
+        line_computer_weight = new QLineEdit(formLayoutWidget_3);
+        line_computer_weight->setObjectName(QStringLiteral("line_computer_weight"));
+        line_computer_weight->setInputMethodHints(Qt::ImhDigitsOnly);
+
+        person_form_2->setWidget(7, QFormLayout::FieldRole, line_computer_weight);
+
+        add_computer_confirm = new QPushButton(formLayoutWidget_3);
+        add_computer_confirm->setObjectName(QStringLiteral("add_computer_confirm"));
+
+        person_form_2->setWidget(9, QFormLayout::FieldRole, add_computer_confirm);
+
         tabWidget_2->addTab(tab_2, QString());
         tab_view_chocie->addTab(tab_computer, QString());
         MainWindow->setCentralWidget(centralWidget);
@@ -664,7 +977,8 @@ public:
         tab_view_chocie->setCurrentIndex(0);
         tabWidget->setCurrentIndex(0);
         person_details->setCurrentIndex(0);
-        tabWidget_2->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(1);
+        computer_details->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -690,6 +1004,8 @@ public:
         label_3->setText(QApplication::translate("MainWindow", "Date birth", 0));
         label_4->setText(QApplication::translate("MainWindow", "Date death", 0));
         label_5->setText(QApplication::translate("MainWindow", "Gender", 0));
+        button_person_change_profilepic->setText(QApplication::translate("MainWindow", "Browse", 0));
+        person_profilepic->setText(QString());
         person_details->setTabText(person_details->indexOf(person_profile), QApplication::translate("MainWindow", "Profile", 0));
         QTableWidgetItem *___qtablewidgetitem4 = table_person_connections->horizontalHeaderItem(0);
         ___qtablewidgetitem4->setText(QApplication::translate("MainWindow", "Id", 0));
@@ -722,7 +1038,7 @@ public:
          << QApplication::translate("MainWindow", "Date birth", 0)
         );
         label_9->setText(QApplication::translate("MainWindow", "Order by", 0));
-        button_person_search_update->setText(QApplication::translate("MainWindow", "Update", 0));
+        button_person_search_update->setText(QApplication::translate("MainWindow", "Search", 0));
         tabWidget->setTabText(tabWidget->indexOf(person_tab_search), QApplication::translate("MainWindow", "Search", 0));
         label_15->setText(QApplication::translate("MainWindow", "Name:", 0));
         label_name_error_code->setText(QString());
@@ -772,8 +1088,42 @@ public:
          << QApplication::translate("MainWindow", "Weight", 0)
         );
         label_14->setText(QApplication::translate("MainWindow", "Order by", 0));
-        button_computer_search_update->setText(QApplication::translate("MainWindow", "Update", 0));
+        computer_wasBuilt_checkBox->setText(QApplication::translate("MainWindow", "Was built", 0));
+        button_computer_search_update->setText(QApplication::translate("MainWindow", "Search", 0));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Information", 0));
+        button_delete_computer->setText(QApplication::translate("MainWindow", "Delete", 0));
+        button_edit_computer->setText(QApplication::translate("MainWindow", "Edit", 0));
+        label_computer_id->setText(QApplication::translate("MainWindow", "Id:", 0));
+        label_23->setText(QApplication::translate("MainWindow", "Name", 0));
+        label_25->setText(QApplication::translate("MainWindow", "Year built", 0));
+        label_26->setText(QApplication::translate("MainWindow", "Was built?", 0));
+        label_27->setText(QApplication::translate("MainWindow", "Weight", 0));
+        label_28->setText(QApplication::translate("MainWindow", "Type", 0));
+        computer_details->setTabText(computer_details->indexOf(computer_profile), QApplication::translate("MainWindow", "Profile", 0));
+        QTableWidgetItem *___qtablewidgetitem10 = table_computer_connections->horizontalHeaderItem(0);
+        ___qtablewidgetitem10->setText(QApplication::translate("MainWindow", "Id", 0));
+        QTableWidgetItem *___qtablewidgetitem11 = table_computer_connections->horizontalHeaderItem(1);
+        ___qtablewidgetitem11->setText(QApplication::translate("MainWindow", "Name", 0));
+        button_remove_connection_computer->setText(QApplication::translate("MainWindow", "Remove selected", 0));
+        label_29->setText(QApplication::translate("MainWindow", "Id:", 0));
+        button_add_connection_computer->setText(QApplication::translate("MainWindow", "Add new", 0));
+        computer_details->setTabText(computer_details->indexOf(computer_connections_tab), QApplication::translate("MainWindow", "Connections", 0));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QApplication::translate("MainWindow", "Search", 0));
+        label_20->setText(QApplication::translate("MainWindow", "Name:", 0));
+        label_computer_name_error_code->setText(QString());
+        label_21->setText(QApplication::translate("MainWindow", "Type:", 0));
+        computer_type_add_Combo->clear();
+        computer_type_add_Combo->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "electromechanical", 0)
+         << QApplication::translate("MainWindow", "electronic", 0)
+         << QApplication::translate("MainWindow", "mechanical", 0)
+         << QApplication::translate("MainWindow", "transistor", 0)
+        );
+        label_22->setText(QApplication::translate("MainWindow", "Year built (-1 if N/A):", 0));
+        label_yearBuilt_error_code->setText(QString());
+        label_24->setText(QApplication::translate("MainWindow", "Weight:", 0));
+        label_weight_error_code->setText(QString());
+        add_computer_confirm->setText(QApplication::translate("MainWindow", "Add Computer", 0));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QApplication::translate("MainWindow", "Add new", 0));
         tab_view_chocie->setTabText(tab_view_chocie->indexOf(tab_computer), QApplication::translate("MainWindow", "Computer", 0));
     } // retranslateUi

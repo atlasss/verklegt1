@@ -53,7 +53,7 @@ void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.prepare("Update personData SET name = :name, gender = :gender, dateBirth = :dateBirth, dateDeath = :dateDeath, knownFor = :knownFor, age = :age, bVal = :bVal WHERE id = :id");
+    query.prepare("Update personData SET name = :name, gender = :gender, dateBirth = :dateBirth, dateDeath = :dateDeath, knownFor = :knownFor, age = :age, bVal = :bVal, personPic = :pic WHERE id = :id");
 
     query.bindValue(":id", i);
     query.bindValue(":name",  QString::fromStdString(editPerson.getName()));
@@ -63,6 +63,7 @@ void personlist::editPerson(int i, person editPerson, QSqlDatabase& dbMain){
     query.bindValue(":knownFor", QString::fromStdString(editPerson.getKnownFor()));
     query.bindValue(":age", editPerson.getAge());
     query.bindValue(":bVal", editPerson.getBVal());
+    query.bindValue(":pic", editPerson.getPic());
     query.exec();
 }
 
@@ -153,6 +154,7 @@ void personlist::readFile(string n, string g, string a, QSqlDatabase& dbMain, bo
     //temporary variables
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
+    QByteArray tpic;
 
     QSqlQuery query(dbMain);
     if(asc){
@@ -189,7 +191,8 @@ void personlist::readFile(string n, string g, string a, QSqlDatabase& dbMain, bo
         tdeath = query.value("dateDeath").toString().toStdString();
         tknown = query.value("knownFor").toString().toStdString();
         tage = query.value("age").toUInt();
-        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+        tpic = query.value("personPic").toByteArray();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage, tpic));
 
     }
 }
@@ -230,7 +233,7 @@ void personlist::readFileAlpha(string n, string g, string a, QSqlDatabase& dbMai
     //temporary variables
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
-
+    QByteArray tpic;
 
 
     QSqlQuery query(dbMain);
@@ -269,7 +272,8 @@ void personlist::readFileAlpha(string n, string g, string a, QSqlDatabase& dbMai
         tdeath = query.value("dateDeath").toString().toStdString();
         tknown = query.value("knownFor").toString().toStdString();
         tage = query.value("age").toUInt();
-        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+        tpic = query.value("personPic").toByteArray();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage, tpic));
     }
 
 }
@@ -310,7 +314,7 @@ void personlist::readFileYearBorn(string n, string g, string a, QSqlDatabase &db
     //temporary variables
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
-
+    QByteArray tpic;
 
 
     QSqlQuery query(dbMain);
@@ -349,7 +353,8 @@ void personlist::readFileYearBorn(string n, string g, string a, QSqlDatabase &db
         tdeath = query.value("dateDeath").toString().toStdString();
         tknown = query.value("knownFor").toString().toStdString();
         tage = query.value("age").toUInt();
-        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+        tpic = query.value("personPic").toByteArray();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage, tpic));
     }
 
 }
@@ -361,7 +366,7 @@ void personlist::readFileId(int i,QSqlDatabase& dbMain){
     //temporary variables
     string tname, tgender, tbirth, tdeath, tknown;
     int tid, tage;
-
+    QByteArray tpic;
 
 
     QSqlQuery query(dbMain);
@@ -377,7 +382,8 @@ void personlist::readFileId(int i,QSqlDatabase& dbMain){
         tdeath = query.value("dateDeath").toString().toStdString();
         tknown = query.value("knownFor").toString().toStdString();
         tage = query.value("age").toUInt();
-        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage));
+        tpic = query.value("personPic").toByteArray();
+        addPerson(dbMain, person(tid, tname, tgender, tbirth, tdeath, tknown, tage, tpic));
     }
 
 }
@@ -412,8 +418,8 @@ void personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
 
     QSqlQuery query(dbMain);
 
-    query.prepare("INSERT INTO personData (id, name, gender, dateBirth, dateDeath, knownFor, age, bVal) "
-                      "VALUES (:id, :name, :gender, :dateBirth, :dateDeath, :knownFor, :age, :bVal)");
+    query.prepare("INSERT INTO personData (id, name, gender, dateBirth, dateDeath, knownFor, age, bVal, personPic) "
+                      "VALUES (:id, :name, :gender, :dateBirth, :dateDeath, :knownFor, :age, :bVal, :pic)");
     query.bindValue(":id", newPerson.getId());
     query.bindValue(":name", QString::fromStdString(newPerson.getName()));
     query.bindValue(":gender",  QString::fromStdString(newPerson.getGender()));
@@ -422,9 +428,6 @@ void personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
     query.bindValue(":knownFor", QString::fromStdString(newPerson.getKnownFor()));
     query.bindValue(":age", newPerson.getAge());
     query.bindValue(":bVal", newPerson.getBVal());
+    query.bindValue(":pic", newPerson.getPic());
     query.exec();
-
-
-
-
 }

@@ -30,13 +30,11 @@ public:
     bool idExists(int i);
     //get persons connected to the computer that matches the id
     crel getRel(int i, QSqlDatabase& dbMain);
-    void readFile(QSqlDatabase& dbMain);
-    void readFileAlpha(QSqlDatabase& dbMain);
-    void readFileAlphaDec(QSqlDatabase& dbMain);
-    void readFileAge(string m, QSqlDatabase& dbMain);
-    void readFileName(string n, QSqlDatabase& dbMain);
+    void readFile(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc);
+    void readFileAlpha(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc);
+    void readFileAge(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc);
     void readFileId(int i, QSqlDatabase& dbMain);
-    void readFileWeight(QSqlDatabase& dbMain);
+    void readFileWeight(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc);
 
     void writeToFile(QSqlDatabase& dbMain, computer newComputer);
 };

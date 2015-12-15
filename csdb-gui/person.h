@@ -2,6 +2,8 @@
 #define PERSON
 
 #include <iostream>
+#include <QByteArray>
+
 using namespace std;
 
 class person{
@@ -15,11 +17,13 @@ private:
     double age;
     double bval;
     double dval;
+    QByteArray pic;
+
 public:
     person();
     ~person();
-    person(string lname, string lgender, string lbirth, string ldeath, string lknown, int age);
-    person(int lid, string lname, string lgender, string lbirth, string ldeath, string lknown, int lage);
+    person(string lname, string lgender, string lbirth, string ldeath, string lknown, int age, QByteArray lpic);
+    person(int lid, string lname, string lgender, string lbirth, string ldeath, string lknown, int lage, QByteArray lpic);
     std::string getName()const;
     string getDateBirth()const;
     string getDateDeath()const;
@@ -28,6 +32,7 @@ public:
     int getId()const;
     double getAge()const;
     double getBVal()const;
+    QByteArray getPic()const;
     //returns string with all necessary data which is stored in the txt file
     string getData();
     void setName(string lname);
@@ -36,6 +41,7 @@ public:
     void setGender(string lgender);
     void setKnownFor(string lknown);
     void setId(int id);
+    void setPic(QByteArray lpic);
     //validates date string when filling out the form
     bool isDateBirthValid();
     //validates date string when filling out the form
