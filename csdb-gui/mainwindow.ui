@@ -24,7 +24,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab_person">
      <attribute name="title">
@@ -36,7 +36,7 @@
       </property>
       <property name="geometry">
        <rect>
-        <x>390</x>
+        <x>380</x>
         <y>20</y>
         <width>411</width>
         <height>481</height>
@@ -140,7 +140,7 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="documentMode">
          <bool>false</bool>
@@ -321,8 +321,8 @@
           <property name="geometry">
            <rect>
             <x>20</x>
-            <y>120</y>
-            <width>75</width>
+            <y>100</y>
+            <width>71</width>
             <height>23</height>
            </rect>
           </property>
@@ -338,6 +338,12 @@
             <width>71</width>
             <height>71</height>
            </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
           </property>
           <property name="text">
            <string/>
@@ -356,13 +362,16 @@
            <rect>
             <x>10</x>
             <y>10</y>
-            <width>201</width>
-            <height>271</height>
+            <width>231</width>
+            <height>181</height>
            </rect>
           </property>
           <property name="horizontalScrollBarPolicy">
            <enum>Qt::ScrollBarAlwaysOff</enum>
           </property>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
           <column>
            <property name="text">
             <string>Id</string>
@@ -377,10 +386,10 @@
          <widget class="QWidget" name="gridLayoutWidget_5">
           <property name="geometry">
            <rect>
-            <x>220</x>
-            <y>20</y>
+            <x>10</x>
+            <y>200</y>
             <width>155</width>
-            <height>80</height>
+            <height>71</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -417,7 +426,7 @@
               </widget>
              </item>
              <item row="0" column="2">
-              <widget class="QLineEdit" name="lineEdit">
+              <widget class="QLineEdit" name="person_relation_line">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -759,8 +768,8 @@
      <widget class="QTabWidget" name="tabWidget_2">
       <property name="geometry">
        <rect>
-        <x>-2</x>
-        <y>-1</y>
+        <x>-3</x>
+        <y>0</y>
         <width>371</width>
         <height>501</height>
        </rect>
@@ -1091,6 +1100,38 @@
            </item>
           </layout>
          </widget>
+         <widget class="QLabel" name="computer_profilepic">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>20</y>
+            <width>71</width>
+            <height>71</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="button_computer_change_profilepic">
+          <property name="geometry">
+           <rect>
+            <x>20</x>
+            <y>100</y>
+            <width>71</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
         </widget>
         <widget class="QWidget" name="computer_connections_tab">
          <attribute name="title">
@@ -1104,8 +1145,8 @@
            <rect>
             <x>10</x>
             <y>10</y>
-            <width>201</width>
-            <height>271</height>
+            <width>231</width>
+            <height>181</height>
            </rect>
           </property>
           <property name="horizontalScrollBarPolicy">
@@ -1125,10 +1166,10 @@
          <widget class="QWidget" name="gridLayoutWidget_7">
           <property name="geometry">
            <rect>
-            <x>220</x>
-            <y>20</y>
+            <x>10</x>
+            <y>200</y>
             <width>155</width>
-            <height>80</height>
+            <height>71</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_9">
@@ -1165,7 +1206,7 @@
               </widget>
              </item>
              <item row="0" column="2">
-              <widget class="QLineEdit" name="lineEdit_2">
+              <widget class="QLineEdit" name="computer_relation_line">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1277,7 +1318,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_24">
              <property name="text">
-              <string>Weight:</string>
+              <string>Weight (-1 if unkown):</string>
              </property>
             </widget>
            </item>

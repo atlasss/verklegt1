@@ -19,10 +19,11 @@ personlist::~personlist(){
 
 }
 
-void personlist::addPerson(QSqlDatabase& dbMain, person newPerson){
+bool personlist::addPerson(QSqlDatabase& dbMain, person newPerson){
+    bool success;
     if(newPerson.getId() == -1){
         newPerson.setId(NOInList);
-        writeToFile(dbMain, newPerson);
+        success = writeToFile(dbMain, newPerson);
     }
     else{
         saved++;
@@ -32,6 +33,7 @@ void personlist::addPerson(QSqlDatabase& dbMain, person newPerson){
         NOInList = newPerson.getId();
     }
     NOInList++;
+    return success;
 }
 
 void personlist::deletePerson(int index, QSqlDatabase& dbMain){
@@ -243,7 +245,7 @@ void personlist::readFileAlpha(string n, string g, string a, QSqlDatabase& dbMai
                       "where name LIKE '%'||:name||'%' "
                       "AND gender LIKE :gender||'%'"
                       "AND (age < :high AND age > :low)"
-                      "ORDER BY name");
+                      "ORDER BY name COLLATE NOCASE");
         query.bindValue(":name",QString::fromStdString(n));
         query.bindValue(":gender",QString::fromStdString(g));
         query.bindValue(":low",low);
@@ -256,7 +258,7 @@ void personlist::readFileAlpha(string n, string g, string a, QSqlDatabase& dbMai
                       "where name LIKE '%'||:name||'%' "
                       "AND gender LIKE :gender||'%'"
                       "AND (age < :high AND age > :low)"
-                      "ORDER BY name DESC");
+                      "ORDER BY name COLLATE NOCASE DESC");
         query.bindValue(":name",QString::fromStdString(n));
         query.bindValue(":gender",QString::fromStdString(g));
         query.bindValue(":low",low);
@@ -413,7 +415,7 @@ void personlist::updateAge(QSqlDatabase& dbMain){
 
 }
 
-void personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
+bool personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
 
 
     QSqlQuery query(dbMain);
@@ -429,5 +431,8 @@ void personlist::writeToFile(QSqlDatabase& dbMain, person newPerson){
     query.bindValue(":age", newPerson.getAge());
     query.bindValue(":bVal", newPerson.getBVal());
     query.bindValue(":pic", newPerson.getPic());
-    query.exec();
+    if(query.exec())
+        return true;
+    else
+        return false;
 }

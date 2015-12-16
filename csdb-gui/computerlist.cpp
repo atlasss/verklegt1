@@ -7,7 +7,7 @@
 #include <QVariant>
 #include <algorithm>
 #include "computerlist.h"
-
+#include <QMessageBox>
 using namespace std;
 
 computerlist::computerlist(){
@@ -16,22 +16,25 @@ computerlist::computerlist(){
 computerlist::~computerlist(){
 
 }
-void computerlist::addComputer(QSqlDatabase& dbMain, computer newComputer){
+bool computerlist::addComputer(QSqlDatabase& dbMain, computer newComputer){
+    bool success;
+
     if(newComputer.getId() == -1){
         newComputer.setId(NOInList);
-        writeToFile(dbMain, newComputer);
+        success = writeToFile(dbMain, newComputer);
     }
     cList.push_back(newComputer);
     if(newComputer.getId() > NOInList){
         NOInList = newComputer.getId();
     }
     NOInList++;
+    return success;
 }
 void computerlist::editComputer(int i, computer editComputer,  QSqlDatabase& dbMain){
 
     QSqlQuery query(dbMain);
 
-    query.prepare("Update computerData SET name = :name, yearBuilt = :yearBuilt, type = :type, built = :built, weight = :weight WHERE id = :id");
+    query.prepare("Update computerData SET name = :name, yearBuilt = :yearBuilt, type = :type, built = :built, weight = :weight, computerPic = :pic WHERE id = :id");
 
     query.bindValue(":id", i);
     query.bindValue(":name",  QString::fromStdString(editComputer.getName()));
@@ -39,6 +42,7 @@ void computerlist::editComputer(int i, computer editComputer,  QSqlDatabase& dbM
     query.bindValue(":type", QString::fromStdString(editComputer.getType()));
     query.bindValue(":built", editComputer.wasBuilt());
     query.bindValue(":weight", editComputer.getWeight());
+    query.bindValue(":pic", editComputer.getPic());
     query.exec();
 }
 void computerlist::deleteComputer(int index, QSqlDatabase& dbMain){
@@ -81,7 +85,7 @@ crel computerlist::getRel(int i, QSqlDatabase& dbMain){
     return n;
 }
 
-void computerlist::readFile(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc){
+void computerlist::readFile(string n, string a, string t, int b, QSqlDatabase& dbMain, bool asc){
     int mid = 0, low = 0, high = 0, s = 0;
     if(!a.empty()){
         for(unsigned int i = 0; i < a.size(); i++){
@@ -104,7 +108,7 @@ void computerlist::readFile(string n, string a, string t, bool b, QSqlDatabase& 
         }
     }
     else{
-        low = 0;
+        low = -2;
         high= 2015;
     }
 
@@ -115,6 +119,7 @@ void computerlist::readFile(string n, string a, string t, bool b, QSqlDatabase& 
     bool tbuilt;
     int tid, tyearBuilt;
     double tweight;
+    QByteArray tpic;
 
     QSqlQuery query(dbMain);
     if(asc){
@@ -126,8 +131,8 @@ void computerlist::readFile(string n, string a, string t, bool b, QSqlDatabase& 
                       "ORDER BY id");
         query.bindValue(":name", QString::fromStdString(n));
         query.bindValue(":type", QString::fromStdString(t));
-        query.bindValue(":high", (high));
-        query.bindValue(":low", low);
+        query.bindValue(":high", high);
+        query.bindValue(":low", -2000);
         query.bindValue(":built", b);
         query.exec();
     }
@@ -141,7 +146,7 @@ void computerlist::readFile(string n, string a, string t, bool b, QSqlDatabase& 
         query.bindValue(":name", QString::fromStdString(n));
         query.bindValue(":type", QString::fromStdString(t));
         query.bindValue(":high", high);
-        query.bindValue(":low", low);
+        query.bindValue(":low", -2000);
         query.bindValue(":built", b);
         query.exec();
     }
@@ -152,14 +157,14 @@ void computerlist::readFile(string n, string a, string t, bool b, QSqlDatabase& 
         ttype = query.value("type").toString().toStdString();
         tbuilt = query.value("built").toUInt();
         tweight = query.value("weight").toDouble();
-
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
+        tpic = query.value("computerPic").toByteArray();
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight,tpic));
     }
 
 
 }
 
-void computerlist::readFileAlpha(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc){
+void computerlist::readFileAlpha(string n, string a, string t, int b, QSqlDatabase& dbMain, bool asc){
     int mid = 0, low = 0, high = 0, s = 0;
     if(!a.empty()){
         for(unsigned int i = 0; i < a.size(); i++){
@@ -182,7 +187,7 @@ void computerlist::readFileAlpha(string n, string a, string t, bool b, QSqlDatab
         }
     }
     else{
-        low = 0;
+        low = -2;
         high= 2015;
     }
 
@@ -194,6 +199,7 @@ void computerlist::readFileAlpha(string n, string a, string t, bool b, QSqlDatab
     bool tbuilt;
     int tid, tyearBuilt;
     double tweight;
+    QByteArray tpic;
 
     QSqlQuery query(dbMain);
     if(asc){
@@ -202,7 +208,7 @@ void computerlist::readFileAlpha(string n, string a, string t, bool b, QSqlDatab
                       "AND type LIKE :type||'%' "
                       "AND (yearBuilt < :high AND yearBuilt > :low) "
                       "AND built = :built "
-                      "ORDER BY name");
+                      "ORDER BY name COLLATE NOCASE");
         query.bindValue(":name", QString::fromStdString(n));
         query.bindValue(":type", QString::fromStdString(t));
         query.bindValue(":high", (high));
@@ -216,7 +222,7 @@ void computerlist::readFileAlpha(string n, string a, string t, bool b, QSqlDatab
                       "AND type LIKE :type||'%' "
                       "AND (yearBuilt < :high AND yearBuilt > :low) "
                       "AND built = :built "
-                      "ORDER BY name DESC");
+                      "ORDER BY name COLLATE NOCASE DESC");
         query.bindValue(":name", QString::fromStdString(n));
         query.bindValue(":type", QString::fromStdString(t));
         query.bindValue(":high", high);
@@ -232,12 +238,12 @@ void computerlist::readFileAlpha(string n, string a, string t, bool b, QSqlDatab
         ttype = query.value("type").toString().toStdString();
         tbuilt = query.value("built").toUInt();
         tweight = query.value("weight").toDouble();
-
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
+        tpic = query.value("computerPic").toByteArray();
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight,tpic));
     }
 }
 
-void computerlist::readFileAge(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc){
+void computerlist::readFileAge(string n, string a, string t, int b, QSqlDatabase& dbMain, bool asc){
     int mid = 0, low = 0, high = 0, s = 0;
     if(!a.empty()){
         for(unsigned int i = 0; i < a.size(); i++){
@@ -260,7 +266,7 @@ void computerlist::readFileAge(string n, string a, string t, bool b, QSqlDatabas
         }
     }
     else{
-        low = 0;
+        low = -2;
         high= 2015;
     }
 
@@ -271,6 +277,7 @@ void computerlist::readFileAge(string n, string a, string t, bool b, QSqlDatabas
     bool tbuilt;
     int tid, tyearBuilt;
     double tweight;
+    QByteArray tpic;
 
     QSqlQuery query(dbMain);
     if(asc){
@@ -309,8 +316,8 @@ void computerlist::readFileAge(string n, string a, string t, bool b, QSqlDatabas
         ttype = query.value("type").toString().toStdString();
         tbuilt = query.value("built").toUInt();
         tweight = query.value("weight").toDouble();
-
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
+        tpic = query.value("computerPic").toByteArray();
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight,tpic));
     }
 
 }
@@ -323,8 +330,7 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
     bool tbuilt;
     int tid, tyearBuilt;
     double tweight;
-
-
+    QByteArray tpic;
 
     QSqlQuery query(dbMain);
 
@@ -338,14 +344,14 @@ void computerlist::readFileId(int i, QSqlDatabase& dbMain){
         ttype = query.value("type").toString().toStdString();
         tbuilt = query.value("built").toUInt();
         tweight = query.value("weight").toDouble();
-
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
+        tpic = query.value("computerPic").toByteArray();
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight,tpic));
     }
 
 
 }
 
-void computerlist::readFileWeight(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc){
+void computerlist::readFileWeight(string n, string a, string t, int b, QSqlDatabase& dbMain, bool asc){
     int mid = 0;
     double low = 0, high = 0, s = 0;
 
@@ -372,7 +378,7 @@ void computerlist::readFileWeight(string n, string a, string t, bool b, QSqlData
         high*= 365.25;
     }
     else{
-        low = 0;
+        low = -2;
         high= 2000 * 365.25;
     }
 
@@ -383,6 +389,7 @@ void computerlist::readFileWeight(string n, string a, string t, bool b, QSqlData
     bool tbuilt;
     int tid, tyearBuilt;
     double tweight;
+    QByteArray tpic;
 
     QSqlQuery query(dbMain);
     if(asc){
@@ -390,7 +397,7 @@ void computerlist::readFileWeight(string n, string a, string t, bool b, QSqlData
                       "WHERE name LIKE '%'||:name||'%' "
                       "AND type LIKE :type||'%' "
                       "AND (yearBuilt < :high AND yearBuilt > :low) "
-                      "AND built = :built "
+                      "AND built == :built "
                       "ORDER BY weight");
         query.bindValue(":name", QString::fromStdString(n));
         query.bindValue(":type", QString::fromStdString(t));
@@ -404,7 +411,7 @@ void computerlist::readFileWeight(string n, string a, string t, bool b, QSqlData
                       "WHERE name LIKE '%'||:name||'%' "
                       "AND type LIKE :type||'%' "
                       "AND (yearBuilt < :high AND yearBuilt > :low) "
-                      "AND built = :built "
+                      "AND built == :built "
                       "ORDER BY weight DESC");
         query.bindValue(":name", QString::fromStdString(n));
         query.bindValue(":type", QString::fromStdString(t));
@@ -421,25 +428,27 @@ void computerlist::readFileWeight(string n, string a, string t, bool b, QSqlData
         ttype = query.value("type").toString().toStdString();
         tbuilt = query.value("built").toUInt();
         tweight = query.value("weight").toDouble();
-
-        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight));
+        tpic = query.value("computerPic").toByteArray();
+        addComputer(dbMain, computer(tid, tname, tyearBuilt, ttype, tbuilt, tweight,tpic));
     }
 }
 
-void computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
-
-
+bool computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
     QSqlQuery query(dbMain);
 
-    query.prepare("INSERT INTO computerData (id, name, yearBuilt, type, built, weight) "
-                      "VALUES (:id, :name, :yearBuilt, :type, :built, :weight)");
+    query.prepare("INSERT INTO computerData (id, name, yearBuilt, type, built, weight, computerPic) "
+                      "VALUES (:id, :name, :yearBuilt, :type, :built, :weight, :pic)");
     query.bindValue(":id", newComputer.getId());
     query.bindValue(":name", QString::fromStdString(newComputer.getName()));
     query.bindValue(":yearBuilt",  newComputer.getYearBuilt());
     query.bindValue(":type", QString::fromStdString(newComputer.getType()));
     query.bindValue(":built", newComputer.wasBuilt());
     query.bindValue(":weight", newComputer.getWeight());
-    query.exec();
+    query.bindValue(":pic", newComputer.getPic());
+    if(query.exec())
+        return true;
+    else
+        return false;
 
 }
 

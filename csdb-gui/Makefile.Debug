@@ -265,6 +265,13 @@ debug\moc_mainwindow.cpp: C:\Qt\5.5\msvc2013_64\include\QtWidgets\QMainWindow \
 		C:\Qt\5.5\msvc2013_64\include\QtGui\qtouchdevice.h \
 		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.5\msvc2013_64\include\QtGui\qicon.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qdir.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qbuffer.h \
 		dataaccess.h \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDatabase \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsqldatabase.h \
@@ -273,6 +280,7 @@ debug\moc_mainwindow.cpp: C:\Qt\5.5\msvc2013_64\include\QtWidgets\QMainWindow \
 		computer.h \
 		personlist.h \
 		person.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QByteArray \
 		mainwindow.h
 	C:\Qt\5.5\msvc2013_64\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -D_WIN64 -IC:/Qt/5.5/msvc2013_64/mkspecs/win32-msvc2013 -IC:/Users/Notandi/Documents/GitHub/verklegt1/csdb-gui -IC:/Qt/5.5/msvc2013_64/include -IC:/Qt/5.5/msvc2013_64/include/QtWidgets -IC:/Qt/5.5/msvc2013_64/include/QtGui -IC:/Qt/5.5/msvc2013_64/include/QtANGLE -IC:/Qt/5.5/msvc2013_64/include/QtSql -IC:/Qt/5.5/msvc2013_64/include/QtCore mainwindow.h -o debug\moc_mainwindow.cpp
 
@@ -402,6 +410,13 @@ debug\main.obj: main.cpp mainwindow.h \
 		C:\Qt\5.5\msvc2013_64\include\QtGui\qtouchdevice.h \
 		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.5\msvc2013_64\include\QtGui\qicon.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qdir.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qbuffer.h \
 		dataaccess.h \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDatabase \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsqldatabase.h \
@@ -410,6 +425,7 @@ debug\main.obj: main.cpp mainwindow.h \
 		computer.h \
 		personlist.h \
 		person.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QByteArray \
 		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QApplication \
 		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qapplication.h \
 		C:\Qt\5.5\msvc2013_64\include\QtCore\qcoreapplication.h \
@@ -524,6 +540,13 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		C:\Qt\5.5\msvc2013_64\include\QtGui\qtouchdevice.h \
 		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qtabwidget.h \
 		C:\Qt\5.5\msvc2013_64\include\QtGui\qicon.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QFileDialog \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qfiledialog.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qdir.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qfileinfo.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qdialog.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QBuffer \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qbuffer.h \
 		dataaccess.h \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDatabase \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsqldatabase.h \
@@ -532,10 +555,83 @@ debug\mainwindow.obj: mainwindow.cpp mainwindow.h \
 		computer.h \
 		personlist.h \
 		person.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QByteArray \
 		ui_mainwindow.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QVariant \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QAction \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qaction.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qactiongroup.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QApplication \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qapplication.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qcoreapplication.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qeventloop.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qdesktopwidget.h \
+		C:\Qt\5.5\msvc2013_64\include\QtGui\qguiapplication.h \
+		C:\Qt\5.5\msvc2013_64\include\QtGui\qinputmethod.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QButtonGroup \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qbuttongroup.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QCheckBox \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qcheckbox.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qabstractbutton.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QComboBox \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qcombobox.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qabstractitemdelegate.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qstyleoption.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qabstractspinbox.h \
+		C:\Qt\5.5\msvc2013_64\include\QtGui\qvalidator.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qregularexpression.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qslider.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qabstractslider.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qstyle.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qtabbar.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qrubberband.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qframe.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qabstractitemmodel.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QFormLayout \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qformlayout.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QLayout \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qlayout.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qlayoutitem.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qboxlayout.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qgridlayout.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QGridLayout \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QGroupBox \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qgroupbox.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QHeaderView \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qheaderview.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qabstractitemview.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qabstractscrollarea.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qitemselectionmodel.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QLabel \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qlabel.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QLineEdit \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qlineedit.h \
+		C:\Qt\5.5\msvc2013_64\include\QtGui\qtextcursor.h \
+		C:\Qt\5.5\msvc2013_64\include\QtGui\qtextformat.h \
+		C:\Qt\5.5\msvc2013_64\include\QtGui\qpen.h \
+		C:\Qt\5.5\msvc2013_64\include\QtGui\qtextoption.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QMenuBar \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qmenubar.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qmenu.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QPushButton \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qpushbutton.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QRadioButton \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qradiobutton.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QStatusBar \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qstatusbar.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QTabWidget \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QTableWidget \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qtablewidget.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qtableview.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QTextEdit \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qtextedit.h \
+		C:\Qt\5.5\msvc2013_64\include\QtGui\qtextdocument.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QToolBar \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qtoolbar.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QVBoxLayout \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QWidget \
 		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QMessageBox \
-		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qmessagebox.h \
-		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qdialog.h
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qmessagebox.h
 
 debug\computerlist.obj: computerlist.cpp C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDatabase \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsqldatabase.h \
@@ -785,7 +881,10 @@ debug\computerlist.obj: computerlist.cpp C:\Qt\5.5\msvc2013_64\include\QtSql\QSq
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qtsqlversion.h \
 		C:\Qt\5.5\msvc2013_64\include\QtCore\QVariant \
 		computerlist.h \
-		computer.h
+		computer.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\QMessageBox \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qmessagebox.h \
+		C:\Qt\5.5\msvc2013_64\include\QtWidgets\qdialog.h
 
 debug\personlist.obj: personlist.cpp C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDatabase \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsqldatabase.h \
@@ -1035,7 +1134,8 @@ debug\personlist.obj: personlist.cpp C:\Qt\5.5\msvc2013_64\include\QtSql\QSqlDat
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qtsqlversion.h \
 		C:\Qt\5.5\msvc2013_64\include\QtCore\QVariant \
 		personlist.h \
-		person.h
+		person.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QByteArray
 
 debug\computer.obj: computer.cpp computer.h
 
@@ -1079,7 +1179,43 @@ debug\dataaccess.obj: dataaccess.cpp dataaccess.h \
 		C:\Qt\5.5\msvc2013_64\include\QtCore\qstringbuilder.h \
 		C:\Qt\5.5\msvc2013_64\include\QtSql\qsql.h
 
-debug\person.obj: person.cpp person.h
+debug\person.obj: person.cpp person.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\QByteArray \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qbytearray.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qrefcount.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qglobal.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qconfig.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qfeatures.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qsystemdetection.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qprocessordetection.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qcompilerdetection.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qtypeinfo.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qtypetraits.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qsysinfo.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qlogging.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qflags.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qglobalstatic.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qmutex.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qnumeric.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qbasicatomic.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_bootstrap.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qgenericatomic.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_cxx11.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_gcc.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_msvc.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_armv7.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_armv6.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_armv5.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_ia64.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_mips.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_x86.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qatomic_unix.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qnamespace.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qarraydata.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qstring.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qchar.h \
+		C:\Qt\5.5\msvc2013_64\include\QtCore\qstringbuilder.h
 
 debug\moc_mainwindow.obj: debug\moc_mainwindow.cpp 
 

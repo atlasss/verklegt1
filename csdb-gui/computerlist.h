@@ -19,7 +19,7 @@ public:
     computerlist();
     ~computerlist();
     //add a new computer to the list
-    void addComputer(QSqlDatabase& dbMain, computer newComputer);
+    bool addComputer(QSqlDatabase& dbMain, computer newComputer);
     //edit a computer already in the list
     void editComputer(int i, computer editComputer, QSqlDatabase& dbMain);
     //remove an existing computer from the list
@@ -30,13 +30,13 @@ public:
     bool idExists(int i);
     //get persons connected to the computer that matches the id
     crel getRel(int i, QSqlDatabase& dbMain);
-    void readFile(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc);
-    void readFileAlpha(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc);
-    void readFileAge(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc);
+    void readFile(string n, string a, string t, int b, QSqlDatabase& dbMain, bool asc);
+    void readFileAlpha(string n, string a, string t, int b, QSqlDatabase& dbMain, bool asc);
+    void readFileAge(string n, string a, string t, int b, QSqlDatabase& dbMain, bool asc);
     void readFileId(int i, QSqlDatabase& dbMain);
-    void readFileWeight(string n, string a, string t, bool b, QSqlDatabase& dbMain, bool asc);
+    void readFileWeight(string n, string a, string t, int b, QSqlDatabase& dbMain, bool asc);
 
-    void writeToFile(QSqlDatabase& dbMain, computer newComputer);
+    bool writeToFile(QSqlDatabase& dbMain, computer newComputer);
 };
 
 #endif // COMPUTERLIST_H

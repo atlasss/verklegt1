@@ -9,22 +9,24 @@ computer::computer(){
     weight = -1;
 }
 
-computer::computer(string lname, int lyearBuilt, string ltype, bool lbuilt, double lweight){
+computer::computer(string lname, int lyearBuilt, string ltype, bool lbuilt, double lweight, QByteArray lpic){
     id = -1;
     name = lname;
     yearBuilt = lyearBuilt;
     type = ltype;
     built = lbuilt;
     weight = lweight;
+    pic = lpic;
 }
 
-computer::computer(int lid, string lname, int lyearBuilt, string ltype, bool lbuilt, double lweight){
+computer::computer(int lid, string lname, int lyearBuilt, string ltype, bool lbuilt, double lweight, QByteArray lpic){
     id = lid;
     name = lname;
     yearBuilt = lyearBuilt;
     type = ltype;
     built = lbuilt;
     weight = lweight;
+    pic = lpic;
 }
 computer::~computer(){
 
@@ -46,7 +48,11 @@ string computer::getType()const{
 double computer::getWeight()const{
     return weight;
 }
-bool computer::wasBuilt()const{
+
+QByteArray computer::getPic() const{
+    return pic;
+}
+int computer::wasBuilt()const{
     return built;
 }
 
@@ -63,30 +69,41 @@ void computer::setYearBuilt(int y){
 void computer::setType(string t){
     type = t;
 }
-void computer::setBuilt(bool b){
+void computer::setBuilt(int b){
     built = b;
 }
 void computer::setWeight(double w){
-    weight = w;
+    if(w < 0)
+        weight = -1;
+    else
+        weight = w;
+}
+
+void computer::setPic(QByteArray lpic){
+    pic = lpic;
 }
 
 bool computer::isYearBuiltValid(){
     if(yearBuilt >= 1600 && yearBuilt <= 2015){
-        built = true;
+        built = 1;
         return true;
     }
     else if(yearBuilt == -1){
-        built = false;
+        built = 0;
+        yearBuilt = 0;
         return true;
     }
     else
         return false;
 }
 
-bool computer::isTypeValid(int t){
-    if(t >= 0 && t <= 3)
-        return true;
-    else
-        return false;
+bool computer::isTypeValid(){
+    string types[] = {"electromechanical","electronic","mechanical","transistor"};
+
+    for(unsigned int i = 0; i < 4; i++){
+        if (type == types[i])
+            return true;
+    }
+    return false;
 }
 

@@ -77,7 +77,7 @@ public:
     QGridLayout *gridLayout_4;
     QLabel *label_10;
     QPushButton *button_add_connection_person;
-    QLineEdit *lineEdit;
+    QLineEdit *person_relation_line;
     QWidget *gridLayoutWidget_3;
     QGridLayout *gridLayout_3;
     QLineEdit *search_person;
@@ -155,6 +155,8 @@ public:
     QLineEdit *computer_weight;
     QLabel *label_28;
     QLineEdit *computer_type;
+    QLabel *computer_profilepic;
+    QPushButton *button_computer_change_profilepic;
     QWidget *computer_connections_tab;
     QTableWidget *table_computer_connections;
     QWidget *gridLayoutWidget_7;
@@ -163,7 +165,7 @@ public:
     QGridLayout *gridLayout_10;
     QLabel *label_29;
     QPushButton *button_add_connection_computer;
-    QLineEdit *lineEdit_2;
+    QLineEdit *computer_relation_line;
     QWidget *tab_2;
     QWidget *formLayoutWidget_3;
     QFormLayout *person_form_2;
@@ -211,7 +213,7 @@ public:
         table_person->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         table_person->setObjectName(QStringLiteral("table_person"));
         table_person->setEnabled(true);
-        table_person->setGeometry(QRect(390, 20, 411, 481));
+        table_person->setGeometry(QRect(380, 20, 411, 481));
         table_person->setAutoFillBackground(true);
         table_person->setFrameShape(QFrame::StyledPanel);
         table_person->setFrameShadow(QFrame::Plain);
@@ -352,10 +354,12 @@ public:
 
         button_person_change_profilepic = new QPushButton(person_profile);
         button_person_change_profilepic->setObjectName(QStringLiteral("button_person_change_profilepic"));
-        button_person_change_profilepic->setGeometry(QRect(20, 120, 75, 23));
+        button_person_change_profilepic->setGeometry(QRect(20, 100, 71, 23));
         person_profilepic = new QLabel(person_profile);
         person_profilepic->setObjectName(QStringLiteral("person_profilepic"));
         person_profilepic->setGeometry(QRect(20, 20, 71, 71));
+        person_profilepic->setFrameShape(QFrame::Box);
+        person_profilepic->setFrameShadow(QFrame::Sunken);
         person_details->addTab(person_profile, QString());
         person_connections = new QWidget();
         person_connections->setObjectName(QStringLiteral("person_connections"));
@@ -368,11 +372,12 @@ public:
         table_person_connections->setHorizontalHeaderItem(1, __qtablewidgetitem5);
         table_person_connections->setObjectName(QStringLiteral("table_person_connections"));
         table_person_connections->setEnabled(true);
-        table_person_connections->setGeometry(QRect(10, 10, 201, 271));
+        table_person_connections->setGeometry(QRect(10, 10, 231, 181));
         table_person_connections->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        table_person_connections->verticalHeader()->setVisible(false);
         gridLayoutWidget_5 = new QWidget(person_connections);
         gridLayoutWidget_5->setObjectName(QStringLiteral("gridLayoutWidget_5"));
-        gridLayoutWidget_5->setGeometry(QRect(220, 20, 155, 80));
+        gridLayoutWidget_5->setGeometry(QRect(10, 200, 155, 71));
         gridLayout_5 = new QGridLayout(gridLayoutWidget_5);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -398,15 +403,15 @@ public:
 
         gridLayout_4->addWidget(button_add_connection_person, 0, 0, 1, 1);
 
-        lineEdit = new QLineEdit(gridLayoutWidget_5);
-        lineEdit->setObjectName(QStringLiteral("lineEdit"));
+        person_relation_line = new QLineEdit(gridLayoutWidget_5);
+        person_relation_line->setObjectName(QStringLiteral("person_relation_line"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(lineEdit->sizePolicy().hasHeightForWidth());
-        lineEdit->setSizePolicy(sizePolicy);
+        sizePolicy.setHeightForWidth(person_relation_line->sizePolicy().hasHeightForWidth());
+        person_relation_line->setSizePolicy(sizePolicy);
 
-        gridLayout_4->addWidget(lineEdit, 0, 2, 1, 1);
+        gridLayout_4->addWidget(person_relation_line, 0, 2, 1, 1);
 
 
         gridLayout_5->addLayout(gridLayout_4, 0, 0, 1, 1);
@@ -628,7 +633,7 @@ public:
         table_computer->verticalHeader()->setStretchLastSection(false);
         tabWidget_2 = new QTabWidget(tab_computer);
         tabWidget_2->setObjectName(QStringLiteral("tabWidget_2"));
-        tabWidget_2->setGeometry(QRect(-2, -1, 371, 501));
+        tabWidget_2->setGeometry(QRect(-3, 0, 371, 501));
         tab = new QWidget();
         tab->setObjectName(QStringLiteral("tab"));
         gridLayoutWidget_6 = new QWidget(tab);
@@ -814,6 +819,14 @@ public:
 
         verticalLayout_2->addWidget(groupBox_2);
 
+        computer_profilepic = new QLabel(computer_profile);
+        computer_profilepic->setObjectName(QStringLiteral("computer_profilepic"));
+        computer_profilepic->setGeometry(QRect(20, 20, 71, 71));
+        computer_profilepic->setFrameShape(QFrame::Box);
+        computer_profilepic->setFrameShadow(QFrame::Sunken);
+        button_computer_change_profilepic = new QPushButton(computer_profile);
+        button_computer_change_profilepic->setObjectName(QStringLiteral("button_computer_change_profilepic"));
+        button_computer_change_profilepic->setGeometry(QRect(20, 100, 71, 23));
         computer_details->addTab(computer_profile, QString());
         computer_connections_tab = new QWidget();
         computer_connections_tab->setObjectName(QStringLiteral("computer_connections_tab"));
@@ -826,11 +839,11 @@ public:
         table_computer_connections->setHorizontalHeaderItem(1, __qtablewidgetitem11);
         table_computer_connections->setObjectName(QStringLiteral("table_computer_connections"));
         table_computer_connections->setEnabled(true);
-        table_computer_connections->setGeometry(QRect(10, 10, 201, 271));
+        table_computer_connections->setGeometry(QRect(10, 10, 231, 181));
         table_computer_connections->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         gridLayoutWidget_7 = new QWidget(computer_connections_tab);
         gridLayoutWidget_7->setObjectName(QStringLiteral("gridLayoutWidget_7"));
-        gridLayoutWidget_7->setGeometry(QRect(220, 20, 155, 80));
+        gridLayoutWidget_7->setGeometry(QRect(10, 200, 155, 71));
         gridLayout_9 = new QGridLayout(gridLayoutWidget_7);
         gridLayout_9->setSpacing(6);
         gridLayout_9->setContentsMargins(11, 11, 11, 11);
@@ -856,12 +869,12 @@ public:
 
         gridLayout_10->addWidget(button_add_connection_computer, 0, 0, 1, 1);
 
-        lineEdit_2 = new QLineEdit(gridLayoutWidget_7);
-        lineEdit_2->setObjectName(QStringLiteral("lineEdit_2"));
-        sizePolicy.setHeightForWidth(lineEdit_2->sizePolicy().hasHeightForWidth());
-        lineEdit_2->setSizePolicy(sizePolicy);
+        computer_relation_line = new QLineEdit(gridLayoutWidget_7);
+        computer_relation_line->setObjectName(QStringLiteral("computer_relation_line"));
+        sizePolicy.setHeightForWidth(computer_relation_line->sizePolicy().hasHeightForWidth());
+        computer_relation_line->setSizePolicy(sizePolicy);
 
-        gridLayout_10->addWidget(lineEdit_2, 0, 2, 1, 1);
+        gridLayout_10->addWidget(computer_relation_line, 0, 2, 1, 1);
 
 
         gridLayout_9->addLayout(gridLayout_10, 0, 0, 1, 1);
@@ -974,9 +987,9 @@ public:
 
         retranslateUi(MainWindow);
 
-        tab_view_chocie->setCurrentIndex(0);
+        tab_view_chocie->setCurrentIndex(1);
         tabWidget->setCurrentIndex(0);
-        person_details->setCurrentIndex(0);
+        person_details->setCurrentIndex(1);
         tabWidget_2->setCurrentIndex(1);
         computer_details->setCurrentIndex(0);
 
@@ -1099,6 +1112,8 @@ public:
         label_26->setText(QApplication::translate("MainWindow", "Was built?", 0));
         label_27->setText(QApplication::translate("MainWindow", "Weight", 0));
         label_28->setText(QApplication::translate("MainWindow", "Type", 0));
+        computer_profilepic->setText(QString());
+        button_computer_change_profilepic->setText(QApplication::translate("MainWindow", "Browse", 0));
         computer_details->setTabText(computer_details->indexOf(computer_profile), QApplication::translate("MainWindow", "Profile", 0));
         QTableWidgetItem *___qtablewidgetitem10 = table_computer_connections->horizontalHeaderItem(0);
         ___qtablewidgetitem10->setText(QApplication::translate("MainWindow", "Id", 0));
@@ -1121,7 +1136,7 @@ public:
         );
         label_22->setText(QApplication::translate("MainWindow", "Year built (-1 if N/A):", 0));
         label_yearBuilt_error_code->setText(QString());
-        label_24->setText(QApplication::translate("MainWindow", "Weight:", 0));
+        label_24->setText(QApplication::translate("MainWindow", "Weight (-1 if unkown):", 0));
         label_weight_error_code->setText(QString());
         add_computer_confirm->setText(QApplication::translate("MainWindow", "Add Computer", 0));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_2), QApplication::translate("MainWindow", "Add new", 0));

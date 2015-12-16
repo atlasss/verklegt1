@@ -13,8 +13,17 @@ MainWindow::MainWindow(QWidget *parent) :
     computerDeleted = false;
     computerEdited = false;
 
+    QDoubleValidator* validator = new QDoubleValidator(this);
+
     dbMain.open();
     ui->setupUi(this);
+    ui->computer_yearBuilt->setValidator(validator);
+    ui->table_person->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->table_person_connections->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->table_computer->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->table_computer_connections->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+
     displayAllPersons();
     displayAllComputers();
 }
@@ -84,7 +93,10 @@ void MainWindow::displayComputers(vector<computer> computers){
         QString type = QString::fromStdString(currentComputer.getType());
         ui->table_computer->setItem(row, 0, new QTableWidgetItem(QString::number(currentComputer.getId())));
         ui->table_computer->setItem(row, 1, new QTableWidgetItem(name));
-        ui->table_computer->setItem(row, 2, new QTableWidgetItem(QString::number(currentComputer.getYearBuilt())));
+        if(currentComputer.wasBuilt())
+            ui->table_computer->setItem(row, 2, new QTableWidgetItem(QString::number(currentComputer.getYearBuilt())));
+        else
+            ui->table_computer->setItem(row, 2, new QTableWidgetItem("N/A"));
         ui->table_computer->setItem(row, 3, new QTableWidgetItem(type));
     }
     displayedComputers = computers;
@@ -96,20 +108,16 @@ void MainWindow::on_table_person_itemSelectionChanged(){
         person selectedPerson = displayedPersons[selectedPersonIndex];
         prel selectedPersonRelations = listPerson.getRel(selectedPerson.getId(),dbMain.readDb());
 
-
-
         QImage image;
-
-
-
-
         image.loadFromData(selectedPerson.getPic());
-        image = image.scaledToWidth(ui->person_profilepic->width(), Qt::SmoothTransformation);
-        ui->person_profilepic->setPixmap(QPixmap::fromImage(image));
-
-        listPerson.editPerson(selectedPerson.getId(), selectedPerson, dbMain.readDb());
-
-
+        if(!selectedPerson.getPic().isEmpty() && selectedPerson.getPic().toInt() != -1){
+            image = image.scaledToWidth(ui->person_profilepic->width(), Qt::SmoothTransformation);
+            ui->person_profilepic->setPixmap(QPixmap::fromImage(image));
+        }
+        else{
+            ui->person_profilepic->clear();
+            ui->person_profilepic->setText("Missing");
+        }
         ui->person_name->setEnabled(false);
         ui->person_gender->setEnabled(false);
         ui->person_known_for->setEnabled(false);
@@ -192,12 +200,18 @@ void MainWindow::on_add_person_confirm_clicked(){
     if(errorFound)
         return;
 
-    listPerson.addPerson(dbMain.readDb(), newPerson);
+    if(listPerson.addPerson(dbMain.readDb(), newPerson)){
+        ui->search_person->setText("");
+        displayAllPersons();
+        ui->line_person_name->setText("");
+        ui->line_person_date_birth->setText("");
+        ui->line_person_date_death->setText("");
+        ui->text_person_known_for->setText("");
+        ui->statusBar->showMessage("Successfully added person", 1500);
+    }
+    else
+        ui->statusBar->showMessage("Person was not added to database", 1500);
 
-    ui->search_person->setText("");
-    displayAllPersons();
-
-    ui->statusBar->showMessage("Successfully added person", 1500);
 }
 
 
@@ -258,10 +272,11 @@ void MainWindow::on_button_edit_person_clicked(){
         QString dateDeath = ui->person_death->text();
 
         int selectedPersonIndex = ui->table_person->currentIndex().row();
-
-        //person SelectedPerson = displayedPersons.at(selectedPersonIndex);
+        person SelectedPerson = displayedPersons.at(selectedPersonIndex);
 
         person editedPerson;
+
+        editedPerson.setPic(SelectedPerson.getPic());
 
         QString errorMessage = "";
 
@@ -321,8 +336,10 @@ void MainWindow::on_button_edit_person_clicked(){
         ui->person_death->setText(QString::fromStdString(editedPerson.getDateDeath()));
         personEdited = true;
 
-        displayAllPersons();
         ui->search_person->setText("");
+        displayAllPersons();
+
+        ui->table_person->selectRow(selectedPersonIndex);
     }
 
 }
@@ -364,16 +381,17 @@ void MainWindow::on_button_computer_search_update_clicked(){
     string input = ui->search_computer->text().toStdString();
     string ageRange = ui->computer_yearBuilt_line_edit->text().toStdString();
     string type = "";
-    bool asc = true, built = true;
+    bool asc = true;
+    int built = 0;
     if(!validateAgeString(ageRange)){
         ageRange = "";
     }
     if(ui->computer_order_combo->currentText() == "Descending"){
         asc = false;
     }
-    if(!ui->computer_wasBuilt_checkBox->isChecked()){
-        built = false;
-    }
+    if(ui->computer_wasBuilt_checkBox->isChecked()){
+        built = 1;
+    } 
     if(ui->computer_type_combo->currentText() != "all"){
         type = ui->computer_type_combo->currentText().toStdString();
     }
@@ -394,8 +412,7 @@ void MainWindow::on_button_computer_search_update_clicked(){
     displayComputers(computers);
 }
 
-void MainWindow::on_add_computer_confirm_clicked()
-{
+void MainWindow::on_add_computer_confirm_clicked(){
     string type;
     bool errorFound = false;
 
@@ -429,15 +446,25 @@ void MainWindow::on_add_computer_confirm_clicked()
     }
     newComputer.setWeight(weight.toDouble());
     newComputer.setType(type);
+
     if(errorFound)
         return;
+    newComputer.setId(-1);
+    QByteArray q;
+    newComputer.setPic(q);
 
-    listComputer.addComputer(dbMain.readDb(), newComputer);
+    if(listComputer.addComputer(dbMain.readDb(), newComputer)){
+        ui->search_computer->setText("");
+        displayAllComputers();
+        ui->line_computer_name->setText("");
+        ui->line_computer_yearBuilt->setText("");
+        ui->line_computer_weight->setText("");
 
-    ui->search_computer->setText("");
-    displayAllComputers();
+        ui->statusBar->showMessage("Successfully added computer", 1500);
+    }
+    else
+        ui->statusBar->showMessage("Computer was not added to database", 1500);
 
-    ui->statusBar->showMessage("Successfully added computer", 1500);
 }
 
 void MainWindow::on_table_computer_itemSelectionChanged(){
@@ -445,12 +472,20 @@ void MainWindow::on_table_computer_itemSelectionChanged(){
         int selectedComputerIndex = ui->table_computer->currentIndex().row();
         computer selectedComputer = displayedComputers[selectedComputerIndex];
         crel selectedComputerRelations = listComputer.getRel(selectedComputer.getId(),dbMain.readDb());
-        string wasBuilt ;
+        string wasBuilt = "No";
         if(selectedComputer.wasBuilt()){
             wasBuilt = "Yes";
         }
+
+        QImage image;
+        image.loadFromData(selectedComputer.getPic());
+        if(!selectedComputer.getPic().isEmpty() && selectedComputer.getPic().toInt() != -1){
+            image = image.scaledToWidth(ui->computer_profilepic->width(), Qt::SmoothTransformation);
+            ui->computer_profilepic->setPixmap(QPixmap::fromImage(image));
+        }
         else{
-            wasBuilt = "No";
+            ui->computer_profilepic->clear();
+            ui->computer_profilepic->setText("Missing");
         }
 
         ui->computer_name->setEnabled(false);
@@ -468,9 +503,15 @@ void MainWindow::on_table_computer_itemSelectionChanged(){
         ui->label_computer_id->setText("Id:" + QString::number(selectedComputer.getId()));
         ui->computer_name->setText(QString::fromStdString(selectedComputer.getName()));
         ui->computer_type->setText(QString::fromStdString(selectedComputer.getType()));
-        ui->computer_yearBuilt->setText(QString::number(selectedComputer.getYearBuilt()));
+        if(wasBuilt == "Yes")
+            ui->computer_yearBuilt->setText(QString::number(selectedComputer.getYearBuilt()));
+        else
+            ui->computer_yearBuilt->setText("N/A");
         ui->computer_built->setText(QString::fromStdString(wasBuilt));
-        ui->computer_weight->setText(QString::number(selectedComputer.getWeight()));
+        if(selectedComputer.getWeight() < 0)
+            ui->computer_weight->setText("Unkown");
+        else
+            ui->computer_weight->setText(QString::number(selectedComputer.getWeight()));
 
         for(unsigned int row = 0; row < selectedComputerRelations.pName.size(); row++){
             QString relatedPersonId = QString::number(selectedComputerRelations.pId[row]);
@@ -506,17 +547,248 @@ void MainWindow::on_button_person_change_profilepic_clicked(){
                 bool valid = image.load(filename);
                 if(valid){
                     image = image.scaledToWidth(ui->person_profilepic->width(), Qt::SmoothTransformation);
-                    ui->person_profilepic->setPixmap(QPixmap::fromImage(image));
+                    //ui->person_profilepic->setPixmap(QPixmap::fromImage(image));
                 }
                 else{
-                //error
+                    QMessageBox::information(this,"Error", "Profile pic not updated");
+                    return;
                 }
             }
 
-
-
-    //image.loadFromData(pic);
     image.save(&buffer, "PNG");
     selectedPerson.setPic(pic);
+    selectedPerson.isDateBirthValid();
     listPerson.editPerson(selectedPerson.getId(), selectedPerson, dbMain.readDb());
+    ui->person_profilepic->setPixmap(QPixmap::fromImage(image));
+    displayedPersons[selectedPersonIndex].setPic(pic);
+}
+
+void MainWindow::on_button_delete_computer_clicked(){
+    int selectedComputerIndex = ui->table_computer->currentIndex().row();
+    computer selectedComputer = displayedComputers[selectedComputerIndex];
+    int confirm = QMessageBox::question(this, "Confirm", "Are you sure you want to delete this computer?");
+
+    if (confirm == QMessageBox::No){
+        return;
+    }
+
+
+    ui->button_delete_computer->setEnabled(false);
+    ui->button_edit_computer->setEnabled(false);
+    ui->table_computer_connections->clearContents();
+
+    ui->label_computer_id->setText("Id:");
+    ui->computer_name->setText("");
+    ui->computer_type->setText("");
+    ui->computer_yearBuilt->setText("");
+    ui->computer_built->setText("");
+    ui->computer_weight->setText("");
+
+    ui->computer_name->setEnabled(false);
+    ui->computer_type->setEnabled(false);
+    ui->computer_yearBuilt->setEnabled(false);
+    ui->computer_weight->setEnabled(false);
+
+    listComputer.deleteComputer(selectedComputer.getId(),dbMain.readDb());
+    ui->search_computer->setText("");
+    computerDeleted = true;
+    displayAllComputers();
+}
+
+void MainWindow::on_button_edit_computer_clicked(){
+    if(ui->button_edit_computer->text() == "Edit"){
+        ui->computer_name->setEnabled(true);
+        ui->computer_type->setEnabled(true);
+        ui->computer_yearBuilt->setEnabled(true);
+        ui->computer_weight->setEnabled(true);
+
+        ui->button_edit_computer->setText("Save changes");
+    }
+    else if(ui->button_edit_computer->text() == "Save changes"){
+        bool errorFound = false;
+        QString name = ui->computer_name->text();
+        QString type = ui->computer_type->text();
+        QString yearBuilt = ui->computer_yearBuilt->text();
+        QString weight = ui->computer_weight->text();
+
+        int selectedComputerIndex = ui->table_computer->currentIndex().row();
+        computer selectedComputer = displayedComputers[selectedComputerIndex];
+        computer editedComputer;
+
+        QString errorMessage = "";
+
+        if(name.isEmpty()){
+            errorMessage.append("<div style='color:rgb(255,0,0)'>Name field can't be empty</>\n");
+            errorFound = true;
+        }
+        editedComputer.setName(name.toStdString());
+
+        editedComputer.setType(type.toStdString());
+        if(!editedComputer.isTypeValid()){
+            errorMessage.append("<div style='color:rgb(255,0,0)'>Type needs to be electromechanical, mechanical, transistor or electronic</>\n");
+            errorFound = true;
+        }
+
+        editedComputer.setYearBuilt(yearBuilt.toInt());
+        if(!editedComputer.isYearBuiltValid()){
+            errorMessage.append("<div style='color:rgb(255,0,0)'>Year built needs to be an integer between 1600 and 2015 (or -1 if the computer wasn't built')</>\n");
+            errorFound = true;
+        }
+
+        editedComputer.setWeight(weight.toDouble());
+        editedComputer.setPic(selectedComputer.getPic());
+        if(errorFound){
+            QMessageBox::information(this,"Error editing computer",errorMessage);
+            return;
+        }
+
+
+        QString computerId = ui->label_computer_id->text();
+        listComputer.editComputer(computerId.split(":")[1].toInt(),editedComputer,dbMain.readDb());
+
+        ui->button_edit_computer->setText("Edit");
+        ui->computer_name->setEnabled(false);
+        ui->computer_type->setEnabled(false);
+        ui->computer_yearBuilt->setEnabled(false);
+        ui->computer_weight->setEnabled(false);
+
+        ui->computer_name->setText(QString::fromStdString(editedComputer.getName()));
+        ui->computer_type->setText(QString::fromStdString(editedComputer.getType()));
+        if(editedComputer.wasBuilt()){
+            ui->computer_yearBuilt->setText(QString::number(editedComputer.getYearBuilt()));
+            ui->computer_built->setText("Yes");
+        }
+
+        else {
+            ui->computer_yearBuilt->setText("N/A");
+            ui->computer_built->setText("No");
+        }
+
+        if(editedComputer.getWeight() < 0)
+            ui->computer_weight->setText("Unkown");
+        else
+            ui->computer_weight->setText(QString::number(editedComputer.getWeight()));
+
+        computerEdited = true;
+
+        ui->search_computer->setText("");
+        displayAllComputers();
+        ui->table_computer->selectRow(selectedComputerIndex);
+    }
+}
+
+void MainWindow::on_button_add_connection_person_clicked(){
+    int personId = ui->label_person_id->text().split(":")[1].toInt();
+    int computerId = ui->person_relation_line->text().toInt();
+
+    if(listComputer.idExists(computerId) && ui->table_person->currentIndex().isValid()){
+        listPerson.addRel(personId,computerId,dbMain.readDb());
+        ui->statusBar->showMessage("Connection created", 1500);
+    }
+    else{
+        ui->statusBar->showMessage("Id not found", 1500);
+    }
+}
+
+void MainWindow::on_button_remove_connection_person_clicked(){
+    if (ui->table_person_connections->currentIndex().isValid()) {
+        int currentRow = ui->table_person_connections->currentIndex().row();
+        int personId = ui->label_person_id->text().split(":")[1].toInt();
+        int computerId = ui->table_person_connections->item(currentRow,0)->data(0).toInt();
+        listPerson.removeRel(personId, computerId, dbMain.readDb());
+
+        int selectedPersonIndex = ui->table_person->currentIndex().row();
+        person selectedPerson = displayedPersons[selectedPersonIndex];
+        prel selectedPersonRelations = listPerson.getRel(selectedPerson.getId(),dbMain.readDb());
+
+        ui->table_person_connections->clearContents();
+        for(unsigned int row = 0; row < selectedPersonRelations.cName.size(); row++){
+            QString relatedComputerId = QString::number(selectedPersonRelations.cId[row]);
+            QString relatedComputerName = QString::fromStdString(selectedPersonRelations.cName[row]);
+
+            ui->table_person_connections->setItem(row,0, new QTableWidgetItem(relatedComputerId));
+            ui->table_person_connections->setItem(row,1, new QTableWidgetItem(relatedComputerName));
+        }
+        ui->statusBar->showMessage("Connection removed", 1500);
+    }
+
+    else
+        return;
+
+}
+
+void MainWindow::on_button_add_connection_computer_clicked(){
+    int computerId = ui->label_computer_id->text().split(":")[1].toInt();
+    int personId = ui->computer_relation_line->text().toInt();
+
+    if(listPerson.idExists(personId) && ui->table_computer->currentIndex().isValid()){
+        listPerson.addRel(personId,computerId,dbMain.readDb());
+        ui->statusBar->showMessage("Connection created", 1500);
+    }
+    else{
+        ui->statusBar->showMessage("Id not found", 1500);
+    }
+}
+
+void MainWindow::on_button_remove_connection_computer_clicked(){
+    if (ui->table_computer_connections->currentIndex().isValid()) {
+        int currentRow = ui->table_computer_connections->currentIndex().row();
+        int computerId = ui->label_computer_id->text().split(":")[1].toInt();
+        int personId = ui->table_computer_connections->item(currentRow,0)->data(0).toInt();
+        listPerson.removeRel(personId, computerId, dbMain.readDb());
+
+        int selectedComputerIndex = ui->table_computer->currentIndex().row();
+        computer selectedComputer = displayedComputers[selectedComputerIndex];
+        crel selectedComputerRelations = listComputer.getRel(selectedComputer.getId(),dbMain.readDb());
+
+        ui->table_computer_connections->clearContents();
+        for(unsigned int row = 0; row < selectedComputerRelations.pName.size(); row++){
+            QString relatedPersonId = QString::number(selectedComputerRelations.pId[row]);
+            QString relatedPersonName = QString::fromStdString(selectedComputerRelations.pName[row]);
+
+            ui->table_computer_connections->setItem(row,0, new QTableWidgetItem(relatedPersonId));
+            ui->table_computer_connections->setItem(row,1, new QTableWidgetItem(relatedPersonName));
+        }
+        ui->statusBar->showMessage("Connection removed", 1500);
+    }
+
+    else{
+        return;
+    }
+}
+
+void MainWindow::on_button_computer_change_profilepic_clicked(){
+    if(ui->label_computer_id->text() == "Id:")
+        return;
+
+    int selectedComputerIndex = ui->table_computer->currentIndex().row();
+    computer selectedComputer = displayedComputers[selectedComputerIndex];
+
+
+    QByteArray pic;
+    QBuffer buffer(&pic);
+    buffer.open(QIODevice::WriteOnly);
+
+    QImage image;
+
+    QString filename = QFileDialog::getOpenFileName(this, tr("choose"), "", tr("images(*.png *.jpg *.jpeg *.bmp)"));
+            if(QString::compare(filename ,QString()) != 0){
+
+                bool valid = image.load(filename);
+                if(valid){
+                     image = image.scaledToWidth(ui->person_profilepic->width(), Qt::SmoothTransformation);
+                    //ui->person_profilepic->setPixmap(QPixmap::fromImage(image));
+                }
+                else{
+                    QMessageBox::information(this,"Error", "Profile pic not updated");
+                    return;
+                }
+            }
+
+    image.save(&buffer, "PNG");
+    selectedComputer.setPic(pic);
+    selectedComputer.isYearBuiltValid();
+    listComputer.editComputer(selectedComputer.getId(), selectedComputer, dbMain.readDb());
+    ui->computer_profilepic->setPixmap(QPixmap::fromImage(image));
+    displayedComputers[selectedComputerIndex].setPic(pic);
 }

@@ -25,7 +25,7 @@ public:
     personlist();
     ~personlist();
     //adds a new person
-    void addPerson(QSqlDatabase& dbMain, person newPerson);
+    bool addPerson(QSqlDatabase& dbMain, person newPerson);
     //edits a person already in the list
     void editPerson(int i, person editPerson, QSqlDatabase& dbMain);
     //removes a person from the list
@@ -53,7 +53,7 @@ public:
     void readFileId(int i,QSqlDatabase& dbMain);
 
     //appends string with details of a person  in pList to txt file
-    void writeToFile(QSqlDatabase& dbMain, person newPerson);
+    bool writeToFile(QSqlDatabase& dbMain, person newPerson);
     //overwrites database age details in pList
     void updateAge(QSqlDatabase& dbMain);
 };
