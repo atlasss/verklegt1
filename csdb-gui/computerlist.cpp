@@ -435,7 +435,6 @@ void computerlist::readFileWeight(string n, string a, string t, int b, QSqlDatab
 
 bool computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
     QSqlQuery query(dbMain);
-
     query.prepare("INSERT INTO computerData (id, name, yearBuilt, type, built, weight, computerPic) "
                       "VALUES (:id, :name, :yearBuilt, :type, :built, :weight, :pic)");
     query.bindValue(":id", newComputer.getId());
@@ -444,7 +443,7 @@ bool computerlist::writeToFile(QSqlDatabase& dbMain, computer newComputer){
     query.bindValue(":type", QString::fromStdString(newComputer.getType()));
     query.bindValue(":built", newComputer.wasBuilt());
     query.bindValue(":weight", newComputer.getWeight());
-    query.bindValue(":pic", newComputer.getPic());
+    query.bindValue(":pic",newComputer.getPic());
     if(query.exec())
         return true;
     else

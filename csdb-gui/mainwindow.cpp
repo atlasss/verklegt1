@@ -453,6 +453,7 @@ void MainWindow::on_add_computer_confirm_clicked(){
     QByteArray q;
     newComputer.setPic(q);
 
+
     if(listComputer.addComputer(dbMain.readDb(), newComputer)){
         ui->search_computer->setText("");
         displayAllComputers();

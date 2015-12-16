@@ -23,35 +23,20 @@ public:
 
 private slots:
     void on_table_person_itemSelectionChanged();
-
     void on_add_person_confirm_clicked();
-
     void on_button_delete_person_clicked();
-
     void on_button_edit_person_clicked();
-
     void on_button_person_search_update_clicked();
-
     void on_button_computer_search_update_clicked();
-
     void on_add_computer_confirm_clicked();
-
     void on_table_computer_itemSelectionChanged();
-
     void on_button_person_change_profilepic_clicked();
-
     void on_button_delete_computer_clicked();
-
     void on_button_edit_computer_clicked();
-
     void on_button_add_connection_person_clicked();
-
     void on_button_remove_connection_person_clicked();
-
     void on_button_add_connection_computer_clicked();
-
     void on_button_remove_connection_computer_clicked();
-
     void on_button_computer_change_profilepic_clicked();
 
 private:
